@@ -10,6 +10,8 @@ namespace GangaPrakashAPI.Model
     {
         public Guid Id { get; set; }
 
+        public Boolean IsACtive { get; set; }
+
         public Boolean IsError { get; set; }
 
         public String ErrorMessageFor { get; set; }
