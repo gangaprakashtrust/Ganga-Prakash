@@ -16,6 +16,7 @@ using Microsoft.Owin.Security.OAuth;
 using GangaPrakashAPI.Administration.Models;
 using GangaPrakashAPI.Administration.Providers;
 using GangaPrakashAPI.Administration.Results;
+using GangaPrakashAPI.Model;
 
 namespace GangaPrakashAPI.Administration.Controllers
 {

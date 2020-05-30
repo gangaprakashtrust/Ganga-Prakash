@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,7 +44,15 @@
   <ItemGroup>
     <Compile Include="Administration\Business\Basic\Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="System\Business\Basic\AccessToken.cs" />
+    <Compile Include="System\Business\Basic\AddExternalLoginBindingModel.cs" />
     <Compile Include="System\Business\Basic\BaseModel.cs" />
+    <Compile Include="System\Business\Basic\ChangePasswordBindingModel.cs" />
+    <Compile Include="System\Business\Basic\LoginModel.cs" />
+    <Compile Include="System\Business\Basic\RegisterBindingModel.cs" />
+    <Compile Include="System\Business\Basic\RegisterExternalBindingModel.cs" />
+    <Compile Include="System\Business\Basic\RemoveLoginBindingModel.cs" />
+    <Compile Include="System\Business\Basic\SetPasswordBindingModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Administration\Business\Info\" />
