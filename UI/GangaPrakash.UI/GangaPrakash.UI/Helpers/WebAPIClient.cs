@@ -19,7 +19,7 @@ namespace GangaPrakash.UI
             {
                 client.BaseAddress = new Uri(Uri);
                 client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer ", (AccessToken==null)?String.Empty:AccessToken);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", (AccessToken==null)?String.Empty:AccessToken);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 HttpResponseMessage response;
                 response = await client.GetAsync(Path);
@@ -31,6 +31,23 @@ namespace GangaPrakash.UI
             return result;
         }
 
+        public static async Task<T> GetAsync<T>(String Uri, String Path) where T : new()
+        {
+            T result = new T();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Uri);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response;
+                response = await client.GetAsync(Path);
+                if (response.IsSuccessStatusCode)
+                {
+                    result = await response.Content.ReadAsAsync<T>();
+                }
+            }
+            return result;
+        }
         public static async Task<String> Login(String Uri, String Path, LoginModel loginModel)
         {
             AccessToken result = new AccessToken();
@@ -47,11 +64,19 @@ namespace GangaPrakash.UI
                 };
                 var content = new FormUrlEncodedContent(body);
                 HttpResponseMessage response;
-                response = await client.PostAsync(Path, content);
-                if (response.IsSuccessStatusCode)
+                try
                 {
-                    result = await response.Content.ReadAsAsync<AccessToken>();
+                    response = await client.PostAsync(Path, content);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        result = await response.Content.ReadAsAsync<AccessToken>();
+                    }
                 }
+                catch(Exception ex)
+                {
+
+                }
+                
             }
             return result.access_token;
         }

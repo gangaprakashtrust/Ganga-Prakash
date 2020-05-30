@@ -4,7 +4,6 @@
 <html>
 
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -23,6 +22,7 @@
         <div>
 
             <form class="m-t" role="form" method="post">
+                @Html.AntiForgeryToken()
                 <div class="form-group">
                     <input type="email" id="Email" name="Email" class="form-control" placeholder="Username" required="">
                     @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })

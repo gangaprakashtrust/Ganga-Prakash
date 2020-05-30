@@ -13,7 +13,7 @@ namespace GangaPrakash.UI
     {
         public async Task<ActionResult> Index()
         {
-            List<Module> moduleList = await WebAPIClient.GetAsync<List<Module>>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/GetList");
+            List<Module> moduleList = await WebAPIClient.GetAsync<List<Module>>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/GetList", Session["AccessToken"].ToString());
             return View(moduleList);
         }
     }
