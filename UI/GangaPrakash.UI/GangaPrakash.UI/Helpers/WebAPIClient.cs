@@ -48,6 +48,41 @@ namespace GangaPrakash.UI
             }
             return result;
         }
+
+        public static async Task<T> PostAsync<T>(String Uri, String Path, T result) where T : new()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Uri);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response;
+                response = await client.PostAsJsonAsync(Path, result);
+                if (response.IsSuccessStatusCode)
+                {
+                    result = await response.Content.ReadAsAsync<T>();
+                }
+            }
+            return result;
+        }
+
+        public static async Task<T> PostAsync<T>(String Uri, String Path, T result, String AccessToken = null) where T : new()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Uri);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", (AccessToken == null) ? String.Empty : AccessToken);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response;
+                response = await client.PostAsJsonAsync(Path, result);
+                if (response.IsSuccessStatusCode)
+                {
+                    result = await response.Content.ReadAsAsync<T>();
+                }
+            }
+            return result;
+        }
         public static async Task<String> Login(String Uri, String Path, LoginModel loginModel)
         {
             AccessToken result = new AccessToken();

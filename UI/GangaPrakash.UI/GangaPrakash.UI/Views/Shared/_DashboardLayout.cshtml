@@ -13,6 +13,7 @@
     <link href="~/Content/Inspinia/animate.css" rel="stylesheet" />
     <link href="~/Content/Inspinia/style.css" rel="stylesheet" />
     <link href="~/lib/dataTables/datatables.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" rel="stylesheet" />
 
 </head>
 
@@ -88,6 +89,7 @@
     <script src="~/lib/slimScroll/jquery.slimscroll.min.js"></script>
     <script src="~/lib/dataTables/datatables.min.js"></script>
     <script src="~/lib/dataTables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/lib/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script>
 
 
     <!-- Custom and plugin javascript -->
@@ -98,6 +100,10 @@
     <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
     <script>
         $(document).ready(function () {
+            $(".touchspin1").TouchSpin({
+                buttondown_class: 'btn btn-white',
+                buttonup_class: 'btn btn-white'
+            });
             $('.dataTables-example').DataTable({
                 pageLength: 25,
                 responsive: true,

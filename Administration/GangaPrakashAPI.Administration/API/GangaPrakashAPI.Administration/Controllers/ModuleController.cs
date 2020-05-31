@@ -9,7 +9,7 @@ using GangaPrakashAPI.Model;
 
 namespace GangaPrakashAPI.Administration.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class ModuleController : ApiController
     {
         [Route("api/Module/GetList")]
@@ -18,6 +18,14 @@ namespace GangaPrakashAPI.Administration.Controllers
         {
             List<Module> moduleList = ModuleList.GetList();
             return Ok(moduleList);
+        }
+
+        [Route("api/Module/Get")]
+        [HttpGet]
+        public IHttpActionResult Get()
+        {
+            Module module = ModulePersister.Get();
+            return Ok(module);
         }
 
         [Route("api/Module/Get/{id}")]
