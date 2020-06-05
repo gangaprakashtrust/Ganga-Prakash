@@ -17,30 +17,22 @@ namespace GangaPrakash.UI
             return View(moduleList);
         }
         [HttpGet]
-        public async Task<ActionResult> CreateAsync()
+        public async Task<ActionResult> Create()
         {
             Module module = await WebAPIClient.GetAsync<Module>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/Get");
             return View(module);
         }
 
-        // POST: CarType/Create
+        // POST: Module/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAsync(Module module)
+        public async Task<ActionResult> Create(Module module)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    if (module.Id != null && module.Id != Guid.Empty)
-                    {
-                        module = await WebAPIClient.PostAsync<Module>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/Edit", module);
-                    }
-                    else
-                    {
-                        module = await WebAPIClient.PostAsync<Module>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/Create", module);
-
-                    }
+                    module = await WebAPIClient.PostAsync<Module>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/Create", module);
                     if (module.IsError)
                     {
                         ModelState.AddModelError(module.ErrorMessageFor, module.ErrorMessage);
@@ -50,17 +42,42 @@ namespace GangaPrakash.UI
                 }
                 return View(module);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return View();
             }
         }
 
-        // GET: CarType/Edit/5
-        public async Task<ActionResult> EditAsync(int id)
+        // GET: Module/Edit/5
+        public async Task<ActionResult> Edit(Guid Id)
         {
-            Module module = await WebAPIClient.GetAsync<Module>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/Get?Id="+id);
-            return View("Create", module);
+            Module module = await WebAPIClient.GetAsync<Module>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/Get?Id=" + Id);
+            return View("Edit", module);
+        }
+
+        // POST: Module/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(Module module)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    module = await WebAPIClient.PutAsync<Module>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/Edit", module);
+                    if (module.IsError)
+                    {
+                        ModelState.AddModelError(module.ErrorMessageFor, module.ErrorMessage);
+                        return View(module);
+                    }
+                    return RedirectToAction("Index");
+                }
+                return View(module);
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
     }
 }

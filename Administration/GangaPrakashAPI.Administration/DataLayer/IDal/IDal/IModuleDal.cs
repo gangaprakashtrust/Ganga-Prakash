@@ -11,7 +11,11 @@ namespace GangaPrakashAPI.Administration.IDal
     {
         List<ModuleDto> Fetch();
 
-        ModuleDto FetchById(Int32 Id);
+        ModuleDto FetchById(Guid Id);
+
+        ModuleDto IsModuleAlreadyPresent(ModuleDto CarTypeDto);
+
+        ModuleDto IsSequenceNoAlreadyPresent(ModuleDto CarTypeDto);
 
         ModuleDto Insert(ModuleDto ModuleDto, SqlConnection transcon = null, SqlTransaction trans = null);
 

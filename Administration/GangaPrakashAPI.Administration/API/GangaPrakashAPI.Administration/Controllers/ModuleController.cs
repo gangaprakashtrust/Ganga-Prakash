@@ -28,9 +28,9 @@ namespace GangaPrakashAPI.Administration.Controllers
             return Ok(module);
         }
 
-        [Route("api/Module/Get/{id}")]
+        [Route("api/Module/Get")]
         [HttpGet]
-        public IHttpActionResult Get(Int32 Id)
+        public IHttpActionResult Get(Guid Id)
         {
             Module module = ModulePersister.GetModule(Id);
             return Ok(module);

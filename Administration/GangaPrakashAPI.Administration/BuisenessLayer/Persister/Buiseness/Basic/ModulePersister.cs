@@ -21,8 +21,30 @@ namespace GangaPrakashAPI.Administration.Persister
                 SequenceNo = Module.SequenceNo,
                 IsActive = true
             };
-            IModuleDal.Insert(ModuleDto, con, trans);
-            Module.Id = ModuleDto.Id;
+            IModuleDal.IsModuleAlreadyPresent(ModuleDto);
+            if (ModuleDto.ErrorCount == 0)
+            {
+                IModuleDal.IsSequenceNoAlreadyPresent(ModuleDto);
+                if (ModuleDto.ErrorCount == 0)
+                {
+                    IModuleDal.Insert(ModuleDto, con, trans);
+                    Module.Id = ModuleDto.Id;
+                }
+                else
+                {
+                    Module.IsError = true;
+                    Module.ErrorMessage = ModuleDto.ErrorMessage;
+                    Module.ErrorMessageFor = "SequenceNo";
+
+                }
+            }
+            else
+            {
+                Module.IsError = true;
+                Module.ErrorMessage = ModuleDto.ErrorMessage;
+                Module.ErrorMessageFor = "Name";
+
+            }
             return Module;
         }
 
@@ -36,8 +58,30 @@ namespace GangaPrakashAPI.Administration.Persister
                 SequenceNo = Module.SequenceNo,
                 IsActive = true
             };
-            IModuleDal.Update(ModuleDto, con, trans);
-            Module.Id = ModuleDto.Id;
+            IModuleDal.IsModuleAlreadyPresent(ModuleDto);
+            if (ModuleDto.ErrorCount == 0)
+            {
+                IModuleDal.IsSequenceNoAlreadyPresent(ModuleDto);
+                if (ModuleDto.ErrorCount == 0)
+                {
+                    IModuleDal.Update(ModuleDto, con, trans);
+                    Module.Id = ModuleDto.Id;
+                }
+                else
+                {
+                    Module.IsError = true;
+                    Module.ErrorMessage = ModuleDto.ErrorMessage;
+                    Module.ErrorMessageFor = "SequenceNo";
+
+                }
+            }
+            else
+            {
+                Module.IsError = true;
+                Module.ErrorMessage = ModuleDto.ErrorMessage;
+                Module.ErrorMessageFor = "Name";
+
+            }
             return Module;
         }
 
@@ -56,7 +100,7 @@ namespace GangaPrakashAPI.Administration.Persister
             return Module;
         }
 
-        public static Module GetModule(Int32 Id)
+        public static Module GetModule(Guid Id)
         {
             IModuleDal IModuleDal = new ModuleDal();
             ModuleDto ModuleDto = IModuleDal.FetchById(Id);

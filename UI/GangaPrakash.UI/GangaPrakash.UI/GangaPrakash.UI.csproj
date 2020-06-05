@@ -4622,7 +4622,8 @@
     <Content Include="Areas\Administration\Views\web.config" />
     <Content Include="Areas\Administration\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Administration\Views\Module\Index.cshtml" />
-    <Content Include="Areas\Administration\Views\Module\CreateAsync.cshtml" />
+    <Content Include="Areas\Administration\Views\Module\Create.cshtml" />
+    <Content Include="Areas\Administration\Views\Module\Edit.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\Inspinia\script.js" />
     <Content Include="Scripts\Inspinia\site.js" />

@@ -16,16 +16,16 @@
                                 <tr>
                                     <th colspan="1">Sequence No.</th>
                                     <th colspan="1">Name</th>
-                                    
+
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                <tr>
-                                    <td colspan="1">@item.SequenceNo</td>
-                                    <td colspan="1">@item.Name</td>
-                                </tr>
+                                    <tr>
+                                        <td colspan="1">@item.SequenceNo</td>
+                                        <td colspan="1"><a href="/Administration/Module/Edit?Id=@item.Id">@item.Name</a></td>
+                                    </tr>
                                 }
 
                             </tbody>
@@ -37,6 +37,40 @@
         </div>
     </div>
 </div>
+@section scripts
+{
+
+    <script>
+        $(document).ready(function () {
+            $('.dataTables-example').DataTable({
+                pageLength: 25,
+                responsive: true,
+                dom: '<"html5buttons"B>lTfgitp',
+                buttons: [
+                    { extend: 'copy' },
+                    { extend: 'csv' },
+                    { extend: 'excel', title: 'Modules' },
+                    { extend: 'pdf', title: 'Modules' },
+
+                    {
+                        extend: 'print',
+                        customize: function (win) {
+                            $(win.document.body).addClass('white-bg');
+                            $(win.document.body).css('font-size', '10px');
+
+                            $(win.document.body).find('table')
+                                .addClass('compact')
+                                .css('font-size', 'inherit');
+                        }
+                    }
+                ]
+
+            });
+
+        });
+
+    </script>
+}
 
 
 

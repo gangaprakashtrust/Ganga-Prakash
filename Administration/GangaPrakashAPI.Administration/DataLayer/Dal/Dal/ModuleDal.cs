@@ -16,7 +16,7 @@ namespace GangaPrakashAPI.Administration.Dal
 		{
 			List<ModuleDto> Result = new List<ModuleDto>();
 			SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
-			SqlCommand cmd = new SqlCommand(" Select M.Id,M.Name,M.SequenceNo from Module M ", con);
+			SqlCommand cmd = new SqlCommand(" Select M.Id,M.Name,M.SequenceNo from Module M Order By M.SequenceNo ASC", con);
 			con.Open();
 			SqlDataReader dr = cmd.ExecuteReader();
 			while (dr.Read())
@@ -27,7 +27,41 @@ namespace GangaPrakashAPI.Administration.Dal
 			return Result;
 		}
 
-		public ModuleDto FetchById(int Id)
+		public ModuleDto IsModuleAlreadyPresent(ModuleDto ModuleDto)
+		{
+			SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
+			SqlCommand cmd = new SqlCommand(" Select M.Id,M.Name from Module M Where Upper(Trim(M.Name))=@name and M.Id<>@id ", con);
+			cmd.Parameters.AddWithValue("@id", ModuleDto.Id);
+			cmd.Parameters.AddWithValue("@name", ModuleDto.Name.Trim().ToUpper());
+			con.Open();
+			SqlDataReader dr = cmd.ExecuteReader();
+			if (dr.HasRows)
+			{
+				ModuleDto.ErrorCount = 1;
+				ModuleDto.ErrorMessage = "Module already present";
+			}
+			con.Close();
+			return ModuleDto;
+		}
+
+		public ModuleDto IsSequenceNoAlreadyPresent(ModuleDto ModuleDto)
+		{
+			SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
+			SqlCommand cmd = new SqlCommand(" Select M.Id,M.Name from Module M Where M.SequenceNo=@sequenceno and M.Id<>@id ", con);
+			cmd.Parameters.AddWithValue("@id", ModuleDto.Id);
+			cmd.Parameters.AddWithValue("@sequenceno", ModuleDto.SequenceNo);
+			con.Open();
+			SqlDataReader dr = cmd.ExecuteReader();
+			if (dr.HasRows)
+			{
+				ModuleDto.ErrorCount = 1;
+				ModuleDto.ErrorMessage = "Sequence No. already present";
+			}
+			con.Close();
+			return ModuleDto;
+		}
+
+		public ModuleDto FetchById(Guid Id)
 		{
 			ModuleDto Result = new ModuleDto();
 			SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);

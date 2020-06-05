@@ -16,5 +16,9 @@ namespace GangaPrakashAPI.Administration.IDal
 
         public Boolean IsActive { get; set; }
 
+        public Int32 ErrorCount { get; set; }
+
+        public String ErrorMessage { get; set; }
+
     }
 }

@@ -9,10 +9,11 @@
                 </div>
                 <div class="ibox-content">
                     <form role="form" method="post">
+                        @Html.HiddenFor(model => model.Id)
                         @Html.AntiForgeryToken()
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Name</label>
-                            <div class="col-sm-4"><input type="text" id="Name" name="Name" placeholder="Name" class="form-control" required=""></div>
+                            <div class="col-sm-4"><input type="text" id="Name" name="Name" placeholder="Name" class="form-control" value="@Model.Name" required=""></div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label"></label>
@@ -20,10 +21,9 @@
                                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <div class="hr-line-dashed"></div>
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Sequence No.</label>
-                            <div class="col-sm-4"><input id="SequenceNo" name="SequenceNo" class="form-control touchspin1" value="0" required=""></div>
+                            <div class="col-sm-4"><input id="SequenceNo" name="SequenceNo" class="form-control touchspin1" value="@Model.SequenceNo" required=""></div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label"></label>
@@ -31,14 +31,13 @@
                                 @Html.ValidationMessageFor(model => model.SequenceNo, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <div class="hr-line-dashed"></div>
                         <div class="form-group row">
                             <div class="col-sm-4 col-sm-offset-2"></div>
                             <div class="col-sm-4 col-sm-offset-2"></div>
 
                             <div class="col-sm-4 col-sm-offset-2">
                                 <button class="btn btn-primary btn-sm" type="submit">Save</button>
-                                <button class="btn btn-white btn-sm" type="button" onclick="@Url.Action("Index","Module",new { Area="Administration"})">Cancel</button>
+                                <button class="btn btn-white btn-sm" type="button" onclick="location.href='@Url.Action("Index","Module",new { Area="Administration"})'">Cancel</button>
                             </div>
                         </div>
                     </form>
