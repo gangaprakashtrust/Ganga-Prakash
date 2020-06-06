@@ -63,7 +63,7 @@ namespace GangaPrakashAPI.Administration.Controllers
         }
 
         [Route("api/Module/Delete")]
-        [HttpDelete]
+        [HttpPut]
         public IHttpActionResult Delete(Module module)
         {
             ModulePersister modulePersister = ModulePersister.GetPersister();

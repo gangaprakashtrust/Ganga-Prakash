@@ -79,5 +79,13 @@ namespace GangaPrakash.UI
                 return View();
             }
         }
+
+        // GET: Module/Edit/5
+        public async Task<ActionResult> Delete(Guid Id)
+        {
+            Module module = await WebAPIClient.GetAsync<Module>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/Get?Id=" + Id);
+            module = await WebAPIClient.PutAsync<Module>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/Delete", module);
+            return RedirectToAction("Index");
+        }
     }
 }

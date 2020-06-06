@@ -37,6 +37,7 @@
 
                             <div class="col-sm-4 col-sm-offset-2">
                                 <button class="btn btn-primary btn-sm" type="submit">Save</button>
+                                <button class="btn btn-danger btn-sm DeleteModule" type="button">Delete</button>
                                 <button class="btn btn-white btn-sm" type="button" onclick="location.href='@Url.Action("Index","Module",new { Area="Administration"})'">Cancel</button>
                             </div>
                         </div>
@@ -47,3 +48,30 @@
     </div>
 </div>
 
+@section scripts
+{
+    <script>
+        $('.DeleteModule').click(function () {
+            swal({
+                title: "Are you sure?",
+                text: "",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Delete",
+                cancelButtonText: "Cancel",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        var Id = '@Model.Id';
+                        var DeleteUrl = '@Url.Action("Delete","Module",new { Area="Administration",Id=Model.Id})';
+                        window.location.href = DeleteUrl;
+                    } else {
+                        swal("Cancelled", "Cancelled :)", "error");
+                    }
+                });
+        });
+    </script>
+}

@@ -16,7 +16,7 @@ namespace GangaPrakashAPI.Administration.Dal
 		{
 			List<ModuleDto> Result = new List<ModuleDto>();
 			SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
-			SqlCommand cmd = new SqlCommand(" Select M.Id,M.Name,M.SequenceNo from Module M Order By M.SequenceNo ASC", con);
+			SqlCommand cmd = new SqlCommand(" Select M.Id,M.Name,M.SequenceNo from Module M Where M.IsActive=1 Order By M.SequenceNo ASC", con);
 			con.Open();
 			SqlDataReader dr = cmd.ExecuteReader();
 			while (dr.Read())
@@ -30,7 +30,7 @@ namespace GangaPrakashAPI.Administration.Dal
 		public ModuleDto IsModuleAlreadyPresent(ModuleDto ModuleDto)
 		{
 			SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
-			SqlCommand cmd = new SqlCommand(" Select M.Id,M.Name from Module M Where Upper(Trim(M.Name))=@name and M.Id<>@id ", con);
+			SqlCommand cmd = new SqlCommand(" Select M.Id,M.Name from Module M Where Upper(Trim(M.Name))=@name and M.Id<>@id And M.IsActive=1", con);
 			cmd.Parameters.AddWithValue("@id", ModuleDto.Id);
 			cmd.Parameters.AddWithValue("@name", ModuleDto.Name.Trim().ToUpper());
 			con.Open();
@@ -47,7 +47,7 @@ namespace GangaPrakashAPI.Administration.Dal
 		public ModuleDto IsSequenceNoAlreadyPresent(ModuleDto ModuleDto)
 		{
 			SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
-			SqlCommand cmd = new SqlCommand(" Select M.Id,M.Name from Module M Where M.SequenceNo=@sequenceno and M.Id<>@id ", con);
+			SqlCommand cmd = new SqlCommand(" Select M.Id,M.Name from Module M Where M.SequenceNo=@sequenceno and M.Id<>@id and M.IsActive=1", con);
 			cmd.Parameters.AddWithValue("@id", ModuleDto.Id);
 			cmd.Parameters.AddWithValue("@sequenceno", ModuleDto.SequenceNo);
 			con.Open();
@@ -65,7 +65,7 @@ namespace GangaPrakashAPI.Administration.Dal
 		{
 			ModuleDto Result = new ModuleDto();
 			SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
-			SqlCommand cmd = new SqlCommand(" Select M.Id,M.Name,M.SequenceNo from Module M Where M.Id=@id ", con);
+			SqlCommand cmd = new SqlCommand(" Select M.Id,M.Name,M.SequenceNo from Module M Where M.Id=@id and M.IsActive=1", con);
 			cmd.Parameters.AddWithValue("@id", Id);
 			con.Open();
 			SqlDataReader dr = cmd.ExecuteReader();

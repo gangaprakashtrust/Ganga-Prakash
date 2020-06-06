@@ -14,6 +14,7 @@
     <link href="~/Content/Inspinia/style.css" rel="stylesheet" />
     <link href="~/lib/dataTables/datatables.min.css" rel="stylesheet" />
     <link href="~/lib/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" rel="stylesheet" />
+    <link href="~/lib/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 
 </head>
 
@@ -98,6 +99,9 @@
 
     <!-- jQuery UI -->
     <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+
+    <!-- Sweet alert -->
+    <script src="~/lib/sweetalert/dist/sweetalert.min.js"></script>
     <script>
         $(document).ready(function () {
             $(".touchspin1").TouchSpin({
@@ -108,6 +112,6 @@
         });
 
     </script>
-    @RenderSection("scripts",false)
+    @RenderSection("scripts", false)
 </body>
 </html>
