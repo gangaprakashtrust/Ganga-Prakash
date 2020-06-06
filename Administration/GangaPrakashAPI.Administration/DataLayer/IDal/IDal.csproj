@@ -42,7 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dto\ModuleDto.cs" />
+    <Compile Include="Dto\RoleDto.cs" />
     <Compile Include="IDal\IModuleDal.cs" />
+    <Compile Include="IDal\IRoleDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

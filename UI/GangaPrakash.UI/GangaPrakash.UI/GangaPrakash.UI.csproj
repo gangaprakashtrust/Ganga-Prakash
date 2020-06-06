@@ -165,6 +165,7 @@
     <Compile Include="Areas\Administration\AdministrationAreaRegistration.cs" />
     <Compile Include="Areas\Administration\Controllers\AccountController.cs" />
     <Compile Include="Areas\Administration\Controllers\ModuleController.cs" />
+    <Compile Include="Areas\Administration\Controllers\RoleController.cs" />
     <Compile Include="Areas\System\Controllers\BaseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -4624,6 +4625,9 @@
     <Content Include="Areas\Administration\Views\Module\Index.cshtml" />
     <Content Include="Areas\Administration\Views\Module\Create.cshtml" />
     <Content Include="Areas\Administration\Views\Module\Edit.cshtml" />
+    <Content Include="Areas\Administration\Views\Role\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Role\Create.cshtml" />
+    <Content Include="Areas\Administration\Views\Role\Edit.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\Inspinia\script.js" />
     <Content Include="Scripts\Inspinia\site.js" />
