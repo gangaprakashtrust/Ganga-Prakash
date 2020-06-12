@@ -45,7 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buiseness\Basic\ModulePersister.cs" />
+    <Compile Include="Buiseness\Basic\RolePersister.cs" />
     <Compile Include="List\ModuleList.cs" />
+    <Compile Include="List\RoleList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
