@@ -12,93 +12,93 @@ namespace GangaPrakashAPI.Administration.Persister
 {
     public class RolePersister
     {
-        public Role Insert(Role Role, SqlConnection con = null, SqlTransaction trans = null)
+        public Role Insert(Role role, SqlConnection con = null, SqlTransaction trans = null)
         {
-            IRoleDal IRoleDal = new RoleDal();
-            RoleDto RoleDto = new RoleDto
+            IRoleDal IroleDal = new RoleDal();
+            RoleDto roleDto = new RoleDto
             {
-                Name = Role.Name,
+                Name = role.Name,
                 IsActive = true
             };
-            IRoleDal.IsRoleAlreadyPresent(RoleDto);
-            if (RoleDto.ErrorCount == 0)
+            IroleDal.IsRoleAlreadyPresent(roleDto);
+            if (roleDto.ErrorCount == 0)
             {
-                IRoleDal.Insert(RoleDto, con, trans);
-                    Role.Id = RoleDto.Id;
-            
+                IroleDal.Insert(roleDto, con, trans);
+                role.Id = roleDto.Id;
+
             }
             else
             {
-                Role.IsError = true;
-                Role.ErrorMessage = RoleDto.ErrorMessage;
-                Role.ErrorMessageFor = "Name";
+                role.IsError = true;
+                role.ErrorMessage = roleDto.ErrorMessage;
+                role.ErrorMessageFor = "Name";
 
             }
-            return Role;
+            return role;
         }
 
-        public Role Update(Role Role, SqlConnection con = null, SqlTransaction trans = null)
+        public Role Update(Role role, SqlConnection con = null, SqlTransaction trans = null)
         {
-            IRoleDal IRoleDal = new RoleDal();
-            RoleDto RoleDto = new RoleDto
+            IRoleDal IroleDal = new RoleDal();
+            RoleDto roleDto = new RoleDto
             {
-                Id = Role.Id,
-                Name = Role.Name,
+                Id = role.Id,
+                Name = role.Name,
                 IsActive = true
             };
-            IRoleDal.IsRoleAlreadyPresent(RoleDto);
-            if (RoleDto.ErrorCount == 0)
+            IroleDal.IsRoleAlreadyPresent(roleDto);
+            if (roleDto.ErrorCount == 0)
             {
 
-                IRoleDal.Update(RoleDto, con, trans);
-                Role.Id = RoleDto.Id;
+                IroleDal.Update(roleDto, con, trans);
+                role.Id = roleDto.Id;
             }
             else
             {
-                Role.IsError = true;
-                Role.ErrorMessage = RoleDto.ErrorMessage;
-                Role.ErrorMessageFor = "Name";
+                role.IsError = true;
+                role.ErrorMessage = roleDto.ErrorMessage;
+                role.ErrorMessageFor = "Name";
 
             }
-            return Role;
+            return role;
         }
 
-        public Role Delete(Role Role, SqlConnection con = null, SqlTransaction trans = null)
+        public Role Delete(Role role, SqlConnection con = null, SqlTransaction trans = null)
         {
-            IRoleDal IRoleDal = new RoleDal();
-            RoleDto RoleDto = new RoleDto
+            IRoleDal IroleDal = new RoleDal();
+            RoleDto roleDto = new RoleDto
             {
-                Id = Role.Id,
-                Name = Role.Name,
+                Id = role.Id,
+                Name = role.Name,
                 IsActive = false
             };
-            IRoleDal.Delete(RoleDto, con, trans);
-            Role.Id = RoleDto.Id;
-            return Role;
+            IroleDal.Delete(roleDto, con, trans);
+            role.Id = roleDto.Id;
+            return role;
         }
 
         public static Role GetRole(Guid Id)
         {
-            IRoleDal IRoleDal = new RoleDal();
-            RoleDto RoleDto = IRoleDal.FetchById(Id);
-            Role Role = new Role
+            IRoleDal IroleDal = new RoleDal();
+            RoleDto roleDto = IroleDal.FetchById(Id);
+            Role role = new Role
             {
-                Id = RoleDto.Id,
-                Name = RoleDto.Name,
+                Id = roleDto.Id,
+                Name = roleDto.Name,
             };
-            return Role;
+            return role;
         }
 
         public static Role Get()
         {
-            Role Role = new Role();
-            return Role;
+            Role role = new Role();
+            return role;
         }
 
         public static RolePersister GetPersister()
         {
-            RolePersister RolePersister = new RolePersister();
-            return RolePersister;
+            RolePersister rolePersister = new RolePersister();
+            return rolePersister;
         }
     }
 }

@@ -13,14 +13,14 @@ namespace GangaPrakashAPI.Administration.IDal
 
         ModuleDto FetchById(Guid Id);
 
-        ModuleDto IsModuleAlreadyPresent(ModuleDto CarTypeDto);
+        ModuleDto IsModuleAlreadyPresent(ModuleDto moduleDto);
 
-        ModuleDto IsSequenceNoAlreadyPresent(ModuleDto CarTypeDto);
+        ModuleDto IsSequenceNoAlreadyPresent(ModuleDto moduleDto);
 
-        ModuleDto Insert(ModuleDto ModuleDto, SqlConnection transcon = null, SqlTransaction trans = null);
+        ModuleDto Insert(ModuleDto moduleDto, SqlConnection transcon = null, SqlTransaction trans = null);
 
-        ModuleDto Update(ModuleDto ModuleDto, SqlConnection transcon = null, SqlTransaction trans = null);
+        ModuleDto Update(ModuleDto moduleDto, SqlConnection transcon = null, SqlTransaction trans = null);
 
-        ModuleDto Delete(ModuleDto ModuleDto, SqlConnection transcon = null, SqlTransaction trans = null);
+        ModuleDto Delete(ModuleDto moduleDto, SqlConnection transcon = null, SqlTransaction trans = null);
     }
 }

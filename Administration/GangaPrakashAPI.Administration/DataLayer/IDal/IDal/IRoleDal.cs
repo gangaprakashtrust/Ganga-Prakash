@@ -13,12 +13,12 @@ namespace GangaPrakashAPI.Administration.IDal
 
         RoleDto FetchById(Guid Id);
 
-        RoleDto IsRoleAlreadyPresent(RoleDto CarTypeDto);
+        RoleDto IsRoleAlreadyPresent(RoleDto roleDto);
 
-        RoleDto Insert(RoleDto RoleDto, SqlConnection transcon = null, SqlTransaction trans = null);
+        RoleDto Insert(RoleDto roleDto, SqlConnection transcon = null, SqlTransaction trans = null);
 
-        RoleDto Update(RoleDto RoleDto, SqlConnection transcon = null, SqlTransaction trans = null);
+        RoleDto Update(RoleDto roleDto, SqlConnection transcon = null, SqlTransaction trans = null);
 
-        RoleDto Delete(RoleDto RoleDto, SqlConnection transcon = null, SqlTransaction trans = null);
+        RoleDto Delete(RoleDto roleDto, SqlConnection transcon = null, SqlTransaction trans = null);
     }
 }

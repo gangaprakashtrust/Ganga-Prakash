@@ -19,18 +19,18 @@ namespace GangaPrakashAPI.Administration.Persister
 
         private static List<Role> Fetch()
         {
-            IRoleDal IRoleDal = new RoleDal();
-            List<Role> RoleList = new List<Role>();
-            foreach (var item in IRoleDal.Fetch())
+            IRoleDal IroleDal = new RoleDal();
+            List<Role> roleList = new List<Role>();
+            foreach (var item in IroleDal.Fetch())
             {
-                Role module = new Role
+                Role role = new Role
                 {
                     Id = item.Id,
                     Name = item.Name,
                 };
-                RoleList.Add(module);
+                roleList.Add(role);
             }
-            return RoleList;
+            return roleList;
         }
     }
 }

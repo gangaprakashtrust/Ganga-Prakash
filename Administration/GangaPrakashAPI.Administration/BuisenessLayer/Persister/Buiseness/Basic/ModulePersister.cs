@@ -12,117 +12,117 @@ namespace GangaPrakashAPI.Administration.Persister
 {
     public class ModulePersister
     {
-        public Module Insert(Module Module, SqlConnection con = null, SqlTransaction trans = null)
+        public Module Insert(Module module, SqlConnection con = null, SqlTransaction trans = null)
         {
-            IModuleDal IModuleDal = new ModuleDal();
-            ModuleDto ModuleDto = new ModuleDto
+            IModuleDal ImoduleDal = new ModuleDal();
+            ModuleDto moduleDto = new ModuleDto
             {
-                Name = Module.Name,
-                SequenceNo = Module.SequenceNo,
+                Name = module.Name,
+                SequenceNo = module.SequenceNo,
                 IsActive = true
             };
-            IModuleDal.IsModuleAlreadyPresent(ModuleDto);
-            if (ModuleDto.ErrorCount == 0)
+            ImoduleDal.IsModuleAlreadyPresent(moduleDto);
+            if (moduleDto.ErrorCount == 0)
             {
-                IModuleDal.IsSequenceNoAlreadyPresent(ModuleDto);
-                if (ModuleDto.ErrorCount == 0)
+                ImoduleDal.IsSequenceNoAlreadyPresent(moduleDto);
+                if (moduleDto.ErrorCount == 0)
                 {
-                    IModuleDal.Insert(ModuleDto, con, trans);
-                    Module.Id = ModuleDto.Id;
+                    ImoduleDal.Insert(moduleDto, con, trans);
+                    module.Id = moduleDto.Id;
                 }
                 else
                 {
-                    Module.IsError = true;
-                    Module.ErrorMessage = ModuleDto.ErrorMessage;
-                    Module.ErrorMessageFor = "SequenceNo";
+                    module.IsError = true;
+                    module.ErrorMessage = moduleDto.ErrorMessage;
+                    module.ErrorMessageFor = "SequenceNo";
 
                 }
             }
             else
             {
-                Module.IsError = true;
-                Module.ErrorMessage = ModuleDto.ErrorMessage;
-                Module.ErrorMessageFor = "Name";
+                module.IsError = true;
+                module.ErrorMessage = moduleDto.ErrorMessage;
+                module.ErrorMessageFor = "Name";
 
             }
-            return Module;
+            return module;
         }
 
-        public Module Update(Module Module, SqlConnection con = null, SqlTransaction trans = null)
+        public Module Update(Module module, SqlConnection con = null, SqlTransaction trans = null)
         {
-            IModuleDal IModuleDal = new ModuleDal();
-            ModuleDto ModuleDto = new ModuleDto
+            IModuleDal ImoduleDal = new ModuleDal();
+            ModuleDto moduleDto = new ModuleDto
             {
-                Id = Module.Id,
-                Name = Module.Name,
-                SequenceNo = Module.SequenceNo,
+                Id = module.Id,
+                Name = module.Name,
+                SequenceNo = module.SequenceNo,
                 IsActive = true
             };
-            IModuleDal.IsModuleAlreadyPresent(ModuleDto);
-            if (ModuleDto.ErrorCount == 0)
+            ImoduleDal.IsModuleAlreadyPresent(moduleDto);
+            if (moduleDto.ErrorCount == 0)
             {
-                IModuleDal.IsSequenceNoAlreadyPresent(ModuleDto);
-                if (ModuleDto.ErrorCount == 0)
+                ImoduleDal.IsSequenceNoAlreadyPresent(moduleDto);
+                if (moduleDto.ErrorCount == 0)
                 {
-                    IModuleDal.Update(ModuleDto, con, trans);
-                    Module.Id = ModuleDto.Id;
+                    ImoduleDal.Update(moduleDto, con, trans);
+                    module.Id = moduleDto.Id;
                 }
                 else
                 {
-                    Module.IsError = true;
-                    Module.ErrorMessage = ModuleDto.ErrorMessage;
-                    Module.ErrorMessageFor = "SequenceNo";
+                    module.IsError = true;
+                    module.ErrorMessage = moduleDto.ErrorMessage;
+                    module.ErrorMessageFor = "SequenceNo";
 
                 }
             }
             else
             {
-                Module.IsError = true;
-                Module.ErrorMessage = ModuleDto.ErrorMessage;
-                Module.ErrorMessageFor = "Name";
+                module.IsError = true;
+                module.ErrorMessage = moduleDto.ErrorMessage;
+                module.ErrorMessageFor = "Name";
 
             }
-            return Module;
+            return module;
         }
 
-        public Module Delete(Module Module, SqlConnection con = null, SqlTransaction trans = null)
+        public Module Delete(Module module, SqlConnection con = null, SqlTransaction trans = null)
         {
-            IModuleDal IModuleDal = new ModuleDal();
-            ModuleDto ModuleDto = new ModuleDto
+            IModuleDal ImoduleDal = new ModuleDal();
+            ModuleDto moduleDto = new ModuleDto
             {
-                Id = Module.Id,
-                Name = Module.Name,
-                SequenceNo = Module.SequenceNo,
+                Id = module.Id,
+                Name = module.Name,
+                SequenceNo = module.SequenceNo,
                 IsActive = false
             };
-            IModuleDal.Delete(ModuleDto, con, trans);
-            Module.Id = ModuleDto.Id;
-            return Module;
+            ImoduleDal.Delete(moduleDto, con, trans);
+            module.Id = moduleDto.Id;
+            return module;
         }
 
         public static Module GetModule(Guid Id)
         {
-            IModuleDal IModuleDal = new ModuleDal();
-            ModuleDto ModuleDto = IModuleDal.FetchById(Id);
-            Module Module = new Module
+            IModuleDal ImoduleDal = new ModuleDal();
+            ModuleDto moduleDto = ImoduleDal.FetchById(Id);
+            Module module = new Module
             {
-                Id = ModuleDto.Id,
-                Name = ModuleDto.Name,
-                SequenceNo= ModuleDto.SequenceNo
+                Id = moduleDto.Id,
+                Name = moduleDto.Name,
+                SequenceNo = moduleDto.SequenceNo
             };
-            return Module;
+            return module;
         }
 
         public static Module Get()
         {
-            Module Module = new Module();
-            return Module;
+            Module module = new Module();
+            return module;
         }
 
         public static ModulePersister GetPersister()
         {
-            ModulePersister ModulePersister = new ModulePersister();
-            return ModulePersister;
+            ModulePersister modulePersister = new ModulePersister();
+            return modulePersister;
         }
     }
 }

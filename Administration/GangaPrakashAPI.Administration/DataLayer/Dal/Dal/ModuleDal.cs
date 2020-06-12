@@ -14,56 +14,56 @@ namespace GangaPrakashAPI.Administration.Dal
 
 		public List<ModuleDto> Fetch()
 		{
-			List<ModuleDto> Result = new List<ModuleDto>();
+			List<ModuleDto> result = new List<ModuleDto>();
 			SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
 			SqlCommand cmd = new SqlCommand(" Select M.Id,M.Name,M.SequenceNo from Module M Where M.IsActive=1 Order By M.SequenceNo ASC", con);
 			con.Open();
 			SqlDataReader dr = cmd.ExecuteReader();
 			while (dr.Read())
 			{
-				Result.Add(GetDto(dr));
+				result.Add(GetDto(dr));
 			}
 			con.Close();
-			return Result;
+			return result;
 		}
 
-		public ModuleDto IsModuleAlreadyPresent(ModuleDto ModuleDto)
+		public ModuleDto IsModuleAlreadyPresent(ModuleDto moduleDto)
 		{
 			SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
 			SqlCommand cmd = new SqlCommand(" Select M.Id,M.Name from Module M Where Upper(Trim(M.Name))=@name and M.Id<>@id And M.IsActive=1", con);
-			cmd.Parameters.AddWithValue("@id", ModuleDto.Id);
-			cmd.Parameters.AddWithValue("@name", ModuleDto.Name.Trim().ToUpper());
+			cmd.Parameters.AddWithValue("@id", moduleDto.Id);
+			cmd.Parameters.AddWithValue("@name", moduleDto.Name.Trim().ToUpper());
 			con.Open();
 			SqlDataReader dr = cmd.ExecuteReader();
 			if (dr.HasRows)
 			{
-				ModuleDto.ErrorCount = 1;
-				ModuleDto.ErrorMessage = "Module already present";
+				moduleDto.ErrorCount = 1;
+				moduleDto.ErrorMessage = "Module already present";
 			}
 			con.Close();
-			return ModuleDto;
+			return moduleDto;
 		}
 
-		public ModuleDto IsSequenceNoAlreadyPresent(ModuleDto ModuleDto)
+		public ModuleDto IsSequenceNoAlreadyPresent(ModuleDto moduleDto)
 		{
 			SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
 			SqlCommand cmd = new SqlCommand(" Select M.Id,M.Name from Module M Where M.SequenceNo=@sequenceno and M.Id<>@id and M.IsActive=1", con);
-			cmd.Parameters.AddWithValue("@id", ModuleDto.Id);
-			cmd.Parameters.AddWithValue("@sequenceno", ModuleDto.SequenceNo);
+			cmd.Parameters.AddWithValue("@id", moduleDto.Id);
+			cmd.Parameters.AddWithValue("@sequenceno", moduleDto.SequenceNo);
 			con.Open();
 			SqlDataReader dr = cmd.ExecuteReader();
 			if (dr.HasRows)
 			{
-				ModuleDto.ErrorCount = 1;
-				ModuleDto.ErrorMessage = "Sequence No. already present";
+				moduleDto.ErrorCount = 1;
+				moduleDto.ErrorMessage = "Sequence No. already present";
 			}
 			con.Close();
-			return ModuleDto;
+			return moduleDto;
 		}
 
 		public ModuleDto FetchById(Guid Id)
 		{
-			ModuleDto Result = new ModuleDto();
+			ModuleDto result = new ModuleDto();
 			SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
 			SqlCommand cmd = new SqlCommand(" Select M.Id,M.Name,M.SequenceNo from Module M Where M.Id=@id and M.IsActive=1", con);
 			cmd.Parameters.AddWithValue("@id", Id);
@@ -71,13 +71,13 @@ namespace GangaPrakashAPI.Administration.Dal
 			SqlDataReader dr = cmd.ExecuteReader();
 			while (dr.Read())
 			{
-				Result = GetDto(dr);
+				result = GetDto(dr);
 			}
 			con.Close();
-			return Result;
+			return result;
 		}
 
-		public ModuleDto Insert(ModuleDto ModuleDto, SqlConnection transcon = null, SqlTransaction trans = null)
+		public ModuleDto Insert(ModuleDto moduleDto, SqlConnection transcon = null, SqlTransaction trans = null)
 		{
 			SqlConnection con;
 			if (transcon != null)
@@ -94,20 +94,20 @@ namespace GangaPrakashAPI.Administration.Dal
 			{
 				cmd.Transaction = trans;
 			}
-			cmd.Parameters.AddWithValue("@name", ModuleDto.Name);
-			cmd.Parameters.AddWithValue("@sequenceno", ModuleDto.SequenceNo);
-			cmd.Parameters.AddWithValue("@isactive", ModuleDto.IsActive);
+			cmd.Parameters.AddWithValue("@name", moduleDto.Name);
+			cmd.Parameters.AddWithValue("@sequenceno", moduleDto.SequenceNo);
+			cmd.Parameters.AddWithValue("@isactive", moduleDto.IsActive);
 
 			Guid InsertedId = Guid.Parse(cmd.ExecuteScalar().ToString());
-			ModuleDto.Id = InsertedId;
+			moduleDto.Id = InsertedId;
 			if (transcon == null)
 			{
 				con.Close();
 			}
-			return ModuleDto;
+			return moduleDto;
 		}
 
-		public ModuleDto Update(ModuleDto ModuleDto, SqlConnection transcon = null, SqlTransaction trans = null)
+		public ModuleDto Update(ModuleDto moduleDto, SqlConnection transcon = null, SqlTransaction trans = null)
 		{
 			SqlConnection con;
 			if (transcon != null)
@@ -124,19 +124,19 @@ namespace GangaPrakashAPI.Administration.Dal
 			{
 				cmd.Transaction = trans;
 			}
-			cmd.Parameters.AddWithValue("@id", ModuleDto.Id);
-			cmd.Parameters.AddWithValue("@name", ModuleDto.Name);
-			cmd.Parameters.AddWithValue("@sequenceno", ModuleDto.SequenceNo);
-			cmd.Parameters.AddWithValue("@isactive", ModuleDto.IsActive);
+			cmd.Parameters.AddWithValue("@id", moduleDto.Id);
+			cmd.Parameters.AddWithValue("@name", moduleDto.Name);
+			cmd.Parameters.AddWithValue("@sequenceno", moduleDto.SequenceNo);
+			cmd.Parameters.AddWithValue("@isactive", moduleDto.IsActive);
 			Int32 IsDataAffected = Convert.ToInt32(cmd.ExecuteNonQuery());
 			if (transcon == null)
 			{
 				con.Close();
 			}
-			return ModuleDto;
+			return moduleDto;
 		}
 
-		public ModuleDto Delete(ModuleDto ModuleDto, SqlConnection transcon = null, SqlTransaction trans = null)
+		public ModuleDto Delete(ModuleDto moduleDto, SqlConnection transcon = null, SqlTransaction trans = null)
 		{
 			SqlConnection con;
 			if (transcon != null)
@@ -153,14 +153,14 @@ namespace GangaPrakashAPI.Administration.Dal
 			{
 				cmd.Transaction = trans;
 			}
-			cmd.Parameters.AddWithValue("@id", ModuleDto.Id);
-			cmd.Parameters.AddWithValue("@isactive", ModuleDto.IsActive);
+			cmd.Parameters.AddWithValue("@id", moduleDto.Id);
+			cmd.Parameters.AddWithValue("@isactive", moduleDto.IsActive);
 			Int32 IsDataAffected = Convert.ToInt32(cmd.ExecuteNonQuery());
 			if (transcon == null)
 			{
 				con.Close();
 			}
-			return ModuleDto;
+			return moduleDto;
 		}
 
 		public ModuleDto GetDto(SqlDataReader sdr)

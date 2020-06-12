@@ -19,9 +19,9 @@ namespace GangaPrakashAPI.Administration.Persister
 
 		private static List<Module> Fetch()
 		{
-			IModuleDal IModuleDal = new ModuleDal();
-			List<Module> ModuleList = new List<Module>();
-			foreach (var item in IModuleDal.Fetch())
+			IModuleDal ImoduleDal = new ModuleDal();
+			List<Module> moduleList = new List<Module>();
+			foreach (var item in ImoduleDal.Fetch())
 			{
 				Module module = new Module
 				{
@@ -29,9 +29,9 @@ namespace GangaPrakashAPI.Administration.Persister
 					Name = item.Name,
 					SequenceNo=item.SequenceNo
 				};
-				ModuleList.Add(module);
+				moduleList.Add(module);
 			}
-			return ModuleList;
+			return moduleList;
 		}
 	}
 }
