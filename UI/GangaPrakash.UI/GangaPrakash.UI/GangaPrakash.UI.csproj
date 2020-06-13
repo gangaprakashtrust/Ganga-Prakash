@@ -164,6 +164,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Administration\AdministrationAreaRegistration.cs" />
     <Compile Include="Areas\Administration\Controllers\AccountController.cs" />
+    <Compile Include="Areas\Administration\Controllers\MenuController.cs" />
     <Compile Include="Areas\Administration\Controllers\ModuleController.cs" />
     <Compile Include="Areas\Administration\Controllers\RoleController.cs" />
     <Compile Include="Areas\System\Controllers\BaseController.cs" />
@@ -4628,6 +4629,9 @@
     <Content Include="Areas\Administration\Views\Role\Index.cshtml" />
     <Content Include="Areas\Administration\Views\Role\Create.cshtml" />
     <Content Include="Areas\Administration\Views\Role\Edit.cshtml" />
+    <Content Include="Areas\Administration\Views\Menu\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Menu\Create.cshtml" />
+    <Content Include="Areas\Administration\Views\Menu\Edit.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\Inspinia\script.js" />
     <Content Include="Scripts\Inspinia\site.js" />

@@ -20,6 +20,14 @@ namespace GangaPrakashAPI.Administration.Controllers
             return Ok(moduleList);
         }
 
+        [Route("api/Module/GetNVList")]
+        [HttpGet]
+        public IHttpActionResult GetNVList()
+        {
+            List<KeyValuePair<Guid, String>> moduleNVList = ModuleNVList.GetList();
+            return Ok(moduleNVList);
+        }
+
         [Route("api/Module/Get")]
         [HttpGet]
         public IHttpActionResult Get()

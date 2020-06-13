@@ -1,0 +1,126 @@
+﻿@using GangaPrakashAPI.Model
+@model Menu
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Menu</h5>
+                </div>
+                <div class="ibox-content">
+                    <form role="form" method="post">
+                        @Html.HiddenFor(model => model.Id)
+                        @Html.AntiForgeryToken()
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Parent Menu</label>
+                            <div class="col-sm-4">
+                                @Html.DropDownListFor(model => model.ParentId, new SelectList(Model.MenuNVList, "Key", "Value", Model.ParentId), "--Select--", new { @class = "ParentMenuDropdown form-control" })
+                            </div>
+                            <label class="col-sm-2 col-form-label">Module</label>
+                            <div class="col-sm-4">
+                                @Html.DropDownListFor(model => model.ModuleId, new SelectList(Model.ModuleNVList, "Key", "Value", Model.ModuleId), new { @class = "ModuleDropdown form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-4">
+                                @Html.ValidationMessageFor(model => model.ParentId, "", new { @class = "text-danger" })
+                            </div>
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-4">
+                                @Html.ValidationMessageFor(model => model.ModuleId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Name</label>
+                            <div class="col-sm-4"><input type="text" id="Name" name="Name" placeholder="Name" class="form-control" value="@Model.Name" required=""></div>
+                            <label class="col-sm-2 col-form-label">Area</label>
+                            <div class="col-sm-4"><input type="text" id="Area" name="Area" placeholder="Area" class="form-control" value="@Model.Area" required=""></div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-4">
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-4">
+                                @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                       
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Controller</label>
+                            <div class="col-sm-4"><input type="text" id="Controller" name="Controller" placeholder="Controller" class="form-control" value="@Model.Controller" required=""></div>
+                            <label class="col-sm-2 col-form-label">Action</label>
+                            <div class="col-sm-4"><input type="text" id="Action" name="Action" placeholder="Action" class="form-control" value="@Model.Controller" required=""></div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-4">
+                                @Html.ValidationMessageFor(model => model.Controller, "", new { @class = "text-danger" })
+                            </div>
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-4">
+                                @Html.ValidationMessageFor(model => model.Action, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Sequence No.</label>
+                            <div class="col-sm-4"><input id="SequenceNo" name="SequenceNo" class="form-control touchspin1" value="@Model.SequenceNo" required=""></div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-4">
+                                @Html.ValidationMessageFor(model => model.SequenceNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 col-sm-offset-2"></div>
+                            <div class="col-sm-4 col-sm-offset-2"></div>
+
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button class="btn btn-primary btn-sm" type="submit">Save</button>
+                                <button class="btn btn-danger btn-sm DeleteMenu" type="button">Delete</button>
+                                <button class="btn btn-white btn-sm" type="button" onclick="location.href='@Url.Action("Index","Menu",new { Area="Administration"})'">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $('.DeleteMenu').click(function () {
+            swal({
+                title: "Are you sure?",
+                text: "",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Delete",
+                cancelButtonText: "Cancel",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        var Id = '@Model.Id';
+                        var DeleteUrl = '@Url.Action("Delete","Menu",new { Area="Administration",Id=Model.Id})';
+                        window.location.href = DeleteUrl;
+                    } else {
+                        swal("Cancelled", "Cancelled :)", "error");
+                    }
+                });
+        });
+        $(".ParentMenuDropdown").select2({
+            theme: 'bootstrap4',
+        });
+        $(".ModuleDropdown").select2({
+            theme: 'bootstrap4',
+        });
+    </script>
+}

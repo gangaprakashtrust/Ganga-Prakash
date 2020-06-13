@@ -44,10 +44,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buiseness\Basic\MenuPersister.cs" />
     <Compile Include="Buiseness\Basic\ModulePersister.cs" />
     <Compile Include="Buiseness\Basic\RolePersister.cs" />
+    <Compile Include="List\MenuList.cs" />
     <Compile Include="List\ModuleList.cs" />
     <Compile Include="List\RoleList.cs" />
+    <Compile Include="NVList\MenuNVList.cs" />
+    <Compile Include="NVList\ModuleNVList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -63,7 +63,7 @@ namespace GangaPrakashAPI.Administration.Controllers
         }
 
         [Route("api/Role/Delete")]
-        [HttpDelete]
+        [HttpPut]
         public IHttpActionResult Delete(Role role)
         {
             RolePersister rolePersister = RolePersister.GetPersister();

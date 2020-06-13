@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Administration\Business\Basic\Menu.cs" />
     <Compile Include="Administration\Business\Basic\Module.cs" />
     <Compile Include="Administration\Business\Basic\Role.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
