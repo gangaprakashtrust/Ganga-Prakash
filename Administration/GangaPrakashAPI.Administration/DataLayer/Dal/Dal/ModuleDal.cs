@@ -61,6 +61,22 @@ namespace GangaPrakashAPI.Administration.Dal
 			return moduleDto;
 		}
 
+		public Boolean IsMenuReferencePresent(Guid ModuleId)
+		{
+			Boolean IsMenuReferencePresent = false;
+			SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
+			SqlCommand cmd = new SqlCommand(" Select M.Id from Menu M Where M.ModuleId=@moduleid and M.IsActive=1", con);
+			cmd.Parameters.AddWithValue("@moduleid", ModuleId);
+			con.Open();
+			SqlDataReader dr = cmd.ExecuteReader();
+			if (dr.HasRows)
+			{
+				IsMenuReferencePresent = true;
+			}
+			con.Close();
+			return IsMenuReferencePresent;
+		}
+
 		public ModuleDto FetchById(Guid Id)
 		{
 			ModuleDto result = new ModuleDto();

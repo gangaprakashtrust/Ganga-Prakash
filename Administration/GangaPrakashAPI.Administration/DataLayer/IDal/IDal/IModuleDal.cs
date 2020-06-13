@@ -17,6 +17,8 @@ namespace GangaPrakashAPI.Administration.IDal
 
         ModuleDto IsSequenceNoAlreadyPresent(ModuleDto moduleDto);
 
+        Boolean IsMenuReferencePresent(Guid ModuleId);
+
         ModuleDto Insert(ModuleDto moduleDto, SqlConnection transcon = null, SqlTransaction trans = null);
 
         ModuleDto Update(ModuleDto moduleDto, SqlConnection transcon = null, SqlTransaction trans = null);
