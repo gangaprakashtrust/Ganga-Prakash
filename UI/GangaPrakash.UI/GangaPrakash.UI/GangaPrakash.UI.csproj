@@ -167,6 +167,7 @@
     <Compile Include="Areas\Administration\Controllers\MenuController.cs" />
     <Compile Include="Areas\Administration\Controllers\ModuleController.cs" />
     <Compile Include="Areas\Administration\Controllers\RoleController.cs" />
+    <Compile Include="Areas\Administration\PrivilegeController.cs" />
     <Compile Include="Areas\System\Controllers\BaseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -4632,6 +4633,9 @@
     <Content Include="Areas\Administration\Views\Menu\Index.cshtml" />
     <Content Include="Areas\Administration\Views\Menu\Create.cshtml" />
     <Content Include="Areas\Administration\Views\Menu\Edit.cshtml" />
+    <Content Include="Areas\Administration\Views\Privilege\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Privilege\Create.cshtml" />
+    <Content Include="Areas\Administration\Views\Privilege\Edit.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\Inspinia\script.js" />
     <Content Include="Scripts\Inspinia\site.js" />

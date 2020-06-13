@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Dal\MenuDal.cs" />
     <Compile Include="Dal\ModuleDal.cs" />
+    <Compile Include="Dal\PrivilegeDal.cs" />
     <Compile Include="Dal\RoleDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
