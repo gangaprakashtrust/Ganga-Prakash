@@ -91,12 +91,20 @@ namespace GangaPrakashAPI.Administration.Persister
             ModuleDto moduleDto = new ModuleDto
             {
                 Id = module.Id,
-                Name = module.Name,
-                SequenceNo = module.SequenceNo,
                 IsActive = false
             };
-            ImoduleDal.Delete(moduleDto, con, trans);
-            module.Id = moduleDto.Id;
+            Boolean IsMenuReferencePresent = ImoduleDal.IsMenuReferencePresent(moduleDto.Id);
+            if (!IsMenuReferencePresent)
+            {
+                ImoduleDal.Delete(moduleDto, con, trans);
+                module.Id = moduleDto.Id;
+            }
+            else
+            {
+                module.IsError = true;
+                module.ErrorMessage = "Please first delete menus under module "+module.Name;
+                module.ErrorMessageFor = "Name";
+            }
             return module;
         }
 
