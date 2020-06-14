@@ -9,17 +9,17 @@ using System.Web.Mvc;
 
 namespace GangaPrakash.UI
 {
-    public class RoleController : Controller
+    public class RoleController : BaseController
     {
         public async Task<ActionResult> Index()
         {
-            List<Role> roleList = await WebAPIClient.GetAsync<List<Role>>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/GetList");
+            List<Role> roleList = await WebAPIClient.GetAsync<List<Role>>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/GetList", Session["AccessToken"].ToString());
             return View(roleList);
         }
         [HttpGet]
         public async Task<ActionResult> Create()
         {
-            Role role = await WebAPIClient.GetAsync<Role>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Get");
+            Role role = await WebAPIClient.GetAsync<Role>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Get", Session["AccessToken"].ToString());
             return View(role);
         }
 
@@ -32,7 +32,7 @@ namespace GangaPrakash.UI
             {
                 if (ModelState.IsValid)
                 {
-                    role = await WebAPIClient.PostAsync<Role>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Create", role);
+                    role = await WebAPIClient.PostAsync<Role>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Create", role, Session["AccessToken"].ToString());
                     if (role.IsError)
                     {
                         ModelState.AddModelError(role.ErrorMessageFor, role.ErrorMessage);
@@ -51,7 +51,7 @@ namespace GangaPrakash.UI
         // GET: Role/Edit/5
         public async Task<ActionResult> Edit(Guid Id)
         {
-            Role role = await WebAPIClient.GetAsync<Role>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Get?Id=" + Id);
+            Role role = await WebAPIClient.GetAsync<Role>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Get?Id=" + Id, Session["AccessToken"].ToString());
             return View("Edit", role);
         }
 
@@ -64,7 +64,7 @@ namespace GangaPrakash.UI
             {
                 if (ModelState.IsValid)
                 {
-                    role = await WebAPIClient.PutAsync<Role>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Edit", role);
+                    role = await WebAPIClient.PutAsync<Role>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Edit", role, Session["AccessToken"].ToString());
                     if (role.IsError)
                     {
                         ModelState.AddModelError(role.ErrorMessageFor, role.ErrorMessage);
@@ -83,8 +83,8 @@ namespace GangaPrakash.UI
         // GET: Role/Edit/5
         public async Task<ActionResult> Delete(Guid Id)
         {
-            Role role = await WebAPIClient.GetAsync<Role>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Get?Id=" + Id);
-            role = await WebAPIClient.PutAsync<Role>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Delete", role);
+            Role role = await WebAPIClient.GetAsync<Role>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Get?Id=" + Id, Session["AccessToken"].ToString());
+            role = await WebAPIClient.PutAsync<Role>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Delete", role, Session["AccessToken"].ToString());
             return RedirectToAction("Index");
         }
     }

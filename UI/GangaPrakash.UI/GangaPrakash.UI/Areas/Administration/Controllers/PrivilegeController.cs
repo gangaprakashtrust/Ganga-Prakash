@@ -9,17 +9,17 @@ using System.Web.Mvc;
 
 namespace GangaPrakash.UI
 {
-    public class PrivilegeController : Controller
+    public class PrivilegeController : BaseController
     {
         public async Task<ActionResult> Index()
         {
-            List<Privilege> privilegeList = await WebAPIClient.GetAsync<List<Privilege>>(ConfigurationManager.AppSettings["APIAdministration"], "api/Privilege/GetList");
+            List<Privilege> privilegeList = await WebAPIClient.GetAsync<List<Privilege>>(ConfigurationManager.AppSettings["APIAdministration"], "api/Privilege/GetList", Session["AccessToken"].ToString());
             return View(privilegeList);
         }
         [HttpGet]
         public async Task<ActionResult> Create()
         {
-            Privilege privilege = await WebAPIClient.GetAsync<Privilege>(ConfigurationManager.AppSettings["APIAdministration"], "api/Privilege/Get");
+            Privilege privilege = await WebAPIClient.GetAsync<Privilege>(ConfigurationManager.AppSettings["APIAdministration"], "api/Privilege/Get", Session["AccessToken"].ToString());
             return View(privilege);
         }
 
@@ -32,7 +32,7 @@ namespace GangaPrakash.UI
             {
                 if (ModelState.IsValid)
                 {
-                    privilege = await WebAPIClient.PostAsync<Privilege>(ConfigurationManager.AppSettings["APIAdministration"], "api/Privilege/Create", privilege);
+                    privilege = await WebAPIClient.PostAsync<Privilege>(ConfigurationManager.AppSettings["APIAdministration"], "api/Privilege/Create", privilege, Session["AccessToken"].ToString());
                     if (privilege.IsError)
                     {
                         ModelState.AddModelError(privilege.ErrorMessageFor, privilege.ErrorMessage);
@@ -51,7 +51,7 @@ namespace GangaPrakash.UI
         // GET: Privilege/Edit/5
         public async Task<ActionResult> Edit(Guid Id)
         {
-            Privilege privilege = await WebAPIClient.GetAsync<Privilege>(ConfigurationManager.AppSettings["APIAdministration"], "api/Privilege/Get?Id=" + Id);
+            Privilege privilege = await WebAPIClient.GetAsync<Privilege>(ConfigurationManager.AppSettings["APIAdministration"], "api/Privilege/Get?Id=" + Id, Session["AccessToken"].ToString());
             return View("Edit", privilege);
         }
 
@@ -64,7 +64,7 @@ namespace GangaPrakash.UI
             {
                 if (ModelState.IsValid)
                 {
-                    privilege = await WebAPIClient.PutAsync<Privilege>(ConfigurationManager.AppSettings["APIAdministration"], "api/Privilege/Edit", privilege);
+                    privilege = await WebAPIClient.PutAsync<Privilege>(ConfigurationManager.AppSettings["APIAdministration"], "api/Privilege/Edit", privilege, Session["AccessToken"].ToString());
                     if (privilege.IsError)
                     {
                         ModelState.AddModelError(privilege.ErrorMessageFor, privilege.ErrorMessage);
@@ -83,8 +83,8 @@ namespace GangaPrakash.UI
         // GET: Privilege/Edit/5
         public async Task<ActionResult> Delete(Guid Id)
         {
-            Privilege privilege = await WebAPIClient.GetAsync<Privilege>(ConfigurationManager.AppSettings["APIAdministration"], "api/Privilege/Get?Id=" + Id);
-            privilege = await WebAPIClient.PutAsync<Privilege>(ConfigurationManager.AppSettings["APIAdministration"], "api/Privilege/Delete", privilege);
+            Privilege privilege = await WebAPIClient.GetAsync<Privilege>(ConfigurationManager.AppSettings["APIAdministration"], "api/Privilege/Get?Id=" + Id, Session["AccessToken"].ToString());
+            privilege = await WebAPIClient.PutAsync<Privilege>(ConfigurationManager.AppSettings["APIAdministration"], "api/Privilege/Delete", privilege, Session["AccessToken"].ToString());
             return RedirectToAction("Index");
         }
     }

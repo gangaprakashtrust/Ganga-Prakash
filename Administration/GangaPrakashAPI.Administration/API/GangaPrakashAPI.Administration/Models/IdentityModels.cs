@@ -21,7 +21,7 @@ namespace GangaPrakashAPI.Administration.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("GangaPrakashConnection", throwIfV1Schema: false)
         {
         }
         

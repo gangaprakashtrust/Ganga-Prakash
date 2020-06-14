@@ -9,7 +9,7 @@ using GangaPrakashAPI.Model;
 
 namespace GangaPrakashAPI.Administration.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class ModuleController : ApiController
     {
         [Route("api/Module/GetList")]

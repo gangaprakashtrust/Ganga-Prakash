@@ -9,17 +9,17 @@ using System.Web.Mvc;
 
 namespace GangaPrakash.UI
 {
-    public class ModuleController : Controller
+    public class ModuleController : BaseController
     {
         public async Task<ActionResult> Index()
         {
-            List<Module> moduleList = await WebAPIClient.GetAsync<List<Module>>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/GetList");
+            List<Module> moduleList = await WebAPIClient.GetAsync<List<Module>>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/GetList", Session["AccessToken"].ToString());
             return View(moduleList);
         }
         [HttpGet]
         public async Task<ActionResult> Create()
         {
-            Module module = await WebAPIClient.GetAsync<Module>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/Get");
+            Module module = await WebAPIClient.GetAsync<Module>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/Get", Session["AccessToken"].ToString());
             return View(module);
         }
 
@@ -32,7 +32,7 @@ namespace GangaPrakash.UI
             {
                 if (ModelState.IsValid)
                 {
-                    module = await WebAPIClient.PostAsync<Module>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/Create", module);
+                    module = await WebAPIClient.PostAsync<Module>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/Create", module, Session["AccessToken"].ToString());
                     if (module.IsError)
                     {
                         ModelState.AddModelError(module.ErrorMessageFor, module.ErrorMessage);
@@ -51,7 +51,7 @@ namespace GangaPrakash.UI
         // GET: Module/Edit/5
         public async Task<ActionResult> Edit(Guid Id)
         {
-            Module module = await WebAPIClient.GetAsync<Module>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/Get?Id=" + Id);
+            Module module = await WebAPIClient.GetAsync<Module>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/Get?Id=" + Id, Session["AccessToken"].ToString());
             return View("Edit", module);
         }
 
@@ -64,7 +64,7 @@ namespace GangaPrakash.UI
             {
                 if (ModelState.IsValid)
                 {
-                    module = await WebAPIClient.PutAsync<Module>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/Edit", module);
+                    module = await WebAPIClient.PutAsync<Module>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/Edit", module, Session["AccessToken"].ToString());
                     if (module.IsError)
                     {
                         ModelState.AddModelError(module.ErrorMessageFor, module.ErrorMessage);
@@ -83,8 +83,8 @@ namespace GangaPrakash.UI
         // GET: Module/Edit/5
         public async Task<ActionResult> Delete(Guid Id)
         {
-            Module module = await WebAPIClient.GetAsync<Module>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/Get?Id=" + Id);
-            module = await WebAPIClient.PutAsync<Module>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/Delete", module);
+            Module module = await WebAPIClient.GetAsync<Module>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/Get?Id=" + Id, Session["AccessToken"].ToString());
+            module = await WebAPIClient.PutAsync<Module>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/Delete", module, Session["AccessToken"].ToString());
             return RedirectToAction("Index");
         }
     }
