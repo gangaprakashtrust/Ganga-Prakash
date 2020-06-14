@@ -33,5 +33,14 @@ namespace GangaPrakash.UI
             }
             return View(loginModel);
         }
+
+        public ActionResult Logout()
+        {
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
+            Response.Cache.SetNoStore();
+            Session.Remove("AccessToken");
+            return RedirectToAction("Login", "Account", new { Area = "Administration" });
+        }
     }
 }
