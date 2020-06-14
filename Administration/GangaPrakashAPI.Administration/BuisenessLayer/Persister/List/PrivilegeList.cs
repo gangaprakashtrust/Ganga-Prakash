@@ -27,6 +27,29 @@ namespace GangaPrakashAPI.Administration.Persister
                 {
                     Id = item.Id,
                     Name = item.Name,
+                    IsChecked=false
+                };
+                privilegeList.Add(privilege);
+            }
+            return privilegeList;
+        }
+
+        public static List<Privilege> GetListByMenuId(Guid MenuId)
+        {
+            return FetchByMenuId(MenuId);
+        }
+
+        private static List<Privilege> FetchByMenuId(Guid MenuId)
+        {
+            IPrivilegeDal IprivilegeDal = new PrivilegeDal();
+            List<Privilege> privilegeList = new List<Privilege>();
+            foreach (var item in IprivilegeDal.FetchByMenuId(MenuId))
+            {
+                Privilege privilege = new Privilege
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    IsChecked = item.IsChecked
                 };
                 privilegeList.Add(privilege);
             }

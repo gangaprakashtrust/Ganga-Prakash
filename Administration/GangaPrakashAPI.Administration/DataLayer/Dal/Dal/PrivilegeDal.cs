@@ -27,6 +27,26 @@ namespace GangaPrakashAPI.Administration.Dal
             return result;
         }
 
+        public List<PrivilegeDto> FetchByMenuId(Guid MenuId)
+        {
+            List<PrivilegeDto> result = new List<PrivilegeDto>();
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
+            SqlCommand cmd = new SqlCommand(@" Select P.Id,P.Name,case When(MP.Id is null) then 0 else 1 End as IsChecked 
+                                               from Privilege P
+                                               Left Outer join MenuPrivilege MP On MP.PrivilegeId=P.Id 
+                                               And MP.MenuId=@menuid And P.IsActive=1 And MP.IsActive=1
+                                               Group By P.Id,P.Name,MP.Id", con);
+            cmd.Parameters.AddWithValue("@menuid", MenuId);
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                result.Add(GetMenuPrivilegeDto(dr));
+            }
+            con.Close();
+            return result;
+        }
+
         public PrivilegeDto IsPrivilegeAlreadyPresent(PrivilegeDto privilegeDto)
         {
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
@@ -151,6 +171,15 @@ namespace GangaPrakashAPI.Administration.Dal
             {
                 Id = sdr.GetGuid(sdr.GetOrdinal("Id")),
                 Name = sdr.GetString(sdr.GetOrdinal("Name")),
+            };
+        }
+        public PrivilegeDto GetMenuPrivilegeDto(SqlDataReader sdr)
+        {
+            return new PrivilegeDto
+            {
+                Id = sdr.GetGuid(sdr.GetOrdinal("Id")),
+                Name = sdr.GetString(sdr.GetOrdinal("Name")),
+                IsChecked = ((sdr.GetInt32(sdr.GetOrdinal("IsChecked")))==1)?true:false
             };
         }
     }

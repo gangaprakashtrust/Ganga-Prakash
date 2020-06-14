@@ -19,31 +19,31 @@ namespace GangaPrakash.UI
         [HttpGet]
         public async Task<ActionResult> Create()
         {
-            Menu menu = await WebAPIClient.GetAsync<Menu>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/Get", Session["AccessToken"].ToString());
-            await AssignList(menu);
-            return View(menu);
+            MenuTrans menuTrans = await WebAPIClient.GetAsync<MenuTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/Get", Session["AccessToken"].ToString());
+            await AssignList(menuTrans);
+            return View(menuTrans);
         }
 
         // POST: Menu/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Menu menu)
+        public async Task<ActionResult> Create(MenuTrans menuTrans)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    menu = await WebAPIClient.PostAsync<Menu>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/Create", menu, Session["AccessToken"].ToString());
-                    if (menu.IsError)
+                    menuTrans = await WebAPIClient.PostAsync<MenuTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/Create", menuTrans, Session["AccessToken"].ToString());
+                    if (menuTrans.menu.IsError)
                     {
-                        ModelState.AddModelError(menu.ErrorMessageFor, menu.ErrorMessage);
-                        await AssignList(menu);
-                        return View(menu);
+                        ModelState.AddModelError(menuTrans.menu.ErrorMessageFor, menuTrans.menu.ErrorMessage);
+                        await AssignList(menuTrans);
+                        return View(menuTrans);
                     }
                     return RedirectToAction("Index");
                 }
-                await AssignList(menu);
-                return View(menu);
+                await AssignList(menuTrans);
+                return View(menuTrans);
             }
             catch (Exception ex)
             {
@@ -54,31 +54,31 @@ namespace GangaPrakash.UI
         // GET: Menu/Edit/5
         public async Task<ActionResult> Edit(Guid Id)
         {
-            Menu menu = await WebAPIClient.GetAsync<Menu>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/Get?Id=" + Id, Session["AccessToken"].ToString());
-            await AssignList(menu);
-            return View("Edit", menu);
+            MenuTrans menuTrans = await WebAPIClient.GetAsync<MenuTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/Get?Id=" + Id, Session["AccessToken"].ToString());
+            await AssignList(menuTrans);
+            return View("Edit", menuTrans);
         }
 
         // POST: Menu/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Menu menu)
+        public async Task<ActionResult> Edit(MenuTrans menuTrans)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    menu = await WebAPIClient.PutAsync<Menu>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/Edit", menu, Session["AccessToken"].ToString());
-                    if (menu.IsError)
+                    menuTrans = await WebAPIClient.PutAsync<MenuTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/Edit", menuTrans, Session["AccessToken"].ToString());
+                    if (menuTrans.menu.IsError)
                     {
-                        ModelState.AddModelError(menu.ErrorMessageFor, menu.ErrorMessage);
-                        await AssignList(menu);
-                        return View(menu);
+                        ModelState.AddModelError(menuTrans.menu.ErrorMessageFor, menuTrans.menu.ErrorMessage);
+                        await AssignList(menuTrans);
+                        return View(menuTrans);
                     }
                     return RedirectToAction("Index");
                 }
-                await AssignList(menu);
-                return View(menu);
+                await AssignList(menuTrans);
+                return View(menuTrans);
             }
             catch (Exception ex)
             {
@@ -89,15 +89,15 @@ namespace GangaPrakash.UI
         // GET: Menu/Edit/5
         public async Task<ActionResult> Delete(Guid Id)
         {
-            Menu menu = await WebAPIClient.GetAsync<Menu>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/Get?Id=" + Id, Session["AccessToken"].ToString());
-            menu = await WebAPIClient.PutAsync<Menu>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/Delete", menu, Session["AccessToken"].ToString());
+            MenuTrans menuTrans = await WebAPIClient.GetAsync<MenuTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/Get?Id=" + Id, Session["AccessToken"].ToString());
+            menuTrans = await WebAPIClient.PutAsync<MenuTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/Delete", menuTrans, Session["AccessToken"].ToString());
             return RedirectToAction("Index");
         }
 
-        public async Task AssignList(Menu menu)
+        public async Task AssignList(MenuTrans menuTrans)
         {
-            menu.MenuNVList = await WebAPIClient.GetAsync<List<KeyValuePair<Guid, String>>>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/GetNVList", Session["AccessToken"].ToString());
-            menu.ModuleNVList = await WebAPIClient.GetAsync<List<KeyValuePair<Guid, String>>>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/GetNVList", Session["AccessToken"].ToString());
+            menuTrans.menu.MenuNVList = await WebAPIClient.GetAsync<List<KeyValuePair<Guid, String>>>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/GetNVList", Session["AccessToken"].ToString());
+            menuTrans.menu.ModuleNVList = await WebAPIClient.GetAsync<List<KeyValuePair<Guid, String>>>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/GetNVList", Session["AccessToken"].ToString());
         }
     }
 }

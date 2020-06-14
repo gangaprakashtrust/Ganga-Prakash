@@ -35,6 +35,7 @@
       <HintPath>..\..\..\..\Common DLLs\GangaPrakashAPI.Model.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -45,10 +46,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buiseness\Basic\MenuPersister.cs" />
+    <Compile Include="Buiseness\Basic\MenuPrivilegePersister.cs" />
     <Compile Include="Buiseness\Basic\ModulePersister.cs" />
     <Compile Include="Buiseness\Basic\PrivilegePersister.cs" />
     <Compile Include="Buiseness\Basic\RolePersister.cs" />
+    <Compile Include="Buiseness\Transaction\MenuTransPersister.cs" />
     <Compile Include="List\MenuList.cs" />
+    <Compile Include="List\MenuPrivilegeList.cs" />
     <Compile Include="List\ModuleList.cs" />
     <Compile Include="List\PrivilegeList.cs" />
     <Compile Include="List\RoleList.cs" />
@@ -56,9 +60,7 @@
     <Compile Include="NVList\ModuleNVList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Buiseness\Transaction\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\DataLayer\Dal\Dal.csproj">
       <Project>{1cdb0c92-16f4-442f-a6f3-8372f7fba2df}</Project>

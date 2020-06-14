@@ -32,51 +32,51 @@ namespace GangaPrakashAPI.Administration.Controllers
         [HttpGet]
         public IHttpActionResult Get()
         {
-            Menu menu = MenuPersister.Get();
-            return Ok(menu);
+            MenuTrans menuTrans = MenuTransPersister.Get();
+            return Ok(menuTrans);
         }
 
         [Route("api/Menu/Get")]
         [HttpGet]
         public IHttpActionResult Get(Guid Id)
         {
-            Menu menu = MenuPersister.GetMenu(Id);
-            return Ok(menu);
+            MenuTrans menuTrans = MenuTransPersister.GetMenuTrans(Id);
+            return Ok(menuTrans);
         }
 
         [Route("api/Menu/Create")]
         [HttpPost]
-        public IHttpActionResult Create(Menu menu)
+        public IHttpActionResult Create(MenuTrans menuTrans)
         {
             if (ModelState.IsValid)
             {
-                MenuPersister menuPersister = MenuPersister.GetPersister();
-                menuPersister.Insert(menu);
-                return Ok(menu);
+                MenuTransPersister menuTransPersister = MenuTransPersister.GetPersister();
+                menuTransPersister.Insert(menuTrans);
+                return Ok(menuTrans);
             }
             return Content(HttpStatusCode.ExpectationFailed, "Invalid data");
         }
 
         [Route("api/Menu/Edit")]
         [HttpPut]
-        public IHttpActionResult Edit(Menu menu)
+        public IHttpActionResult Edit(MenuTrans menuTrans)
         {
             if (ModelState.IsValid)
             {
-                MenuPersister menuPersister = MenuPersister.GetPersister();
-                menuPersister.Update(menu);
-                return Ok(menu);
+                MenuTransPersister menuTransPersister = MenuTransPersister.GetPersister();
+                menuTransPersister.Update(menuTrans);
+                return Ok(menuTrans);
             }
             return Content(HttpStatusCode.ExpectationFailed, "Invalid data");
         }
 
         [Route("api/Menu/Delete")]
         [HttpPut]
-        public IHttpActionResult Delete(Menu menu)
+        public IHttpActionResult Delete(MenuTrans menuTrans)
         {
-            MenuPersister menuPersister = MenuPersister.GetPersister();
-            menuPersister.Delete(menu);
-            return Ok(menu);
+            MenuTransPersister menuTransPersister = MenuTransPersister.GetPersister();
+            menuTransPersister.Delete(menuTrans);
+            return Ok(menuTrans);
         }
     }
 }

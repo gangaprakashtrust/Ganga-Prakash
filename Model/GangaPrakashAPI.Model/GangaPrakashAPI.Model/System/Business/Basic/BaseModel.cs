@@ -19,5 +19,7 @@ namespace GangaPrakashAPI.Model
         public String ErrorMessage { get; set; }
 
         public Guid TransactedBy { get; set; }
+
+        public Boolean IsChecked { get; set; }
     }
 }

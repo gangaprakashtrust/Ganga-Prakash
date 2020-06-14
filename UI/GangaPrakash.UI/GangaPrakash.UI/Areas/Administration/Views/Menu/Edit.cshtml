@@ -1,5 +1,5 @@
 ﻿@using GangaPrakashAPI.Model
-@model Menu
+@model MenuTrans
 <div class="wrapper wrapper-content">
     <div class="row">
         <div class="col-lg-12">
@@ -9,69 +9,87 @@
                 </div>
                 <div class="ibox-content">
                     <form role="form" method="post">
-                        @Html.HiddenFor(model => model.Id)
+                        @Html.HiddenFor(model => model.menu.Id)
                         @Html.AntiForgeryToken()
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Parent Menu</label>
                             <div class="col-sm-4">
-                                @Html.DropDownListFor(model => model.ParentId, new SelectList(Model.MenuNVList, "Key", "Value", Model.ParentId), "--Select--", new { @class = "ParentMenuDropdown form-control" })
+                                @Html.DropDownListFor(model => model.menu.ParentId, new SelectList(Model.menu.MenuNVList, "Key", "Value", Model.menu.ParentId), "--Select--", new { @class = "ParentMenuDropdown form-control" })
                             </div>
                             <label class="col-sm-2 col-form-label">Module</label>
                             <div class="col-sm-4">
-                                @Html.DropDownListFor(model => model.ModuleId, new SelectList(Model.ModuleNVList, "Key", "Value", Model.ModuleId), new { @class = "ModuleDropdown form-control" })
+                                @Html.DropDownListFor(model => model.menu.ModuleId, new SelectList(Model.menu.ModuleNVList, "Key", "Value", Model.menu.ModuleId), new { @class = "ModuleDropdown form-control" })
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label"></label>
                             <div class="col-sm-4">
-                                @Html.ValidationMessageFor(model => model.ParentId, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.menu.ParentId, "", new { @class = "text-danger" })
                             </div>
                             <label class="col-sm-2 col-form-label"></label>
                             <div class="col-sm-4">
-                                @Html.ValidationMessageFor(model => model.ModuleId, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.menu.ModuleId, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Name</label>
-                            <div class="col-sm-4"><input type="text" id="Name" name="Name" placeholder="Name" class="form-control" value="@Model.Name" required=""></div>
+                            <div class="col-sm-4"><input type="text" id="Name" name="menu.Name" placeholder="Name" class="form-control" value="@Model.menu.Name" required=""></div>
                             <label class="col-sm-2 col-form-label">Area</label>
-                            <div class="col-sm-4"><input type="text" id="Area" name="Area" placeholder="Area" class="form-control" value="@Model.Area" required=""></div>
+                            <div class="col-sm-4"><input type="text" id="Area" name="menu.Area" placeholder="Area" class="form-control" value="@Model.menu.Area" required=""></div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label"></label>
                             <div class="col-sm-4">
-                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.menu.Name, "", new { @class = "text-danger" })
                             </div>
                             <label class="col-sm-2 col-form-label"></label>
                             <div class="col-sm-4">
-                                @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.menu.Area, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                       
+
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Controller</label>
-                            <div class="col-sm-4"><input type="text" id="Controller" name="Controller" placeholder="Controller" class="form-control" value="@Model.Controller" required=""></div>
+                            <div class="col-sm-4"><input type="text" id="Controller" name="menu.Controller" placeholder="Controller" class="form-control" value="@Model.menu.Controller" required=""></div>
                             <label class="col-sm-2 col-form-label">Action</label>
-                            <div class="col-sm-4"><input type="text" id="Action" name="Action" placeholder="Action" class="form-control" value="@Model.Controller" required=""></div>
+                            <div class="col-sm-4"><input type="text" id="Action" name="menu.Action" placeholder="Action" class="form-control" value="@Model.menu.Controller" required=""></div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label"></label>
                             <div class="col-sm-4">
-                                @Html.ValidationMessageFor(model => model.Controller, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.menu.Controller, "", new { @class = "text-danger" })
                             </div>
                             <label class="col-sm-2 col-form-label"></label>
                             <div class="col-sm-4">
-                                @Html.ValidationMessageFor(model => model.Action, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.menu.Action, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Sequence No.</label>
-                            <div class="col-sm-4"><input id="SequenceNo" name="SequenceNo" class="form-control touchspin1" value="@Model.SequenceNo" required=""></div>
+                            <div class="col-sm-4"><input id="SequenceNo" name="menu.SequenceNo" class="form-control touchspin1" value="@Model.menu.SequenceNo" required=""></div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label"></label>
                             <div class="col-sm-4">
-                                @Html.ValidationMessageFor(model => model.SequenceNo, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.menu.SequenceNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Privileges</label>
+
+                            <div class="col-sm-10">
+                                @for (int i = 0; i < Model.privilegeList.Count; i++)
+                                {
+                                    <input type="hidden" value="@Model.privilegeList[i].Id" name="privilegeList[@i].Id" id="privilegeList[i].Id" />
+                                    <input type="hidden" value="@Model.privilegeList[i].Name" name="privilegeList[@i].Name" id="privilegeList[i].Name" />
+                                    <div class="i-checks">
+
+                                        <label class="i-checks">
+                                            @Html.CheckBoxFor(model => Model.privilegeList[i].IsChecked)<i></i> @Model.privilegeList[i].Name
+                                        </label>
+                                    </div>
+                                }
                             </div>
                         </div>
                         <div class="form-group row">
@@ -93,7 +111,15 @@
 
 @section scripts
 {
+    <!-- iCheck -->
+    <script src="~/lib/iCheck/icheck.min.js"></script>
     <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
         $('.DeleteMenu').click(function () {
             swal({
                 title: "Are you sure?",

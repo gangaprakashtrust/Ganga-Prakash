@@ -43,9 +43,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Administration\Business\Basic\Menu.cs" />
+    <Compile Include="Administration\Business\Basic\MenuPrivilege.cs" />
     <Compile Include="Administration\Business\Basic\Module.cs" />
     <Compile Include="Administration\Business\Basic\Privilege.cs" />
     <Compile Include="Administration\Business\Basic\Role.cs" />
+    <Compile Include="Administration\Transaction\Basic\MenuTrans.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="System\Business\Basic\AccessToken.cs" />
     <Compile Include="System\Business\Basic\AddExternalLoginBindingModel.cs" />
@@ -59,7 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Administration\Business\Info\" />
-    <Folder Include="Administration\Transaction\" />
+    <Folder Include="Administration\Transaction\Info\" />
     <Folder Include="System\Business\Info\" />
     <Folder Include="System\Transaction\" />
   </ItemGroup>
