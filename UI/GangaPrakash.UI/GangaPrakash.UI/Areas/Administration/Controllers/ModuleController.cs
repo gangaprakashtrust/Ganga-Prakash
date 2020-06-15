@@ -38,13 +38,17 @@ namespace GangaPrakash.UI
                         ModelState.AddModelError(module.ErrorMessageFor, module.ErrorMessage);
                         return View(module);
                     }
+                    TempData["Message"] = "Module Saved Successfully";
+                    TempData["MessageClass"] = "alert alert-success alert-dismissable";
                     return RedirectToAction("Index");
                 }
                 return View(module);
             }
             catch (Exception ex)
             {
-                return View();
+                TempData["Message"] = "Please try again!";
+                TempData["MessageClass"] = "alert alert-danger alert-dismissable";
+                return RedirectToAction("Index");
             }
         }
 
@@ -70,13 +74,17 @@ namespace GangaPrakash.UI
                         ModelState.AddModelError(module.ErrorMessageFor, module.ErrorMessage);
                         return View(module);
                     }
+                    TempData["Message"] = "Module Updated Successfully";
+                    TempData["MessageClass"] = "alert alert-success alert-dismissable";
                     return RedirectToAction("Index");
                 }
                 return View(module);
             }
             catch (Exception ex)
             {
-                return View();
+                TempData["Message"] = "Please try again!";
+                TempData["MessageClass"] = "alert alert-danger alert-dismissable";
+                return RedirectToAction("Index");
             }
         }
 
@@ -85,6 +93,14 @@ namespace GangaPrakash.UI
         {
             Module module = await WebAPIClient.GetAsync<Module>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/Get?Id=" + Id, Session["AccessToken"].ToString());
             module = await WebAPIClient.PutAsync<Module>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/Delete", module, Session["AccessToken"].ToString());
+            if (module.IsError)
+            {
+                TempData["Message"] = module.ErrorMessage;
+                TempData["MessageClass"] = "alert alert-danger alert-dismissable";
+                return RedirectToAction("Index");
+            }
+            TempData["Message"] = "Module Deleted Successfully";
+            TempData["MessageClass"] = "alert alert-success alert-dismissable";
             return RedirectToAction("Index");
         }
     }

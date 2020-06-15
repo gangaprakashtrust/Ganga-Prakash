@@ -38,13 +38,17 @@ namespace GangaPrakash.UI
                         ModelState.AddModelError(role.ErrorMessageFor, role.ErrorMessage);
                         return View(role);
                     }
+                    TempData["Message"] = "Role Saved Successfully";
+                    TempData["MessageClass"] = "alert alert-success alert-dismissable";
                     return RedirectToAction("Index");
                 }
                 return View(role);
             }
             catch (Exception ex)
             {
-                return View();
+                TempData["Message"] = "Please try again!";
+                TempData["MessageClass"] = "alert alert-danger alert-dismissable";
+                return RedirectToAction("Index");
             }
         }
 
@@ -70,13 +74,17 @@ namespace GangaPrakash.UI
                         ModelState.AddModelError(role.ErrorMessageFor, role.ErrorMessage);
                         return View(role);
                     }
+                    TempData["Message"] = "Role Updated Successfully";
+                    TempData["MessageClass"] = "alert alert-success alert-dismissable";
                     return RedirectToAction("Index");
                 }
                 return View(role);
             }
             catch (Exception ex)
             {
-                return View();
+                TempData["Message"] = "Please try again!";
+                TempData["MessageClass"] = "alert alert-danger alert-dismissable";
+                return RedirectToAction("Index");
             }
         }
 
@@ -85,6 +93,14 @@ namespace GangaPrakash.UI
         {
             Role role = await WebAPIClient.GetAsync<Role>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Get?Id=" + Id, Session["AccessToken"].ToString());
             role = await WebAPIClient.PutAsync<Role>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Delete", role, Session["AccessToken"].ToString());
+            if (role.IsError)
+            {
+                TempData["Message"] = role.ErrorMessage;
+                TempData["MessageClass"] = "alert alert-danger alert-dismissable";
+                return RedirectToAction("Index");
+            }
+            TempData["Message"] = "Role Deleted Successfully";
+            TempData["MessageClass"] = "alert alert-success alert-dismissable";
             return RedirectToAction("Index");
         }
     }

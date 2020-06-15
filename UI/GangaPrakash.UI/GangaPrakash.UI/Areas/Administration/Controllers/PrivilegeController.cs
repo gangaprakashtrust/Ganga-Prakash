@@ -38,13 +38,17 @@ namespace GangaPrakash.UI
                         ModelState.AddModelError(privilege.ErrorMessageFor, privilege.ErrorMessage);
                         return View(privilege);
                     }
+                    TempData["Message"] = "Privilege Saved Successfully";
+                    TempData["MessageClass"] = "alert alert-success alert-dismissable";
                     return RedirectToAction("Index");
                 }
                 return View(privilege);
             }
             catch (Exception ex)
             {
-                return View();
+                TempData["Message"] = "Please try again!";
+                TempData["MessageClass"] = "alert alert-danger alert-dismissable";
+                return RedirectToAction("Index");
             }
         }
 
@@ -70,13 +74,17 @@ namespace GangaPrakash.UI
                         ModelState.AddModelError(privilege.ErrorMessageFor, privilege.ErrorMessage);
                         return View(privilege);
                     }
+                    TempData["Message"] = "Privilege Updated Successfully";
+                    TempData["MessageClass"] = "alert alert-success alert-dismissable";
                     return RedirectToAction("Index");
                 }
                 return View(privilege);
             }
             catch (Exception ex)
             {
-                return View();
+                TempData["Message"] = "Please try again!";
+                TempData["MessageClass"] = "alert alert-danger alert-dismissable";
+                return RedirectToAction("Index");
             }
         }
 
@@ -85,6 +93,14 @@ namespace GangaPrakash.UI
         {
             Privilege privilege = await WebAPIClient.GetAsync<Privilege>(ConfigurationManager.AppSettings["APIAdministration"], "api/Privilege/Get?Id=" + Id, Session["AccessToken"].ToString());
             privilege = await WebAPIClient.PutAsync<Privilege>(ConfigurationManager.AppSettings["APIAdministration"], "api/Privilege/Delete", privilege, Session["AccessToken"].ToString());
+            if (privilege.IsError)
+            {
+                TempData["Message"] = privilege.ErrorMessage;
+                TempData["MessageClass"] = "alert alert-danger alert-dismissable";
+                return RedirectToAction("Index");
+            }
+            TempData["Message"] = "Privilege Deleted Successfully";
+            TempData["MessageClass"] = "alert alert-success alert-dismissable";
             return RedirectToAction("Index");
         }
     }

@@ -39,7 +39,7 @@ namespace GangaPrakashAPI.Administration.Persister
                 {
                     menu.IsError = true;
                     menu.ErrorMessage = menuDto.ErrorMessage;
-                    menu.ErrorMessageFor = "SequenceNo";
+                    menu.ErrorMessageFor = "manu.SequenceNo";
 
                 }
             }
@@ -47,7 +47,7 @@ namespace GangaPrakashAPI.Administration.Persister
             {
                 menu.IsError = true;
                 menu.ErrorMessage = menuDto.ErrorMessage;
-                menu.ErrorMessageFor = "Name";
+                menu.ErrorMessageFor = "manu.Name";
 
             }
             return menu;
@@ -81,7 +81,7 @@ namespace GangaPrakashAPI.Administration.Persister
                 {
                     menu.IsError = true;
                     menu.ErrorMessage = menuDto.ErrorMessage;
-                    menu.ErrorMessageFor = "SequenceNo";
+                    menu.ErrorMessageFor = "menu.SequenceNo";
 
                 }
             }
@@ -89,7 +89,7 @@ namespace GangaPrakashAPI.Administration.Persister
             {
                 menu.IsError = true;
                 menu.ErrorMessage = menuDto.ErrorMessage;
-                menu.ErrorMessageFor = "Name";
+                menu.ErrorMessageFor = "menu.Name";
 
             }
             return menu;

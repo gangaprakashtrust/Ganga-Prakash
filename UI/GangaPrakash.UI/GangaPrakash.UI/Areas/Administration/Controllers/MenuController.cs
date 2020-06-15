@@ -40,6 +40,8 @@ namespace GangaPrakash.UI
                         await AssignList(menuTrans);
                         return View(menuTrans);
                     }
+                    TempData["Message"] = "Menu Saved Successfully";
+                    TempData["MessageClass"] = "alert alert-success alert-dismissable";
                     return RedirectToAction("Index");
                 }
                 await AssignList(menuTrans);
@@ -47,7 +49,9 @@ namespace GangaPrakash.UI
             }
             catch (Exception ex)
             {
-                return View();
+                TempData["Message"] = "Please try again!";
+                TempData["MessageClass"] = "alert alert-danger alert-dismissable";
+                return RedirectToAction("Index");
             }
         }
 
@@ -75,6 +79,8 @@ namespace GangaPrakash.UI
                         await AssignList(menuTrans);
                         return View(menuTrans);
                     }
+                    TempData["Message"] = "Menu Updated Successfully";
+                    TempData["MessageClass"] = "alert alert-success alert-dismissable";
                     return RedirectToAction("Index");
                 }
                 await AssignList(menuTrans);
@@ -82,7 +88,9 @@ namespace GangaPrakash.UI
             }
             catch (Exception ex)
             {
-                return View();
+                TempData["Message"] = "Please try again!";
+                TempData["MessageClass"] = "alert alert-danger alert-dismissable";
+                return RedirectToAction("Index");
             }
         }
 
@@ -91,6 +99,14 @@ namespace GangaPrakash.UI
         {
             MenuTrans menuTrans = await WebAPIClient.GetAsync<MenuTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/Get?Id=" + Id, Session["AccessToken"].ToString());
             menuTrans = await WebAPIClient.PutAsync<MenuTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/Delete", menuTrans, Session["AccessToken"].ToString());
+            if (menuTrans.menu.IsError)
+            {
+                TempData["Message"] = menuTrans.menu.ErrorMessage;
+                TempData["MessageClass"] = "alert alert-danger alert-dismissable";
+                return RedirectToAction("Index");
+            }
+            TempData["Message"] = "Menu Deleted Successfully";
+            TempData["MessageClass"] = "alert alert-success alert-dismissable";
             return RedirectToAction("Index");
         }
 
