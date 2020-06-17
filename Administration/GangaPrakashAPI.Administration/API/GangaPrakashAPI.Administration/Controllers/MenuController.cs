@@ -20,12 +20,12 @@ namespace GangaPrakashAPI.Administration.Controllers
             return Ok(menuList);
         }
 
-        [Route("api/Menu/GetNVList")]
+        [Route("api/Menu/GetParentMenuListByModuleId")]
         [HttpGet]
-        public IHttpActionResult GetNVList()
+        public IHttpActionResult GetParentMenuListByModuleId(Guid ModuleId)
         {
-            List<KeyValuePair<Guid, String>> menuNVList = MenuNVList.GetList();
-            return Ok(menuNVList);
+            List<KeyValuePair<Guid, String>> parentMenuList = MenuNVList.GetParentListByModuleId(ModuleId);
+            return Ok(parentMenuList);
         }
 
         [Route("api/Menu/Get")]

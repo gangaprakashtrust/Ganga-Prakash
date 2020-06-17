@@ -12,23 +12,25 @@
                         @Html.HiddenFor(model => model.menu.Id)
                         @Html.AntiForgeryToken()
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Parent Menu</label>
-                            <div class="col-sm-4">
-                                @Html.DropDownListFor(model => model.menu.ParentId, new SelectList(Model.menu.MenuNVList, "Key", "Value", Model.menu.ParentId), "--Select--", new { @class = "ParentMenuDropdown form-control" })
-                            </div>
+
                             <label class="col-sm-2 col-form-label">Module</label>
                             <div class="col-sm-4">
                                 @Html.DropDownListFor(model => model.menu.ModuleId, new SelectList(Model.menu.ModuleNVList, "Key", "Value", Model.menu.ModuleId), new { @class = "ModuleDropdown form-control" })
                             </div>
+                            <label class="col-sm-2 col-form-label">Parent Menu</label>
+                            <div class="col-sm-4">
+                                @Html.DropDownListFor(model => model.menu.ParentId, new SelectList(Model.menu.MenuNVList, "Key", "Value", Model.menu.ParentId), "--Select--", new { @class = "ParentMenuDropdown form-control" })
+                            </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label"></label>
-                            <div class="col-sm-4">
-                                @Html.ValidationMessageFor(model => model.menu.ParentId, "", new { @class = "text-danger" })
-                            </div>
+
                             <label class="col-sm-2 col-form-label"></label>
                             <div class="col-sm-4">
                                 @Html.ValidationMessageFor(model => model.menu.ModuleId, "", new { @class = "text-danger" })
+                            </div>
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-4">
+                                @Html.ValidationMessageFor(model => model.menu.ParentId, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group row">
@@ -111,6 +113,7 @@
 {
     <!-- iCheck -->
     <script src="~/lib/iCheck/icheck.min.js"></script>
+    <script src="~/Scripts/Ajax.js"></script>
     <script>
         $(document).ready(function () {
             $('.i-checks').iCheck({
@@ -123,6 +126,23 @@
         });
         $(".ModuleDropdown").select2({
             theme: 'bootstrap4',
+        });
+
+        var ModuleId = $('#menu_ModuleId').val();
+        var ParentId = '@Model.menu.ParentId';
+        AjaxFillDropdown('/Menu/GetParentMenuByModuleId', ModuleId,'menu_ParentId');
+        if (ParentId != null && ParentId != "" && ParentId!='@Guid.Empty') {
+            $("#menu_ParentId").val(ParentId);
+
+    }
+    else {
+            $("#menu_ParentId").val('');
+
+    }
+        $('#menu_ModuleId').on("change", function () {
+
+            var ModuleId = $('#menu_ModuleId').val();
+            AjaxFillDropdown('/Menu/GetParentMenuByModuleId', ModuleId, 'menu_ParentId');
         });
     </script>
 }

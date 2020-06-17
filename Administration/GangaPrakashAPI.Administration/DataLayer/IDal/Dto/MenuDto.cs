@@ -36,5 +36,10 @@ namespace GangaPrakashAPI.Administration.IDal
 
         public String ParentMenu { get; set; }
 
+        public Boolean IsParent { get; set; }
+
+        public Boolean IsChecked { get; set; }
+
+
     }
 }

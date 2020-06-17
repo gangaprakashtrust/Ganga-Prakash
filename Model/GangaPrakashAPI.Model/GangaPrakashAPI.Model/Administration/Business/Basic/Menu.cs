@@ -42,7 +42,9 @@ namespace GangaPrakashAPI.Model
 
         public List<KeyValuePair<Guid, String>> MenuNVList { get; set; }
 
+        public Boolean IsParent { get; set; }
 
+        public Boolean IsChecked { get; set; }
 
     }
 }

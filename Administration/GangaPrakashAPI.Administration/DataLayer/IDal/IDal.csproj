@@ -46,11 +46,13 @@
     <Compile Include="Dto\ModuleDto.cs" />
     <Compile Include="Dto\PrivilegeDto.cs" />
     <Compile Include="Dto\RoleDto.cs" />
+    <Compile Include="Dto\RoleMenuDto.cs" />
     <Compile Include="IDal\IMenuDal.cs" />
     <Compile Include="IDal\IMenuPrivilegeDal.cs" />
     <Compile Include="IDal\IModuleDal.cs" />
     <Compile Include="IDal\IPrivilegeDal.cs" />
     <Compile Include="IDal\IRoleDal.cs" />
+    <Compile Include="IDal\IRoleMenuDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

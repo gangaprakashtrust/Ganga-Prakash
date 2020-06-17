@@ -3633,6 +3633,7 @@
     <Content Include="lib\validate\jquery.validate.min.js" />
     <Content Include="lib\video\responsible-video.js" />
     <Content Include="lib\wow\wow.min.js" />
+    <Content Include="Scripts\Ajax.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="lib\blueimp-gallery\.bower.json" />

@@ -110,9 +110,15 @@ namespace GangaPrakash.UI
             return RedirectToAction("Index");
         }
 
+        public async Task<JsonResult> GetParentMenuByModuleId(Guid Id)
+        {
+            List<KeyValuePair<Guid, string>> ParentMenuList = await WebAPIClient.GetAsync<List<KeyValuePair<Guid, String>>>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/GetParentMenuListByModuleId?ModuleId="+Id, Session["AccessToken"].ToString());
+            return Json(ParentMenuList, JsonRequestBehavior.AllowGet);
+        }
+
         public async Task AssignList(MenuTrans menuTrans)
         {
-            menuTrans.menu.MenuNVList = await WebAPIClient.GetAsync<List<KeyValuePair<Guid, String>>>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/GetNVList", Session["AccessToken"].ToString());
+            menuTrans.menu.MenuNVList = new List<KeyValuePair<Guid, string>>();
             menuTrans.menu.ModuleNVList = await WebAPIClient.GetAsync<List<KeyValuePair<Guid, String>>>(ConfigurationManager.AppSettings["APIAdministration"], "api/Module/GetNVList", Session["AccessToken"].ToString());
         }
     }

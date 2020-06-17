@@ -11,16 +11,16 @@ namespace GangaPrakashAPI.Administration.Persister
 {
     public static class MenuNVList
     {
-        public static List<KeyValuePair<Guid, String>> GetList()
+        public static List<KeyValuePair<Guid, String>> GetParentListByModuleId(Guid ModuleId)
         {
-            return Fetch();
+            return FetchParentListByModuleId(ModuleId);
         }
 
-        private static List<KeyValuePair<Guid, String>> Fetch()
+        private static List<KeyValuePair<Guid, String>> FetchParentListByModuleId(Guid ModuleId)
         {
             IMenuDal ImenuDal = new MenuDal();
             List<KeyValuePair<Guid, String>> menuList = new List<KeyValuePair<Guid, String>>();
-            foreach (var item in ImenuDal.FetchParentMenuList())
+            foreach (var item in ImenuDal.GetParentListByModuleId(ModuleId))
             {
                 menuList.Add(new KeyValuePair<Guid, string>(item.Id, item.Name));
             }

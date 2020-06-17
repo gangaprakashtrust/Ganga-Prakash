@@ -31,13 +31,52 @@ namespace GangaPrakashAPI.Administration.Dal
 			return result;
 		}
 
-		public List<MenuDto> FetchParentMenuList()
+        public List<MenuDto> FetchParentList()
+        {
+            List<MenuDto> result = new List<MenuDto>();
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
+            SqlCommand cmd = new SqlCommand(@" Select Id,Name,Case when ParentId='00000000-0000-0000-0000-000000000000' then Id else ParentId end as ParentId,ModuleId,Module,IsParent,0 as IsChecked from
+                                               (Select M.Id,M.Name,M.ParentId,MO.Id as ModuleId,MO.Name as Module,Case When M.ParentId='00000000-0000-0000-0000-000000000000'then 1 else 0 end as IsParent from Menu M
+                                                Inner Join Module MO on MO.IsACtive=1 And M.IsActive=1 And MO.Id=M.ModuleId) PM order by ParentId ASC,IsParent DESC", con);
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                result.Add(GetParentMenuDto(dr));
+            }
+            con.Close();
+            return result;
+        }
+
+        public List<MenuDto> FetchParentListByRoleId(Guid RoleId)
+        {
+            List<MenuDto> result = new List<MenuDto>();
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
+            SqlCommand cmd = new SqlCommand(@" Select PM.Id,PM.Name,Case when PM.ParentId='00000000-0000-0000-0000-000000000000' then PM.Id else PM.ParentId end as ParentId,PM.ModuleId,PM.Module,PM.IsParent,PM.IsActive,case When(RM.Id is null) then 0 else 1 End as IsChecked from
+                                               (Select M.Id,M.Name,M.ParentId,MO.Id as ModuleId,MO.Name as Module,Case When M.ParentId='00000000-0000-0000-0000-000000000000'then 1 else 0 end as IsParent,M.IsActive from Menu M
+                                               Inner Join Module MO on MO.IsACtive=1 And M.IsActive=1 And MO.Id=M.ModuleId) PM 
+                                               Left Outer join RoleMenu RM On RM.MenuId=PM.Id 
+                                               And RM.RoleId=@roleid And PM.IsActive=1 And RM.IsActive=1
+                                               order by ParentId ASC,IsParent DESC", con);
+            cmd.Parameters.AddWithValue("@roleid", RoleId);
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                result.Add(GetParentMenuDto(dr));
+            }
+            con.Close();
+            return result;
+        }
+
+        public List<MenuDto> GetParentListByModuleId(Guid ModuleId)
 		{
 			List<MenuDto> result = new List<MenuDto>();
 			SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
-			SqlCommand cmd = new SqlCommand(@" Select M.Id,M.Name from Menu M Where M.ParentId=@emptyguid And M.IsActive=1 Order By M.SequenceNo ASC", con);
+			SqlCommand cmd = new SqlCommand(@" Select M.Id,M.Name from Menu M Where M.ParentId=@emptyguid And M.ModuleId=@moduleid And M.IsActive=1 Order By M.SequenceNo ASC", con);
 			cmd.Parameters.AddWithValue("@emptyguid", Guid.Empty);
-			con.Open();
+            cmd.Parameters.AddWithValue("@moduleid", ModuleId);
+            con.Open();
 			SqlDataReader dr = cmd.ExecuteReader();
 			while (dr.Read())
 			{
@@ -46,6 +85,7 @@ namespace GangaPrakashAPI.Administration.Dal
 			con.Close();
 			return result;
 		}
+
 		public MenuDto IsMenuAlreadyPresent(MenuDto menuDto)
 		{
 			SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
@@ -232,9 +272,14 @@ namespace GangaPrakashAPI.Administration.Dal
 		{
 			return new MenuDto
 			{
-				Id = sdr.GetGuid(sdr.GetOrdinal("Id")),
-				Name = sdr.GetString(sdr.GetOrdinal("Name"))
-			};
+                Id = sdr.GetGuid(sdr.GetOrdinal("Id")),
+                Name = sdr.GetString(sdr.GetOrdinal("Name")),
+                ParentId = sdr.GetGuid(sdr.GetOrdinal("ParentId")),
+                Module = sdr.GetString(sdr.GetOrdinal("Module")),
+                ModuleId = sdr.GetGuid(sdr.GetOrdinal("ModuleId")),
+                IsParent = ((sdr.GetInt32(sdr.GetOrdinal("IsParent"))) == 1) ? true : false,
+                IsChecked = ((sdr.GetInt32(sdr.GetOrdinal("IsChecked"))) == 1) ? true : false
+            };
 		}
 	}
 }
