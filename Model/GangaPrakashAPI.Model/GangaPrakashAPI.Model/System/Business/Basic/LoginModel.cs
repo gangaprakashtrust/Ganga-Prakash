@@ -11,6 +11,7 @@ namespace GangaPrakashAPI.Model
     {
         [Required]
         [Display(Name = "Email")]
+        [EmailAddress(ErrorMessage = "Enter valid email address")]
         public string Email { get; set; }
 
         [Required]

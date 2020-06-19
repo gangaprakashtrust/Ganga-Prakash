@@ -80,7 +80,7 @@ namespace GangaPrakashAPI.Administration.Dal
 			SqlDataReader dr = cmd.ExecuteReader();
 			while (dr.Read())
 			{
-				result.Add(GetParentMenuDto(dr));
+				result.Add(GetParentListDto(dr));
 			}
 			con.Close();
 			return result;
@@ -281,5 +281,14 @@ namespace GangaPrakashAPI.Administration.Dal
                 IsChecked = ((sdr.GetInt32(sdr.GetOrdinal("IsChecked"))) == 1) ? true : false
             };
 		}
-	}
+
+        public MenuDto GetParentListDto(SqlDataReader sdr)
+        {
+            return new MenuDto
+            {
+                Id = sdr.GetGuid(sdr.GetOrdinal("Id")),
+                Name = sdr.GetString(sdr.GetOrdinal("Name"))
+            };
+        }
+    }
 }

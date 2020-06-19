@@ -24,51 +24,51 @@ namespace GangaPrakashAPI.Administration.Controllers
         [HttpGet]
         public IHttpActionResult Get()
         {
-            Role role = RolePersister.Get();
-            return Ok(role);
+            RoleTrans roleTrans = RoleTransPersister.Get();
+            return Ok(roleTrans);
         }
 
         [Route("api/Role/Get")]
         [HttpGet]
         public IHttpActionResult Get(Guid Id)
         {
-            Role role = RolePersister.GetRole(Id);
-            return Ok(role);
+            RoleTrans roleTrans = RoleTransPersister.GetRoleTrans(Id);
+            return Ok(roleTrans);
         }
 
         [Route("api/Role/Create")]
         [HttpPost]
-        public IHttpActionResult Create(Role role)
+        public IHttpActionResult Create(RoleTrans roleTrans)
         {
             if (ModelState.IsValid)
             {
-                RolePersister rolePersister = RolePersister.GetPersister();
-                rolePersister.Insert(role);
-                return Ok(role);
+                RoleTransPersister roleTransPersister = RoleTransPersister.GetPersister();
+                roleTransPersister.Insert(roleTrans);
+                return Ok(roleTrans);
             }
             return Content(HttpStatusCode.ExpectationFailed, "Invalid data");
         }
 
         [Route("api/Role/Edit")]
         [HttpPut]
-        public IHttpActionResult Edit(Role role)
+        public IHttpActionResult Edit(RoleTrans roleTrans)
         {
             if (ModelState.IsValid)
             {
-                RolePersister rolePersister = RolePersister.GetPersister();
-                rolePersister.Update(role);
-                return Ok(role);
+                RoleTransPersister roleTransPersister = RoleTransPersister.GetPersister();
+                roleTransPersister.Update(roleTrans);
+                return Ok(roleTrans);
             }
             return Content(HttpStatusCode.ExpectationFailed, "Invalid data");
         }
 
         [Route("api/Role/Delete")]
         [HttpPut]
-        public IHttpActionResult Delete(Role role)
+        public IHttpActionResult Delete(RoleTrans roleTrans)
         {
-            RolePersister rolePersister = RolePersister.GetPersister();
-            rolePersister.Delete(role);
-            return Ok(role);
+            RoleTransPersister roleTransPersister = RoleTransPersister.GetPersister();
+            roleTransPersister.Delete(roleTrans);
+            return Ok(roleTrans);
         }
     }
 }

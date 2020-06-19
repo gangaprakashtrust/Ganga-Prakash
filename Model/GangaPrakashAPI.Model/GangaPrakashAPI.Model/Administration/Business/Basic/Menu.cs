@@ -44,7 +44,5 @@ namespace GangaPrakashAPI.Model
 
         public Boolean IsParent { get; set; }
 
-        public Boolean IsChecked { get; set; }
-
     }
 }

@@ -11,6 +11,6 @@ namespace GangaPrakashAPI.Model
     {
         public Role role { get; set; }
 
-        public List<Menu> menuList { get; set; }
+        public List<MenuHelper> menuList { get; set; }
     }
 }

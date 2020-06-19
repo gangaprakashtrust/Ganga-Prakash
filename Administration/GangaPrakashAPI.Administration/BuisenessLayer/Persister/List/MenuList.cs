@@ -42,18 +42,18 @@ namespace GangaPrakashAPI.Administration.Persister
 			return menuList;
 		}
 
-        public static List<Menu> GetParentList()
+        public static List<MenuHelper> GetParentList()
         {
             return FetchParentList();
         }
 
-        private static List<Menu> FetchParentList()
+        private static List<MenuHelper> FetchParentList()
         {
             IMenuDal ImenuDal = new MenuDal();
-            List<Menu> menuList = new List<Menu>();
+            List<MenuHelper> menuList = new List<MenuHelper>();
             foreach (var item in ImenuDal.FetchParentList())
             {
-                Menu menu = new Menu
+                MenuHelper menu = new MenuHelper
                 {
                     Id = item.Id,
                     Name = item.Name,
@@ -67,18 +67,18 @@ namespace GangaPrakashAPI.Administration.Persister
             return menuList;
         }
 
-        public static List<Menu> GetParentListByRoleId(Guid RoleId)
+        public static List<MenuHelper> GetParentListByRoleId(Guid RoleId)
         {
             return FetchParentListByRoleId(RoleId);
         }
 
-        private static List<Menu> FetchParentListByRoleId(Guid RoleId)
+        private static List<MenuHelper> FetchParentListByRoleId(Guid RoleId)
         {
             IMenuDal ImenuDal = new MenuDal();
-            List<Menu> menuList = new List<Menu>();
+            List<MenuHelper> menuList = new List<MenuHelper>();
             foreach (var item in ImenuDal.FetchParentListByRoleId(RoleId))
             {
-                Menu menu = new Menu
+                MenuHelper menu = new MenuHelper
                 {
                     Id = item.Id,
                     Name = item.Name,

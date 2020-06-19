@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Administration\Business\Basic\Menu.cs" />
+    <Compile Include="Administration\Business\Basic\MenuHelper.cs" />
     <Compile Include="Administration\Business\Basic\MenuPrivilege.cs" />
     <Compile Include="Administration\Business\Basic\Module.cs" />
     <Compile Include="Administration\Business\Basic\Privilege.cs" />

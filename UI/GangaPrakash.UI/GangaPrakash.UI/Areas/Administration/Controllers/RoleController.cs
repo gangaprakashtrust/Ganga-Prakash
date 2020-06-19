@@ -19,30 +19,30 @@ namespace GangaPrakash.UI
         [HttpGet]
         public async Task<ActionResult> Create()
         {
-            Role role = await WebAPIClient.GetAsync<Role>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Get", Session["AccessToken"].ToString());
-            return View(role);
+            RoleTrans roleTrans = await WebAPIClient.GetAsync<RoleTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Get", Session["AccessToken"].ToString());
+            return View(roleTrans);
         }
 
         // POST: Role/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Role role)
+        public async Task<ActionResult> Create(RoleTrans roleTrans)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    role = await WebAPIClient.PostAsync<Role>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Create", role, Session["AccessToken"].ToString());
-                    if (role.IsError)
+                    roleTrans = await WebAPIClient.PostAsync<RoleTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Create", roleTrans, Session["AccessToken"].ToString());
+                    if (roleTrans.role.IsError)
                     {
-                        ModelState.AddModelError(role.ErrorMessageFor, role.ErrorMessage);
-                        return View(role);
+                        ModelState.AddModelError(roleTrans.role.ErrorMessageFor, roleTrans.role.ErrorMessage);
+                        return View(roleTrans);
                     }
                     TempData["Message"] = "Role Saved Successfully";
                     TempData["MessageClass"] = "alert alert-success alert-dismissable";
                     return RedirectToAction("Index");
                 }
-                return View(role);
+                return View(roleTrans);
             }
             catch (Exception ex)
             {
@@ -55,35 +55,35 @@ namespace GangaPrakash.UI
         // GET: Role/Edit/5
         public async Task<ActionResult> Edit(Guid Id)
         {
-            Role role = await WebAPIClient.GetAsync<Role>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Get?Id=" + Id, Session["AccessToken"].ToString());
-            return View("Edit", role);
+            RoleTrans roleTrans = await WebAPIClient.GetAsync<RoleTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Get?Id=" + Id, Session["AccessToken"].ToString());
+            return View("Edit", roleTrans);
         }
 
         // POST: Role/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Role role)
+        public async Task<ActionResult> Edit(RoleTrans roleTrans)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    role = await WebAPIClient.PutAsync<Role>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Edit", role, Session["AccessToken"].ToString());
-                    if (role.IsError)
+                    roleTrans = await WebAPIClient.PutAsync<RoleTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Edit", roleTrans, Session["AccessToken"].ToString());
+                    if (roleTrans.IsError)
                     {
-                        ModelState.AddModelError(role.ErrorMessageFor, role.ErrorMessage);
-                        return View(role);
+                        ModelState.AddModelError(roleTrans.ErrorMessageFor, roleTrans.ErrorMessage);
+                        return View(roleTrans);
                     }
                     TempData["Message"] = "Role Updated Successfully";
                     TempData["MessageClass"] = "alert alert-success alert-dismissable";
                     return RedirectToAction("Index");
                 }
-                return View(role);
+                return View(roleTrans);
             }
             catch (Exception ex)
             {
                 TempData["Message"] = "Please try again!";
-                TempData["MessageClass"] = "alert alert-danger alert-dismissable";
+                TempData["MessageClass"] = "alert alert-danger alert-dismissible fade show";
                 return RedirectToAction("Index");
             }
         }
@@ -91,16 +91,16 @@ namespace GangaPrakash.UI
         // GET: Role/Edit/5
         public async Task<ActionResult> Delete(Guid Id)
         {
-            Role role = await WebAPIClient.GetAsync<Role>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Get?Id=" + Id, Session["AccessToken"].ToString());
-            role = await WebAPIClient.PutAsync<Role>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Delete", role, Session["AccessToken"].ToString());
-            if (role.IsError)
+            RoleTrans roleTrans = await WebAPIClient.GetAsync<RoleTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Get?Id=" + Id, Session["AccessToken"].ToString());
+            roleTrans = await WebAPIClient.PutAsync<RoleTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Delete", roleTrans, Session["AccessToken"].ToString());
+            if (roleTrans.IsError)
             {
-                TempData["Message"] = role.ErrorMessage;
+                TempData["Message"] = roleTrans.role.ErrorMessage;
                 TempData["MessageClass"] = "alert alert-danger alert-dismissable";
                 return RedirectToAction("Index");
             }
             TempData["Message"] = "Role Deleted Successfully";
-            TempData["MessageClass"] = "alert alert-success alert-dismissable";
+            TempData["MessageClass"] = "alert alert-success alert-dismissible fade show";
             return RedirectToAction("Index");
         }
     }

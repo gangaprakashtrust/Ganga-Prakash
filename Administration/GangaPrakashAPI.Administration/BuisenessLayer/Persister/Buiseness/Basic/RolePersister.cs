@@ -31,7 +31,7 @@ namespace GangaPrakashAPI.Administration.Persister
             {
                 role.IsError = true;
                 role.ErrorMessage = roleDto.ErrorMessage;
-                role.ErrorMessageFor = "Name";
+                role.ErrorMessageFor = "role.Name";
 
             }
             return role;
@@ -57,7 +57,7 @@ namespace GangaPrakashAPI.Administration.Persister
             {
                 role.IsError = true;
                 role.ErrorMessage = roleDto.ErrorMessage;
-                role.ErrorMessageFor = "Name";
+                role.ErrorMessageFor = "role.Name";
 
             }
             return role;
