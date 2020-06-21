@@ -16,7 +16,9 @@ namespace GangaPrakashAPI.Administration.Dal
         {
             List<RoleMenuPrivilegeDto> result = new List<RoleMenuPrivilegeDto>();
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
-            SqlCommand cmd = new SqlCommand(" Select RMP.Id,RMP.RoleMenuId,RMP.PrivilegeId from RoleMenuPrivilege RMP Where RMP.IsActive=1 And RMP.RoleMenuId=@roleid", con);
+            SqlCommand cmd = new SqlCommand(@" Select RMP.Id,RMP.RoleMenuId,RMP.PrivilegeId from RoleMenuPrivilege RMP
+                                               Inner Join RoleMenu RM On RMP.RoleMenuId=RM.Id And RMP.IsActive=1 
+                                               And RM.IsActive=1 And RM.RoleId=@roleid", con);
             cmd.Parameters.AddWithValue("@roleid", RoleId);
             con.Open();
             SqlDataReader dr = cmd.ExecuteReader();

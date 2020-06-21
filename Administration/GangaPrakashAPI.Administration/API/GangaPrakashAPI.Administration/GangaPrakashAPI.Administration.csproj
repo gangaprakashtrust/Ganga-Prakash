@@ -214,6 +214,7 @@
     <Compile Include="Controllers\ModuleController.cs" />
     <Compile Include="Controllers\PrivilegeController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\RoleMenuPrivilegeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -285,6 +286,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Menu\" />
     <Folder Include="Views\Module\" />
+    <Folder Include="Views\RoleMenuPrivilege\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

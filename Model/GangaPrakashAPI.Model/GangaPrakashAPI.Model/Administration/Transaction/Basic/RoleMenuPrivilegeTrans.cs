@@ -11,6 +11,8 @@ namespace GangaPrakashAPI.Model
     {
         public Guid RoleId { get; set; }
 
-        public List<Privilege> PrivilegeList { get; set; }
+        public List<RoleMenuPrivilegeHelper> PrivilegeList { get; set; }
+
+        public List<KeyValuePair<Guid, String>> RoleNVList { get; set; }
     }
 }

@@ -53,6 +53,7 @@
     <Compile Include="Buiseness\Basic\RoleMenuPrivilegePersister.cs" />
     <Compile Include="Buiseness\Basic\RolePersister.cs" />
     <Compile Include="Buiseness\Transaction\MenuTransPersister.cs" />
+    <Compile Include="Buiseness\Transaction\RoleMenuPrivilegeTransPersister.cs" />
     <Compile Include="Buiseness\Transaction\RoleTransPersister.cs" />
     <Compile Include="List\MenuList.cs" />
     <Compile Include="List\MenuPrivilegeList.cs" />
@@ -60,8 +61,11 @@
     <Compile Include="List\PrivilegeList.cs" />
     <Compile Include="List\RoleList.cs" />
     <Compile Include="List\RoleMenuList.cs" />
+    <Compile Include="List\RoleMenuPrivilegeHelperList.cs" />
+    <Compile Include="List\RoleMenuPrivilegeList.cs" />
     <Compile Include="NVList\MenuNVList.cs" />
     <Compile Include="NVList\ModuleNVList.cs" />
+    <Compile Include="NVList\RoleNVList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

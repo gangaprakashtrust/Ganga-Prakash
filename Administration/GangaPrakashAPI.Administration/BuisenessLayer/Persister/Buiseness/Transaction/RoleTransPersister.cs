@@ -77,17 +77,17 @@ namespace GangaPrakashAPI.Administration.Persister
                 }
 
                 //Adding and updating new records
-                List<Guid> CheckedMenud = new List<Guid>();
+                List<Guid> CheckedMenuId = new List<Guid>();
                 foreach (var item in roleTrans.menuList.Where(a => a.IsChecked))
                 {
-                    Boolean IsPrivileAlreadyPresent = (roleMenuList.Where(a => a.MenuId == item.Id && a.RoleId == roleTrans.role.Id).ToList().Count > 0) ? true : false;
-                    if (!IsPrivileAlreadyPresent)
+                    Boolean IsPrivilegeAlreadyPresent = (roleMenuList.Where(a => a.MenuId == item.Id && a.RoleId == roleTrans.role.Id).ToList().Count > 0) ? true : false;
+                    if (!IsPrivilegeAlreadyPresent)
                     {
-                        CheckedMenud.Add(item.Id);
+                        CheckedMenuId.Add(item.Id);
                     }
 
                 }
-                foreach (var item in CheckedMenud)
+                foreach (var item in CheckedMenuId)
                 {
                     RoleMenuPersister roleMenuPersister = RoleMenuPersister.GetPersister();
                     RoleMenu roleMenu = RoleMenuPersister.Get();
