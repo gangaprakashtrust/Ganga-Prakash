@@ -21,57 +21,71 @@
                                 @Html.ValidationMessageFor(model => model.role.Name, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        @{
-                            Int32 Count = 0;
-                        }
-                        @foreach (var item in Model.menuList.GroupBy(a => a.ModuleId))
-                        {
+                        <div class="row">
                             <div class="col-lg-12">
-                                <div class="ibox">
+                                <div class="ibox ">
                                     <div class="ibox-title">
-                                        <h5>@item.FirstOrDefault().Module</h5>
-                                        <div class="ibox-tools">
-                                            <a class="collapse-link">
-                                                <i class="fa fa-chevron-up"></i>
-                                            </a>
-                                        </div>
+                                        <h5><strong>Menus</strong> </h5>
+                                
                                     </div>
                                     <div class="ibox-content">
-                                        <div class="form-group row">
-
-                                            <div class="col-md-12 i-checks">
-                                                @foreach (var item1 in item)
+                                         
+                                        <table class="table table-bordered i-checks">
+                                            <thead>
+                                                <tr>
+                                                    <th>Module</th>
+                                                    <th>Menus</th>
+                                                  
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    Int32 Count = 0;
+                                                }
+                                                @foreach (var item in Model.menuList.GroupBy(a => a.ModuleId))
                                                 {
-                                                    <input type="hidden" value="@item1.Id" name="menuList[@Count].Id" id="menuList[@Count].Id" />
-                                                    <input type="hidden" value="@item1.Name" name="menuList[@Count].Name" id="menuList[@Count].Name" />
-                                                    <input type="hidden" value="@item1.ModuleId" name="menuList[@Count].ModuleId" id="menuList[@Count].ModuleId" />
-                                                    <input type="hidden" value="@item1.ParentId" name="menuList[@Count].ParentId" id="menuList[@Count].ParentId" />
-                                                    <input type="hidden" value="@item1.IsParent.ToString()" name="menuList[@Count].IsParent" id="menuList[@Count].IsParent" />
-                                                    <input type="hidden" value="@item1.Module" name="menuList[@Count].Module" id="menuList[@Count].Module" />
-                                                    if (item1.IsParent)
-                                                    {
-                                                        <input type="hidden" value="@true.ToString()" name="menuList[@Count].IsChecked" id="menuList[@Count].IsChecked" />
+                                                    <tr>
+                                                        <td>@item.FirstOrDefault().Module</td>
+                                                        <td>
+                                                            @foreach (var item1 in item.OrderBy(a => a.SequenceNo))
+                                                            {
+                                                                <input type="hidden" value="@item1.Id" name="menuList[@Count].Id" id="menuList[@Count].Id" />
+                                                                <input type="hidden" value="@item1.Name" name="menuList[@Count].Name" id="menuList[@Count].Name" />
+                                                                <input type="hidden" value="@item1.ModuleId" name="menuList[@Count].ModuleId" id="menuList[@Count].ModuleId" />
+                                                                <input type="hidden" value="@item1.ParentId" name="menuList[@Count].ParentId" id="menuList[@Count].ParentId" />
+                                                                <input type="hidden" value="@item1.IsParent.ToString()" name="menuList[@Count].IsParent" id="menuList[@Count].IsParent" />
+                                                                <input type="hidden" value="@item1.Module" name="menuList[@Count].Module" id="menuList[@Count].Module" />
+                                                                <input type="hidden" value="@item1.SequenceNo" name="menuList[@Count].SequenceNo" id="menuList[@Count].SequenceNo" />
 
-                                                    }
-                                                    else
-                                                    {
-                                                    
+                                                                if (item1.IsParent)
+                                                                {
+                                                                    <input type="hidden" value="@true.ToString()" name="menuList[@Count].IsChecked" id="menuList[@Count].IsChecked" />
 
-                                                            <label class="i-checks checkbox-inline">
-                                                                @Html.CheckBox("menuList[" + Count + "].IsChecked",item1.IsChecked, new { @id= "menuList["+ Count+"].IsChecked"})<i></i> <strong>@item1.Name</strong>
-                                                            </label>
-                                                      
-                                                       
-                                                    }
-                                                    Count = Count + 1;
+                                                                }
+                                                                else
+                                                                {
+                                                                    <label class="i-checks checkbox-inline">
+                                                                        @Html.CheckBox("menuList[" + Count + "].IsChecked", item1.IsChecked, new { @id = "menuList[" + Count + "].IsChecked" })<i></i> @item1.Name
+                                                                    </label>
+                                                                }
+                                                                Count = Count + 1;
+                                                            }
+                                                        </td>
+
+                                                    </tr>
+                                                  
+
                                                 }
 
-                                            </div>
-                                        </div>
+
+                                            </tbody>
+                                        </table>
+
                                     </div>
                                 </div>
                             </div>
-                        }
+                        </div>
+                        
                         <div class="form-group row">
                             <div class="col-sm-4 col-sm-offset-2"></div>
                             <div class="col-sm-4 col-sm-offset-2"></div>
@@ -100,4 +114,8 @@
         });
     </script>
 }
-
+    <style>
+        .i-checks {
+            min-width: 140px !important;
+        }
+    </style>

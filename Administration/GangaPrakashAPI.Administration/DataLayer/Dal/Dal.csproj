@@ -48,6 +48,7 @@
     <Compile Include="Dal\PrivilegeDal.cs" />
     <Compile Include="Dal\RoleDal.cs" />
     <Compile Include="Dal\RoleMenuDal.cs" />
+    <Compile Include="Dal\RoleMenuPrivilegeDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

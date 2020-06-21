@@ -12,93 +12,118 @@ namespace GangaPrakashAPI.Administration.Persister
 {
     public class PrivilegePersister
     {
-        public Privilege Insert(Privilege role, SqlConnection con = null, SqlTransaction trans = null)
+        public Privilege Insert(Privilege privilege, SqlConnection con = null, SqlTransaction trans = null)
         {
-            IPrivilegeDal IroleDal = new PrivilegeDal();
-            PrivilegeDto roleDto = new PrivilegeDto
+            IPrivilegeDal IprivilegeDal = new PrivilegeDal();
+            PrivilegeDto privilegeDto = new PrivilegeDto
             {
-                Name = role.Name,
+                Name = privilege.Name,
+                SequenceNo = privilege.SequenceNo,
                 IsActive = true
             };
-            IroleDal.IsPrivilegeAlreadyPresent(roleDto);
-            if (roleDto.ErrorCount == 0)
+            IprivilegeDal.IsPrivilegeAlreadyPresent(privilegeDto);
+            if (privilegeDto.ErrorCount == 0)
             {
-                IroleDal.Insert(roleDto, con, trans);
-                role.Id = roleDto.Id;
+                IprivilegeDal.IsSequenceNoAlreadyPresent(privilegeDto);
+                if (privilegeDto.ErrorCount == 0)
+                {
+                    IprivilegeDal.Insert(privilegeDto, con, trans);
+                    privilege.Id = privilegeDto.Id;
+                }
+                else
+                {
+                    privilege.IsError = true;
+                    privilege.ErrorMessage = privilegeDto.ErrorMessage;
+                    privilege.ErrorMessageFor = "SequenceNo";
 
+                }
             }
             else
             {
-                role.IsError = true;
-                role.ErrorMessage = roleDto.ErrorMessage;
-                role.ErrorMessageFor = "Name";
+                privilege.IsError = true;
+                privilege.ErrorMessage = privilegeDto.ErrorMessage;
+                privilege.ErrorMessageFor = "Name";
 
             }
-            return role;
+            return privilege;
         }
 
-        public Privilege Update(Privilege role, SqlConnection con = null, SqlTransaction trans = null)
+        public Privilege Update(Privilege privilege, SqlConnection con = null, SqlTransaction trans = null)
         {
-            IPrivilegeDal IroleDal = new PrivilegeDal();
-            PrivilegeDto roleDto = new PrivilegeDto
+            IPrivilegeDal IprivilegeDal = new PrivilegeDal();
+            PrivilegeDto privilegeDto = new PrivilegeDto
             {
-                Id = role.Id,
-                Name = role.Name,
+                Id = privilege.Id,
+                Name = privilege.Name,
+                SequenceNo = privilege.SequenceNo,
                 IsActive = true
             };
-            IroleDal.IsPrivilegeAlreadyPresent(roleDto);
-            if (roleDto.ErrorCount == 0)
+            IprivilegeDal.IsPrivilegeAlreadyPresent(privilegeDto);
+            if (privilegeDto.ErrorCount == 0)
             {
 
-                IroleDal.Update(roleDto, con, trans);
-                role.Id = roleDto.Id;
+                IprivilegeDal.IsSequenceNoAlreadyPresent(privilegeDto);
+                if (privilegeDto.ErrorCount == 0)
+                {
+                    IprivilegeDal.Update(privilegeDto, con, trans);
+                    privilege.Id = privilegeDto.Id;
+                }
+                else
+                {
+                    privilege.IsError = true;
+                    privilege.ErrorMessage = privilegeDto.ErrorMessage;
+                    privilege.ErrorMessageFor = "SequenceNo";
+
+                }
             }
             else
             {
-                role.IsError = true;
-                role.ErrorMessage = roleDto.ErrorMessage;
-                role.ErrorMessageFor = "Name";
+                privilege.IsError = true;
+                privilege.ErrorMessage = privilegeDto.ErrorMessage;
+                privilege.ErrorMessageFor = "Name";
 
             }
-            return role;
+            return privilege;
         }
 
-        public Privilege Delete(Privilege role, SqlConnection con = null, SqlTransaction trans = null)
+        public Privilege Delete(Privilege privilege, SqlConnection con = null, SqlTransaction trans = null)
         {
-            IPrivilegeDal IroleDal = new PrivilegeDal();
-            PrivilegeDto roleDto = new PrivilegeDto
+            IPrivilegeDal IprivilegeDal = new PrivilegeDal();
+            PrivilegeDto privilegeDto = new PrivilegeDto
             {
-                Id = role.Id,
-                Name = role.Name,
+                Id = privilege.Id,
+                Name = privilege.Name,
+                SequenceNo = privilege.SequenceNo,
                 IsActive = false
             };
-            IroleDal.Delete(roleDto, con, trans);
-            role.Id = roleDto.Id;
-            return role;
+            IprivilegeDal.Delete(privilegeDto, con, trans);
+            privilege.Id = privilegeDto.Id;
+            return privilege;
         }
 
         public static Privilege GetPrivilege(Guid Id)
         {
-            IPrivilegeDal IroleDal = new PrivilegeDal();
-            PrivilegeDto roleDto = IroleDal.FetchById(Id);
-            Privilege role = new Privilege
+            IPrivilegeDal IprivilegeDal = new PrivilegeDal();
+            PrivilegeDto privilegeDto = IprivilegeDal.FetchById(Id);
+            Privilege privilege = new Privilege
             {
-                Id = roleDto.Id,
-                Name = roleDto.Name,
+                Id = privilegeDto.Id,
+                Name = privilegeDto.Name,
+                SequenceNo = privilegeDto.SequenceNo,
             };
-            return role;
+            return privilege;
         }
 
         public static Privilege Get()
         {
-            Privilege role = new Privilege();
-            return role;
+            Privilege privilege = new Privilege();
+            return privilege;
         }
 
         public static PrivilegePersister GetPersister()
         {
-            PrivilegePersister rolePersister = new PrivilegePersister();
-            return rolePersister;
+            PrivilegePersister privilegePersister = new PrivilegePersister();
+            return privilegePersister;
         }
     }
 }

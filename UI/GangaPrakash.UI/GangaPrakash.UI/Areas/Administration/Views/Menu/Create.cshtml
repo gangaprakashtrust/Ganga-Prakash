@@ -84,7 +84,9 @@
                                 @for (int i = 0; i < Model.privilegeList.Count; i++)
                                 {
                                     <input type="hidden" value="@Model.privilegeList[i].Id" name="privilegeList[@i].Id" id="privilegeList[i].Id" />
-                                    <input type="hidden" value="@Model.privilegeList[i].Name" name="privilegeList[@i].Name" id="privilegeList[i].Name" />
+                                    <input type="hidden" value="@Model.privilegeList[i].Name" name="privilegeList[@i].Name" id="privilegeList[i].Name" />                                    <input type="hidden" value="@Model.privilegeList[i].Name" name="privilegeList[@i].Name" id="privilegeList[i].Name" />
+                                    <input type="hidden" value="@Model.privilegeList[i].SequenceNo" name="privilegeList[@i].SequenceNo" id="privilegeList[i].SequenceNo" />
+
                                     <div class="i-checks">
 
                                         <label class="i-checks">

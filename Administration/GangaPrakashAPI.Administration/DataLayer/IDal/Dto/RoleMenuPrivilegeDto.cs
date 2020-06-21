@@ -6,21 +6,18 @@ using System.Threading.Tasks;
 
 namespace GangaPrakashAPI.Administration.IDal
 {
-    public class PrivilegeDto
+    public class RoleMenuPrivilegeDto
     {
         public Guid Id { get; set; }
 
-        public String Name { get; set; }
+        public Guid RoleMenuId { get; set; }
 
-        public Int32 SequenceNo { get; set; }
+        public Guid PrivilegeId { get; set; }
 
         public Boolean IsActive { get; set; }
 
         public Int32 ErrorCount { get; set; }
 
         public String ErrorMessage { get; set; }
-
-        public Boolean IsChecked { get; set; }
-
     }
 }

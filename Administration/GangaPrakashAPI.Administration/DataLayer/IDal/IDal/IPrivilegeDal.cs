@@ -13,6 +13,8 @@ namespace GangaPrakashAPI.Administration.IDal
 
         List<PrivilegeDto> FetchByMenuId(Guid MenuId);
 
+        PrivilegeDto IsSequenceNoAlreadyPresent(PrivilegeDto privilegeDto);
+
         PrivilegeDto FetchById(Guid Id);
 
         PrivilegeDto IsPrivilegeAlreadyPresent(PrivilegeDto roleDto);

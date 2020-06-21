@@ -11,5 +11,11 @@ namespace GangaPrakashAPI.Model
     {
         [Required]
         public String Name { get; set; }
+
+        [Required]
+        [RegularExpression("0*[1-9][0-9]*", ErrorMessage = "Sequence Number must be numeric.")]
+        [Display(Name = "Sequence Number")]
+        public Int32 SequenceNo { get; set; }
+
     }
 }

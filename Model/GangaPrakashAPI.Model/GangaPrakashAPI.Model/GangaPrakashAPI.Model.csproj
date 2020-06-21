@@ -49,7 +49,9 @@
     <Compile Include="Administration\Business\Basic\Privilege.cs" />
     <Compile Include="Administration\Business\Basic\Role.cs" />
     <Compile Include="Administration\Business\Basic\RoleMenu.cs" />
+    <Compile Include="Administration\Business\Basic\RoleMenuPrivilege.cs" />
     <Compile Include="Administration\Transaction\Basic\MenuTrans.cs" />
+    <Compile Include="Administration\Transaction\Basic\RoleMenuPrivilegeTrans.cs" />
     <Compile Include="Administration\Transaction\Basic\RoleTrans.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="System\Business\Basic\AccessToken.cs" />

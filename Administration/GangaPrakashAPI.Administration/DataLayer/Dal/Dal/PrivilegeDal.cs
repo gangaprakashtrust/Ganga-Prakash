@@ -16,7 +16,7 @@ namespace GangaPrakashAPI.Administration.Dal
         {
             List<PrivilegeDto> result = new List<PrivilegeDto>();
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
-            SqlCommand cmd = new SqlCommand(" Select R.Id,R.Name from Privilege R Where R.IsActive=1 Order By R.Name  ASC", con);
+            SqlCommand cmd = new SqlCommand(" Select P.Id,P.Name,P.SequenceNo from Privilege P Where P.IsActive=1 Order By P.Name  ASC", con);
             con.Open();
             SqlDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
@@ -31,11 +31,11 @@ namespace GangaPrakashAPI.Administration.Dal
         {
             List<PrivilegeDto> result = new List<PrivilegeDto>();
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
-            SqlCommand cmd = new SqlCommand(@" Select P.Id,P.Name,case When(MP.Id is null) then 0 else 1 End as IsChecked 
+            SqlCommand cmd = new SqlCommand(@" Select P.Id,P.Name,P.SequenceNo,case When(MP.Id is null) then 0 else 1 End as IsChecked 
                                                from Privilege P
                                                Left Outer join MenuPrivilege MP On MP.PrivilegeId=P.Id 
                                                And MP.MenuId=@menuid And P.IsActive=1 And MP.IsActive=1
-                                               Group By P.Id,P.Name,MP.Id", con);
+                                               Group By P.Id,P.Name,MP.Id,P.SequenceNo", con);
             cmd.Parameters.AddWithValue("@menuid", MenuId);
             con.Open();
             SqlDataReader dr = cmd.ExecuteReader();
@@ -50,7 +50,7 @@ namespace GangaPrakashAPI.Administration.Dal
         public PrivilegeDto IsPrivilegeAlreadyPresent(PrivilegeDto privilegeDto)
         {
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
-            SqlCommand cmd = new SqlCommand(" Select R.Id,R.Name from Privilege R Where Upper(Trim(R.Name))=@name and R.Id<>@id and R.IsActive=1", con);
+            SqlCommand cmd = new SqlCommand(" Select P.Id,P.Name,P.SequenceNo from Privilege P Where Upper(Trim(P.Name))=@name and P.Id<>@id and P.IsActive=1", con);
             cmd.Parameters.AddWithValue("@id", privilegeDto.Id);
             cmd.Parameters.AddWithValue("@name", privilegeDto.Name.Trim().ToUpper());
             con.Open();
@@ -64,12 +64,28 @@ namespace GangaPrakashAPI.Administration.Dal
             return privilegeDto;
         }
 
+        public PrivilegeDto IsSequenceNoAlreadyPresent(PrivilegeDto privilegeDto)
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
+            SqlCommand cmd = new SqlCommand(" Select P.Id,P.Name from Privilege P Where P.SequenceNo=@sequenceno and P.Id<>@id and P.IsActive=1", con);
+            cmd.Parameters.AddWithValue("@id", privilegeDto.Id);
+            cmd.Parameters.AddWithValue("@sequenceno", privilegeDto.SequenceNo);
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            if (dr.HasRows)
+            {
+                privilegeDto.ErrorCount = 1;
+                privilegeDto.ErrorMessage = "Sequence No. already present";
+            }
+            con.Close();
+            return privilegeDto;
+        }
 
         public PrivilegeDto FetchById(Guid Id)
         {
             PrivilegeDto result = new PrivilegeDto();
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
-            SqlCommand cmd = new SqlCommand(" Select R.Id,R.Name from Privilege R Where R.Id=@id and R.IsActive=1", con);
+            SqlCommand cmd = new SqlCommand(" Select P.Id,P.Name,P.SequenceNo from Privilege P Where P.Id=@id and P.IsActive=1", con);
             cmd.Parameters.AddWithValue("@id", Id);
             con.Open();
             SqlDataReader dr = cmd.ExecuteReader();
@@ -93,12 +109,13 @@ namespace GangaPrakashAPI.Administration.Dal
                 con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
                 con.Open();
             }
-            SqlCommand cmd = new SqlCommand(" Insert Into Privilege(Name,IsActive) Output Inserted.Id Values(@name,@isactive) ", con);
+            SqlCommand cmd = new SqlCommand(" Insert Into Privilege(Name,SequenceNo,IsActive) Output Inserted.Id Values(@name,@sequenceno,@isactive) ", con);
             if (transcon != null)
             {
                 cmd.Transaction = trans;
             }
             cmd.Parameters.AddWithValue("@name", privilegeDto.Name);
+            cmd.Parameters.AddWithValue("@sequenceno", privilegeDto.SequenceNo);
             cmd.Parameters.AddWithValue("@isactive", privilegeDto.IsActive);
 
             Guid InsertedId = Guid.Parse(cmd.ExecuteScalar().ToString());
@@ -122,13 +139,14 @@ namespace GangaPrakashAPI.Administration.Dal
                 con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
                 con.Open();
             }
-            SqlCommand cmd = new SqlCommand(" Update Privilege set Name=@name,IsActive=@isactive Where Id=@id ", con);
+            SqlCommand cmd = new SqlCommand(" Update Privilege set Name=@name,SequenceNo=@sequenceno,IsActive=@isactive Where Id=@id ", con);
             if (transcon != null)
             {
                 cmd.Transaction = trans;
             }
             cmd.Parameters.AddWithValue("@id", privilegeDto.Id);
             cmd.Parameters.AddWithValue("@name", privilegeDto.Name);
+            cmd.Parameters.AddWithValue("@sequenceno", privilegeDto.SequenceNo);
             cmd.Parameters.AddWithValue("@isactive", privilegeDto.IsActive);
             Int32 IsDataAffected = Convert.ToInt32(cmd.ExecuteNonQuery());
             if (transcon == null)
@@ -171,6 +189,7 @@ namespace GangaPrakashAPI.Administration.Dal
             {
                 Id = sdr.GetGuid(sdr.GetOrdinal("Id")),
                 Name = sdr.GetString(sdr.GetOrdinal("Name")),
+                SequenceNo = sdr.GetInt32(sdr.GetOrdinal("SequenceNo"))
             };
         }
         public PrivilegeDto GetMenuPrivilegeDto(SqlDataReader sdr)
@@ -179,6 +198,7 @@ namespace GangaPrakashAPI.Administration.Dal
             {
                 Id = sdr.GetGuid(sdr.GetOrdinal("Id")),
                 Name = sdr.GetString(sdr.GetOrdinal("Name")),
+                SequenceNo = sdr.GetInt32(sdr.GetOrdinal("SequenceNo")),
                 IsChecked = ((sdr.GetInt32(sdr.GetOrdinal("IsChecked")))==1)?true:false
             };
         }

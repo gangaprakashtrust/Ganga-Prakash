@@ -27,7 +27,8 @@ namespace GangaPrakashAPI.Administration.Persister
                 {
                     Id = item.Id,
                     Name = item.Name,
-                    IsChecked=false
+                    SequenceNo = item.SequenceNo,
+                    IsChecked =false
                 };
                 privilegeList.Add(privilege);
             }
@@ -49,6 +50,7 @@ namespace GangaPrakashAPI.Administration.Persister
                 {
                     Id = item.Id,
                     Name = item.Name,
+                    SequenceNo = item.SequenceNo,
                     IsChecked = item.IsChecked
                 };
                 privilegeList.Add(privilege);

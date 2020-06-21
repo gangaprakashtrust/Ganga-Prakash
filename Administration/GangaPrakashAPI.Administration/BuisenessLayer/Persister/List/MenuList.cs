@@ -60,7 +60,8 @@ namespace GangaPrakashAPI.Administration.Persister
                     ParentId = item.ParentId,
                     ModuleId = item.ModuleId,
                     Module = item.Module,
-                    IsParent=item.IsParent
+                    IsParent=item.IsParent,
+                    SequenceNo = item.SequenceNo,
                 };
                 menuList.Add(menu);
             }
@@ -86,7 +87,8 @@ namespace GangaPrakashAPI.Administration.Persister
                     ModuleId = item.ModuleId,
                     Module = item.Module,
                     IsParent = item.IsParent,
-                    IsChecked=item.IsChecked
+                    IsChecked=item.IsChecked,
+                    SequenceNo = item.SequenceNo
                 };
                 menuList.Add(menu);
             }
