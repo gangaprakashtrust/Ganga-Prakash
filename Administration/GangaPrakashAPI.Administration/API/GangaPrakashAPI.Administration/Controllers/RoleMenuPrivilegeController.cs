@@ -21,6 +21,14 @@ namespace GangaPrakashAPI.Administration.Controllers
             return Ok(roleMenuPrivilegeTrans);
         }
 
+        [Route("api/RoleMenuPrivilege/Get")]
+        [HttpGet]
+        public IHttpActionResult Get()
+        {
+            RoleMenuPrivilegeTrans roleMenuPrivilegeTrans = RoleMenuPrivilegeTransPersister.Get();
+            return Ok(roleMenuPrivilegeTrans);
+        }
+
         [Route("api/RoleMenuPrivilege/Edit")]
         [HttpPut]
         public IHttpActionResult Edit(RoleMenuPrivilegeTrans roleMenuPrivilegeTrans)

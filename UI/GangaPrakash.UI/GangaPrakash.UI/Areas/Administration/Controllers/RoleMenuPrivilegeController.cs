@@ -28,7 +28,7 @@ namespace GangaPrakash.UI
             {
                 if (ModelState.IsValid)
                 {
-                    roleMenuPrivilegeTrans = await WebAPIClient.PostAsync<RoleMenuPrivilegeTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/RoleMenuPrivilege/Create", roleMenuPrivilegeTrans, Session["AccessToken"].ToString());
+                    roleMenuPrivilegeTrans = await WebAPIClient.PutAsync<RoleMenuPrivilegeTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/RoleMenuPrivilege/Edit", roleMenuPrivilegeTrans, Session["AccessToken"].ToString());
                     if (roleMenuPrivilegeTrans.IsError)
                     {
                         TempData["Message"] = roleMenuPrivilegeTrans.ErrorMessage;
@@ -49,6 +49,12 @@ namespace GangaPrakash.UI
                 TempData["MessageClass"] = "alert alert-danger alert-dismissable";
                 return RedirectToAction("Index");
             }
+        }
+
+        public async Task<ActionResult> GetRoleMenuTransByRoleId(Guid Id)
+        {
+            RoleMenuPrivilegeTrans roleMenuPrivilegeTrans = await WebAPIClient.GetAsync<RoleMenuPrivilegeTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/RoleMenuPrivilege/Get?RoleId="+ Id, Session["AccessToken"].ToString());
+            return PartialView("_RoleMenuPrivilege", roleMenuPrivilegeTrans);
         }
 
         public async Task AssignList(RoleMenuPrivilegeTrans roleMenuPrivilegeTrans)

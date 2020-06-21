@@ -1,0 +1,78 @@
+﻿@using GangaPrakashAPI.Model
+@model RoleMenuPrivilegeTrans
+
+
+
+            @{
+                            /**/
+
+                            Int32 Count = 0;
+            }
+            @foreach (var menu in Model.PrivilegeList.GroupBy(a => a.ModuleId))
+            {
+                <div class="ibox-title">
+                    <h5><strong>@menu.FirstOrDefault().Module</strong> </h5>
+
+                </div>
+
+                <table class="table table-bordered i-checks">
+                    <thead>
+                        <tr>
+                            <th colspan="1" style="width:20% !important">Menu</th>
+                            <th colspan="1">Privileges</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in menu.GroupBy(a => a.MenuId))
+                        {
+                            <tr>
+                                <td colspan="1" style="width:20% !important">@item.FirstOrDefault().Menu</td>
+                                <td colspan="1">
+                                    @foreach (var item1 in item)
+                                    {
+                                        <input type="hidden" value="@item1.PrivilegeId" name="PrivilegeList[@Count].PrivilegeId" id="PrivilegeList[@Count].PrivilegeId" />
+                                        <input type="hidden" value="@item1.Name" name="PrivilegeList[@Count].Name" id="PrivilegeList[@Count].Name" />
+                                        <input type="hidden" value="@item1.Menu" name="PrivilegeList[@Count].Menu" id="PrivilegeList[@Count].Menu" />
+                                        <input type="hidden" value="@item1.Module" name="PrivilegeList[@Count].Module" id="PrivilegeList[@Count].Module" />
+                                        <input type="hidden" value="@item1.ModuleId" name="PrivilegeList[@Count].ModuleId" id="PrivilegeList[@Count].ModuleId" />
+                                        <input type="hidden" value="@item1.MenuId" name="PrivilegeList[@Count].MenuId" id="PrivilegeList[@Count].MenuId" />
+                                        <input type="hidden" value="@item1.RoleMenuId" name="PrivilegeList[@Count].RoleMenuId" id="PrivilegeList[@Count].RoleMenuId" />
+                                        <input type="hidden" value="@item1.MenuSequenceNo" name="PrivilegeList[@Count].MenuSequenceNo" id="PrivilegeList[@Count].MenuSequenceNo" />
+                                        <input type="hidden" value="@item1.PrivilegeSequenceNo" name="PrivilegeList[@Count].PrivilegeSequenceNo" id="PrivilegeList[@Count].PrivilegeSequenceNo" />
+
+                                        <label class="i-checks checkbox-inline">
+                                            @Html.CheckBox("PrivilegeList[" + Count + "].IsChecked", item1.IsChecked, new { @id = "PrivilegeList[" + Count + "].IsChecked" })<i></i> @item1.Name
+                                        </label>
+                                        Count = Count + 1;
+                                    }
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+
+
+
+            }
+
+
+
+
+@section scripts
+{
+    <!-- iCheck -->
+    <script src="~/lib/iCheck/icheck.min.js"></script>
+    <script>
+
+      
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+
+   
+    </script>
+}
