@@ -28,20 +28,24 @@ namespace GangaPrakash.UI
             {
                 AccessToken accessToken = new AccessToken();
                 accessToken = await WebAPIClient.Login(ConfigurationManager.AppSettings["APIAdministration"], "token", loginModel);
-                Session["AccessToken"] = accessToken.access_token;
-                Session["ApplicationUserId"] = accessToken.ApplicationUserId;
-                Session["ApplicationUsername"] = accessToken.userName;
-                return RedirectToAction("Index", "Module", new { Area = "Administration" });
+                if(accessToken.access_token!=null)
+                {
+                    Session["AccessToken"] = accessToken.access_token;
+                    Session["ApplicationUserId"] = accessToken.ApplicationUserId;
+                    List<UserAccessMenu> menuList = await WebAPIClient.GetAsync<List<UserAccessMenu>>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/GetListByApplicationUserId?ApplicationUserId=" + Guid.Parse(Session["ApplicationUserId"].ToString()), Session["AccessToken"].ToString());
+                    Session["AccessMenus"] = menuList;
+                    Session["ApplicationUsername"] = accessToken.userName;
+                    return RedirectToAction("Index", "Module", new { Area = "Administration" });
+                }
+              else
+                {
+                    ModelState.AddModelError("Email", "Invalid Username/Password");
+                    return View(loginModel);
+                }
             }
             return View(loginModel);
         }
 
-        public async Task<ActionResult> GetUserAcessMenus()
-        {
-            Guid ApplicationUserId = Guid.Parse(Session["ApplicationUserId"].ToString());
-            List<UserAccessMenu> menuList = await WebAPIClient.GetAsync<List<UserAccessMenu>>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/GetListByApplicationUserId?ApplicationUserId="+ ApplicationUserId, Session["AccessToken"].ToString());
-            return PartialView("_GetUserAcessMenus", menuList);
-        }
         public ActionResult Logout()
         {
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
