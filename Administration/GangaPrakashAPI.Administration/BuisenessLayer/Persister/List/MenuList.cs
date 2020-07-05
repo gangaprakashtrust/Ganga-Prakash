@@ -94,5 +94,34 @@ namespace GangaPrakashAPI.Administration.Persister
             }
             return menuList;
         }
+
+        public static List<UserAccessMenu> GetListByApplicationUserId(Guid ApplicationUserId)
+        {
+            return FetchByApplicationUserId(ApplicationUserId);
+        }
+
+        private static List<UserAccessMenu> FetchByApplicationUserId(Guid ApplicationUserId)
+        {
+            IMenuDal ImenuDal = new MenuDal();
+            List<UserAccessMenu> menuList = new List<UserAccessMenu>();
+            foreach (var item in ImenuDal.FetchByApplicationUserId(ApplicationUserId))
+            {
+                UserAccessMenu menu = new UserAccessMenu
+                {
+                    Id = item.Id,
+                    Action = item.Action,
+                    Controller = item.Controller,
+                    Area = item.Area,
+                    Name = item.Name,
+                    Module = item.Module,
+                    ModuleId = item.ModuleId,
+                    SequenceNo = item.SequenceNo,
+                    ParentId = item.ParentId,
+                    IsParent = item.IsParent,
+                };
+                menuList.Add(menu);
+            }
+            return menuList;
+        }
     }
 }

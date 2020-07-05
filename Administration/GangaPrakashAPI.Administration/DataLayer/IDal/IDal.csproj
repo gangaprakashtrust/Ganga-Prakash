@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dto\ApplicationUserDto.cs" />
     <Compile Include="Dto\MenuDto.cs" />
     <Compile Include="Dto\MenuPrivilegeDto.cs" />
     <Compile Include="Dto\ModuleDto.cs" />
@@ -49,6 +50,9 @@
     <Compile Include="Dto\RoleMenuDto.cs" />
     <Compile Include="Dto\RoleMenuPrivilegeDto.cs" />
     <Compile Include="Dto\RoleMenuPrivilegeHelperDto.cs" />
+    <Compile Include="Dto\UserAccessMenuDto.cs" />
+    <Compile Include="Dto\UserRoleDto.cs" />
+    <Compile Include="IDal\IApplicationUserDal.cs" />
     <Compile Include="IDal\IMenuDal.cs" />
     <Compile Include="IDal\IMenuPrivilegeDal.cs" />
     <Compile Include="IDal\IModuleDal.cs" />
@@ -57,6 +61,7 @@
     <Compile Include="IDal\IRoleMenuDal.cs" />
     <Compile Include="IDal\IRoleMenuPrivilegeDal.cs" />
     <Compile Include="IDal\IRoleMenuPrivilegeHelperDal.cs" />
+    <Compile Include="IDal\IUserRoleDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -27,13 +27,21 @@ namespace GangaPrakash.UI
             if (ModelState.IsValid)
             {
                 AccessToken accessToken = new AccessToken();
-                accessToken.access_token = await WebAPIClient.Login(ConfigurationManager.AppSettings["APIAdministration"], "token", loginModel);
+                accessToken = await WebAPIClient.Login(ConfigurationManager.AppSettings["APIAdministration"], "token", loginModel);
                 Session["AccessToken"] = accessToken.access_token;
+                Session["ApplicationUserId"] = accessToken.ApplicationUserId;
+                Session["ApplicationUsername"] = accessToken.userName;
                 return RedirectToAction("Index", "Module", new { Area = "Administration" });
             }
             return View(loginModel);
         }
 
+        public async Task<ActionResult> GetUserAcessMenus()
+        {
+            Guid ApplicationUserId = Guid.Parse(Session["ApplicationUserId"].ToString());
+            List<UserAccessMenu> menuList = await WebAPIClient.GetAsync<List<UserAccessMenu>>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/GetListByApplicationUserId?ApplicationUserId="+ ApplicationUserId, Session["AccessToken"].ToString());
+            return PartialView("_GetUserAcessMenus", menuList);
+        }
         public ActionResult Logout()
         {
             Response.Cache.SetCacheability(HttpCacheability.NoCache);

@@ -15,6 +15,8 @@ namespace GangaPrakashAPI.Administration.IDal
 
         List<MenuDto> FetchParentListByRoleId(Guid RoleId);
 
+        List<UserAccessMenuDto> FetchByApplicationUserId(Guid ApplicationUserId);
+
         List<MenuDto> GetParentListByModuleId(Guid ModuleId);
 
         MenuDto FetchById(Guid Id);

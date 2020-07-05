@@ -32,5 +32,27 @@ namespace GangaPrakashAPI.Administration.Persister
             }
             return roleList;
         }
+
+        public static List<Role> GetListByApplicationUserId(Guid ApplicationUserId)
+        {
+            return FetchByApplicationUserId(ApplicationUserId);
+        }
+
+        private static List<Role> FetchByApplicationUserId(Guid ApplicationUserId)
+        {
+            IRoleDal IroleDal = new RoleDal();
+            List<Role> roleList = new List<Role>();
+            foreach (var item in IroleDal.FetchByApplicationUserId(ApplicationUserId))
+            {
+                Role role = new Role
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    IsChecked = item.IsChecked
+                };
+                roleList.Add(role);
+            }
+            return roleList;
+        }
     }
 }

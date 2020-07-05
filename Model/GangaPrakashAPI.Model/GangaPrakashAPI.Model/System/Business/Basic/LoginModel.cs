@@ -10,8 +10,7 @@ namespace GangaPrakashAPI.Model
     public class LoginModel
     {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress(ErrorMessage = "Enter valid email address")]
+        [Display(Name = "Username")]
         public string Email { get; set; }
 
         [Required]

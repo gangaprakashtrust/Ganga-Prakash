@@ -118,7 +118,7 @@ namespace GangaPrakash.UI
             }
             return result;
         }
-        public static async Task<String> Login(String Uri, String Path, LoginModel loginModel)
+        public static async Task<AccessToken> Login(String Uri, String Path, LoginModel loginModel)
         {
             AccessToken result = new AccessToken();
             using (var client = new HttpClient())
@@ -148,7 +148,7 @@ namespace GangaPrakash.UI
                 }
                 
             }
-            return result.access_token;
+            return result;
         }
     }
 }

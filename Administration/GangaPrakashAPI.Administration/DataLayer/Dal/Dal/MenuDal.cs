@@ -69,6 +69,27 @@ namespace GangaPrakashAPI.Administration.Dal
             return result;
         }
 
+        public List<UserAccessMenuDto> FetchByApplicationUserId(Guid ApplicationUserId)
+        {
+            List<UserAccessMenuDto> result = new List<UserAccessMenuDto>();
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
+            SqlCommand cmd = new SqlCommand(@"  Select M.Id,M.Action,M.Controller,M.Area,M.Name,MO.Name as Module,M.ModuleId,M.SequenceNo,Case When M.ParentId='00000000-0000-0000-0000-000000000000' then M.Id else M.ParentId end as ParentId,Case When M.ParentId='00000000-0000-0000-0000-000000000000' then 1 else 0 end as IsParent from Menu M
+                                                Inner Join RoleMenu RM on RM.MenuId=M.Id And RM.IsACtive=1
+                                                Inner Join UserRole UR On UR.RoleId=RM.RoleId And UR.ApplicationUserId=@applicationuserid And UR.IsACtive=1
+                                                Inner Join Module MO On MO.Id=M.ModuleId ANd MO.IsACtive=1 And M.IsACtive=1
+                                                Group By ModuleId,M.Name,M.SequenceNo,ParentId,M.Id,MO.Name,M.Action,M.Controller,M.Area
+                                                Order By ModuleId,ParentId,IsParent Desc,M.SequenceNo", con);
+            cmd.Parameters.AddWithValue("@applicationuserid", ApplicationUserId);
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                result.Add(GetUserAccessMenuDto(dr));
+            }
+            con.Close();
+            return result;
+        }
+
         public List<MenuDto> GetParentListByModuleId(Guid ModuleId)
 		{
 			List<MenuDto> result = new List<MenuDto>();
@@ -289,6 +310,23 @@ namespace GangaPrakashAPI.Administration.Dal
             {
                 Id = sdr.GetGuid(sdr.GetOrdinal("Id")),
                 Name = sdr.GetString(sdr.GetOrdinal("Name"))
+            };
+        }
+
+        public UserAccessMenuDto GetUserAccessMenuDto(SqlDataReader sdr)
+        {
+            return new UserAccessMenuDto
+            {
+                Id = sdr.GetGuid(sdr.GetOrdinal("Id")),
+                Action = sdr.GetString(sdr.GetOrdinal("Action")),
+                Controller = sdr.GetString(sdr.GetOrdinal("Controller")),
+                Area = sdr.GetString(sdr.GetOrdinal("Area")),
+                Name = sdr.GetString(sdr.GetOrdinal("Name")),
+                Module = sdr.GetString(sdr.GetOrdinal("Module")),
+                ModuleId = sdr.GetGuid(sdr.GetOrdinal("ModuleId")),
+                SequenceNo = sdr.GetInt32(sdr.GetOrdinal("SequenceNo")),
+                ParentId = sdr.GetGuid(sdr.GetOrdinal("ParentId")),
+                IsParent = ((sdr.GetInt32(sdr.GetOrdinal("IsParent"))) == 1) ? true : false,
             };
         }
     }

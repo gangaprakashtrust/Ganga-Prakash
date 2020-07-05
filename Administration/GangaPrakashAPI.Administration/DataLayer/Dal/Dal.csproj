@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dal\ApplicationUserDal.cs" />
+    <Compile Include="Dal\UserRoleDal.cs" />
     <Compile Include="Dal\MenuDal.cs" />
     <Compile Include="Dal\MenuPrivilegeDal.cs" />
     <Compile Include="Dal\ModuleDal.cs" />

@@ -10,6 +10,7 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using GangaPrakashAPI.Administration.Models;
+using GangaPrakashAPI.Administration.Persister;
 
 namespace GangaPrakashAPI.Administration.Providers
 {
@@ -56,7 +57,7 @@ namespace GangaPrakashAPI.Administration.Providers
             {
                 context.AdditionalResponseParameters.Add(property.Key, property.Value);
             }
-
+            context.AdditionalResponseParameters.Add("ApplicationUserId", ApplicationUserPersister.GetApplicationUserIdBySystemUserId(Guid.Parse(context.Identity.GetUserId())));
             return Task.FromResult<object>(null);
         }
 

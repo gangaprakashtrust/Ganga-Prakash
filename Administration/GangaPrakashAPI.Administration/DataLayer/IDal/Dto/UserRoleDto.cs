@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace GangaPrakashAPI.Administration.IDal
 {
-    public class RoleDto
+    public class UserRoleDto
     {
         public Guid Id { get; set; }
 
-        public String Name { get; set; }
+        public Guid ApplicationUserId { get; set; }
+
+        public Guid RoleId { get; set; }
 
         public Boolean IsActive { get; set; }
 
         public Int32 ErrorCount { get; set; }
 
         public String ErrorMessage { get; set; }
-
-        public Boolean IsChecked { get; set; }
 
     }
 }

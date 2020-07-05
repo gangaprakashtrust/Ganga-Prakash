@@ -34,6 +34,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Administration\Business\Basic\ApplicationUser.cs" />
     <Compile Include="Administration\Business\Basic\Menu.cs" />
     <Compile Include="Administration\Business\Basic\MenuHelper.cs" />
     <Compile Include="Administration\Business\Basic\MenuPrivilege.cs" />
@@ -51,6 +53,9 @@
     <Compile Include="Administration\Business\Basic\RoleMenu.cs" />
     <Compile Include="Administration\Business\Basic\RoleMenuPrivilege.cs" />
     <Compile Include="Administration\Business\Basic\RoleMenuPrivilegeHelper.cs" />
+    <Compile Include="Administration\Business\Basic\UserAccessMenu.cs" />
+    <Compile Include="Administration\Business\Basic\UserRole.cs" />
+    <Compile Include="Administration\Transaction\Basic\ApplicationUserTrans.cs" />
     <Compile Include="Administration\Transaction\Basic\MenuTrans.cs" />
     <Compile Include="Administration\Transaction\Basic\RoleMenuPrivilegeTrans.cs" />
     <Compile Include="Administration\Transaction\Basic\RoleTrans.cs" />

@@ -164,6 +164,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Administration\AdministrationAreaRegistration.cs" />
     <Compile Include="Areas\Administration\Controllers\AccountController.cs" />
+    <Compile Include="Areas\Administration\Controllers\ApplicationUserController.cs" />
     <Compile Include="Areas\Administration\Controllers\MenuController.cs" />
     <Compile Include="Areas\Administration\Controllers\ModuleController.cs" />
     <Compile Include="Areas\Administration\Controllers\RoleController.cs" />
@@ -4716,6 +4717,9 @@
     <Content Include="assets\fonts\MaterialIcons-Regular.woff" />
     <Content Include="Areas\Administration\Views\RoleMenuPrivilege\Index.cshtml" />
     <Content Include="Areas\Administration\Views\RoleMenuPrivilege\_RoleMenuPrivilege.cshtml" />
+    <Content Include="Areas\Administration\Views\ApplicationUser\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\ApplicationUser\Create.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\_GetUserAcessMenus.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\Inspinia\script.js" />
     <Content Include="Scripts\Inspinia\site.js" />
