@@ -10,7 +10,7 @@ namespace GangaPrakash.UI
     {
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if(String.IsNullOrEmpty(Convert.ToString(Session["AccessToken"])))
+            if(String.IsNullOrEmpty(Convert.ToString(Session["AccessToken"])) || String.IsNullOrEmpty(Convert.ToString(Session["ApplicationUserId"])) || String.IsNullOrEmpty(Convert.ToString(Session["AccessMenus"])) || String.IsNullOrEmpty(Convert.ToString(Session["ApplicationUsername"])))
             {
                 filterContext.Result = new RedirectResult("/Administration/Account/login");
             }
