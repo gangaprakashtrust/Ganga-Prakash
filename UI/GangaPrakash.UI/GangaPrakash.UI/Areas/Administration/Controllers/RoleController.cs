@@ -40,6 +40,7 @@ namespace GangaPrakash.UI
                     }
                     TempData["Message"] = "Role Saved Successfully";
                     TempData["MessageClass"] = "alert alert-success alert-dismissable";
+                    await RefreshMenus();
                     return RedirectToAction("Index");
                 }
                 return View(roleTrans);
@@ -76,6 +77,7 @@ namespace GangaPrakash.UI
                     }
                     TempData["Message"] = "Role Updated Successfully";
                     TempData["MessageClass"] = "alert alert-success alert-dismissable";
+                    await RefreshMenus();
                     return RedirectToAction("Index");
                 }
                 return View(roleTrans);
@@ -101,7 +103,16 @@ namespace GangaPrakash.UI
             }
             TempData["Message"] = "Role Deleted Successfully";
             TempData["MessageClass"] = "alert alert-success alert-dismissible fade show";
+            await RefreshMenus();
             return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> RefreshMenus()
+        {
+            Session["AccessMenus"] = null;
+            List<UserAccessMenu> menuList = await WebAPIClient.GetAsync<List<UserAccessMenu>>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/GetListByApplicationUserId?ApplicationUserId=" + Guid.Parse(Session["ApplicationUserId"].ToString()), Session["AccessToken"].ToString());
+            Session["AccessMenus"] = menuList;
+            return null;
         }
     }
 }
