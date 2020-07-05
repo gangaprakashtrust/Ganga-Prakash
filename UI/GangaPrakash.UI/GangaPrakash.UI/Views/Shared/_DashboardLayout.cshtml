@@ -54,7 +54,7 @@
                     {
                         <li>
                             <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">@Module.FirstOrDefault().Module </span><span class="fa arrow"></span></a>
-                            @foreach (var ParentMenu in Module.GroupBy(a => a.ParentId))
+                            @foreach (var ParentMenu in Module.OrderBy(a=>a.Name).GroupBy(a => a.ParentId))
                             {
                                 foreach (var menu in ParentMenu.Where(a => a.IsParent))
                                 {
