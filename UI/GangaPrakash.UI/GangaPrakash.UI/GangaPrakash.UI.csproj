@@ -170,7 +170,9 @@
     <Compile Include="Areas\Administration\Controllers\RoleController.cs" />
     <Compile Include="Areas\Administration\Controllers\PrivilegeController.cs" />
     <Compile Include="Areas\Administration\Controllers\RoleMenuPrivilegeController.cs" />
+    <Compile Include="Areas\System\SystemAreaRegistration.cs" />
     <Compile Include="Areas\System\Controllers\BaseController.cs" />
+    <Compile Include="Areas\System\Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -4720,6 +4722,9 @@
     <Content Include="Areas\Administration\Views\ApplicationUser\Index.cshtml" />
     <Content Include="Areas\Administration\Views\ApplicationUser\Create.cshtml" />
     <Content Include="Areas\Administration\Views\Shared\_GetUserAcessMenus.cshtml" />
+    <Content Include="Areas\System\Views\Error\Unauthorized.cshtml" />
+    <Content Include="Areas\System\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\System\Views\web.config" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\Inspinia\script.js" />
     <Content Include="Scripts\Inspinia\site.js" />

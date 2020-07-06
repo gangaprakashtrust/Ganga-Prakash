@@ -69,6 +69,29 @@ namespace GangaPrakashAPI.Administration.Dal
             return result;
         }
 
+        public List<MenuDto> FetchUserMenuBasedOnPrivilege(String Controller, String Action, String Area, Guid ApplicationUserId)
+        {
+            List<MenuDto> result = new List<MenuDto>();
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
+            SqlCommand cmd = new SqlCommand(@"  Select Distinct M.Id,M.Name,M.Controller,M.Action,M.Area,M.SequenceNo,M.ParentId,M.ModuleId from Menu M
+                                                Inner Join RoleMenu RM on RM.MenuId=M.Id ANd RM.IsActive=1 And M.IsActive=1 And M.Controller=@controller And M.Area=@area
+                                                Inner Join UserRole UR On UR.RoleId=RM.RoleId And UR.ApplicationUserId=@applicationuserid And UR.IsActive=1 And RM.IsActive=1
+                                                Inner Join RoleMenuPrivilege RMP On RMP.RoleMenuId=RM.Id And RM.IsActive=1 And RMP.IsACtive=1
+                                                Inner Join Privilege P On RMP.PrivilegeId=P.Id ANd RMP.IsActive=1 And P.IsActive=1 And P.Name=@action", con);
+            cmd.Parameters.AddWithValue("@controller", Controller);
+            cmd.Parameters.AddWithValue("@area", Area);
+            cmd.Parameters.AddWithValue("@applicationuserid", ApplicationUserId);
+            cmd.Parameters.AddWithValue("@action", Action);
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                result.Add(GetDto(dr));
+            }
+            con.Close();
+            return result;
+        }
+
         public List<UserAccessMenuDto> FetchByApplicationUserId(Guid ApplicationUserId)
         {
             List<UserAccessMenuDto> result = new List<UserAccessMenuDto>();
