@@ -4725,6 +4725,8 @@
     <Content Include="Areas\System\Views\Error\Unauthorized.cshtml" />
     <Content Include="Areas\System\Views\_ViewStart.cshtml" />
     <Content Include="Areas\System\Views\web.config" />
+    <Content Include="Areas\Administration\Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Areas\Administration\Views\Account\ResetPassword.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\Inspinia\script.js" />
     <Content Include="Scripts\Inspinia\site.js" />

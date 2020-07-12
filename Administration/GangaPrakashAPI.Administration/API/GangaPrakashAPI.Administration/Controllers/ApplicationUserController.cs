@@ -152,6 +152,43 @@ namespace GangaPrakashAPI.Administration.Controllers
             applicationUserTransPersister.Delete(applicationUserTrans);
             return Ok(applicationUserTrans);
         }
+
+        // POST api/Account/Register
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("api/ApplicationUser/ForgotPassword")]
+        public async Task<IHttpActionResult> ForgotPassword(ForgetPassword forgetPassword)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await UserManager.FindByEmailAsync(forgetPassword.Email);
+                if (user!=null)
+                {
+                    var passwordresettoken= await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                    forgetPassword.PasswordResetToken = passwordresettoken;
+                }
+                return Ok(forgetPassword);
+            }
+            return Content(HttpStatusCode.ExpectationFailed, "Invalid data");
+        }
+
+        // POST api/Account/Register
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("api/ApplicationUser/ResetPassword")]
+        public async Task<IHttpActionResult> ResetPassword(ResetPassword resetPassword)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await UserManager.FindByEmailAsync(resetPassword.Email);
+                if (user != null)
+                {
+                    var result = await UserManager.ResetPasswordAsync(user.Id,resetPassword.PasswordResetToken,resetPassword.Password);
+                }
+                return Ok(resetPassword);
+            }
+            return Content(HttpStatusCode.ExpectationFailed, "Invalid data");
+        }
         #endregion
     }
 }

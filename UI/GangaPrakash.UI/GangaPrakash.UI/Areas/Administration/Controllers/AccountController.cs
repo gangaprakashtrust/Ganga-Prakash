@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -44,6 +45,61 @@ namespace GangaPrakash.UI
                 }
             }
             return View(loginModel);
+        }
+
+        // GET: Administration/Account
+        [HttpGet]
+        public ActionResult ForgotPassword()
+        {
+            ForgetPassword forgetPassword = new ForgetPassword();
+            return View(forgetPassword);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ForgotPassword(ForgetPassword forgetPassword)
+        {
+            if (ModelState.IsValid)
+            {
+                forgetPassword = await WebAPIClient.PostAsync<ForgetPassword>(ConfigurationManager.AppSettings["APIAdministration"], "api/ApplicationUser/ForgotPassword", forgetPassword);
+                var PasswordResetLink = Url.Action("ResetPassword", "Account", new { Area = "Administration", Email = forgetPassword.Email, token = forgetPassword.PasswordResetToken },Request.Url.Scheme);
+                SendEmail(forgetPassword.Email, "Reset Password", "Please reset your password by clicking <a href=\"" + PasswordResetLink + "\">here</a>");
+                TempData["Message"] = "Password reset link sent to Email!";
+                TempData["MessageClass"] = "alert alert-success alert-dismissable";
+                return RedirectToAction("Login", "Account", new { Area = "Administration" });
+            }
+            return View(forgetPassword);
+        }
+
+        // GET: Administration/Account
+        [HttpGet]
+        public ActionResult ResetPassword(String Email,String token)
+        {
+            ResetPassword resetPassword = new ResetPassword();
+            resetPassword.Email = Email;
+            resetPassword.PasswordResetToken = token;
+            return View(resetPassword);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ResetPassword(ResetPassword resetPassword)
+        {
+            if (ModelState.IsValid)
+            {
+                resetPassword = await WebAPIClient.PostAsync<ResetPassword>(ConfigurationManager.AppSettings["APIAdministration"], "api/ApplicationUser/ResetPassword", resetPassword);
+                TempData["Message"] = "Password changed successfully!";
+                TempData["MessageClass"] = "alert alert-success alert-dismissable";
+                return RedirectToAction("Login", "Account", new { Area = "Administration" });
+            }
+            return View(resetPassword);
+        }
+
+        public static void SendEmail(String Email, String Subject, String Body)
+        {
+            MailMessage mailMessage = new MailMessage(ConfigurationManager.AppSettings["FromEmailAddress"].ToString(), Email);
+            mailMessage.Subject = Subject;
+            mailMessage.Body = Body;
+            SmtpClient smtpClient = new SmtpClient();
+            smtpClient.Send(mailMessage);
         }
 
         public ActionResult Logout()
