@@ -28,17 +28,21 @@ namespace GangaPrakash.UI
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ApplicationUserTrans applicationUserTrans)
         {
+            applicationUserTrans.applicationUser.Password = ConfigurationManager.AppSettings["DefautPassword"];
+            applicationUserTrans.applicationUser.ConfirmPassword = ConfigurationManager.AppSettings["DefautPassword"];
             try
             {
                 if (ModelState.IsValid)
                 {
                     applicationUserTrans = await WebAPIClient.PostAsync<ApplicationUserTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/ApplicationUser/Create", applicationUserTrans, Session["AccessToken"].ToString());
-                    if (applicationUserTrans.applicationUser.IsError)
+                    if (applicationUserTrans.IsError)
                     {
-                        ModelState.AddModelError(applicationUserTrans.applicationUser.ErrorMessageFor, applicationUserTrans.applicationUser.ErrorMessage);
+                        ModelState.AddModelError(applicationUserTrans.ErrorMessageFor, applicationUserTrans.ErrorMessage);
                         return View(applicationUserTrans);
                     }
-                    TempData["Message"] = "User Added Successfully";
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = applicationUserTrans.applicationUser.UserId, code = applicationUserTrans.ConfirmEmailToken }, protocol: Request.Url.Scheme);
+                    AccountController.SendEmail(applicationUserTrans.applicationUser.Email, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    TempData["Message"] = "User Added Successfully, Please ask user to confirm his Email!";
                     TempData["MessageClass"] = "alert alert-success alert-dismissable";
                     return RedirectToAction("Index");
                 }
@@ -69,9 +73,9 @@ namespace GangaPrakash.UI
                 if (ModelState.IsValid)
                 {
                     applicationUserTrans = await WebAPIClient.PutAsync<ApplicationUserTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/ApplicationUser/Edit", applicationUserTrans, Session["AccessToken"].ToString());
-                    if (applicationUserTrans.applicationUser.IsError)
+                    if (applicationUserTrans.IsError)
                     {
-                        ModelState.AddModelError(applicationUserTrans.applicationUser.ErrorMessageFor, applicationUserTrans.applicationUser.ErrorMessage);
+                        ModelState.AddModelError(applicationUserTrans.ErrorMessageFor, applicationUserTrans.ErrorMessage);
                         return View(applicationUserTrans);
                     }
                     TempData["Message"] = "User Updated Successfully";
@@ -93,9 +97,9 @@ namespace GangaPrakash.UI
         {
             ApplicationUserTrans applicationUserTrans = await WebAPIClient.GetAsync<ApplicationUserTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/ApplicationUser/Get?Id=" + Id, Session["AccessToken"].ToString());
             applicationUserTrans = await WebAPIClient.PutAsync<ApplicationUserTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/ApplicationUser/Delete", applicationUserTrans, Session["AccessToken"].ToString());
-            if (applicationUserTrans.applicationUser.IsError)
+            if (applicationUserTrans.IsError)
             {
-                TempData["Message"] = applicationUserTrans.applicationUser.ErrorMessage;
+                TempData["Message"] = applicationUserTrans.ErrorMessage;
                 TempData["MessageClass"] = "alert alert-danger alert-dismissable";
                 return RedirectToAction("Index");
             }

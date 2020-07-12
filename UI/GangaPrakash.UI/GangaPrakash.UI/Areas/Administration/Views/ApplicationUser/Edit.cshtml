@@ -10,13 +10,15 @@
                 <div class="ibox-content">
                     <form role="form" method="post">
                         @Html.HiddenFor(model => model.applicationUser.Id)
+                        @Html.HiddenFor(model => model.applicationUser.Email)
+                        @Html.HiddenFor(model => model.applicationUser.UserName)
                         @Html.HiddenFor(model => model.applicationUser.UserId)
                         @Html.AntiForgeryToken()
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Username</label>
-                            <div class="col-sm-4"><input type="text" id="UserName" name="applicationUser.UserName" placeholder="UserName" class="form-control" value="@Model.applicationUser.UserName" required=""></div>
+                            <div class="col-sm-4"><input type="text" id="UserName" name="applicationUser.UserName" placeholder="UserName" class="form-control" value="@Model.applicationUser.UserName" required="" disabled></div>
                             <label class="col-sm-2 col-form-label">Email</label>
-                            <div class="col-sm-4"><input type="text" id="Email" name="applicationUser.Email" placeholder="Email" class="form-control" value="@Model.applicationUser.Email" required=""></div>
+                            <div class="col-sm-4"><input type="text" id="Email" name="applicationUser.Email" placeholder="Email" class="form-control" value="@Model.applicationUser.Email" required="" disabled></div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label"></label>
@@ -72,6 +74,7 @@
                                     </label>
                                 </div>
                             </div>
+                        
                         </div>
                         <div class="hr-line-dashed"></div>
                         <div class="form-group row">

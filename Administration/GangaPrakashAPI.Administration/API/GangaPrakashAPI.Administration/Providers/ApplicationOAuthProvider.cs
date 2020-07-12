@@ -34,7 +34,7 @@ namespace GangaPrakashAPI.Administration.Providers
 
             ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
 
-            if (user == null)
+            if (user == null || user.EmailConfirmed==false)
             {
                 context.SetError("invalid_grant", "The user name or password is incorrect.");
                 return;

@@ -123,7 +123,9 @@ namespace GangaPrakashAPI.Administration.Controllers
                     return GetErrorResult(result);
                 }
                 GangaPrakashAPI.Administration.Models.ApplicationUser applicationUser = await UserManager.FindByEmailAsync(applicationUserTrans.applicationUser.Email);
+                string code = await UserManager.GenerateEmailConfirmationTokenAsync(applicationUser.Id);
                 applicationUserTrans.applicationUser.UserId = Guid.Parse(applicationUser.Id);
+                applicationUserTrans.ConfirmEmailToken = code;
                 ApplicationUserTransPersister applicationUserTransPersister = ApplicationUserTransPersister.GetPersister();
                 applicationUserTransPersister.Insert(applicationUserTrans);
                 return Ok(applicationUserTrans);
@@ -162,7 +164,7 @@ namespace GangaPrakashAPI.Administration.Controllers
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindByEmailAsync(forgetPassword.Email);
-                if (user!=null)
+                if (user!=null && user.EmailConfirmed)
                 {
                     var passwordresettoken= await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                     forgetPassword.PasswordResetToken = passwordresettoken;
@@ -181,11 +183,29 @@ namespace GangaPrakashAPI.Administration.Controllers
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindByEmailAsync(resetPassword.Email);
-                if (user != null)
+                if (user != null && user.EmailConfirmed)
                 {
                     var result = await UserManager.ResetPasswordAsync(user.Id,resetPassword.PasswordResetToken,resetPassword.Password);
                 }
                 return Ok(resetPassword);
+            }
+            return Content(HttpStatusCode.ExpectationFailed, "Invalid data");
+        }
+
+        // POST api/Account/Register
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("api/ApplicationUser/ConfirmEmail")]
+        public async Task<IHttpActionResult> ConfirmEmail(ConfirmEmail confirmEmail)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await UserManager.FindByIdAsync(confirmEmail.userId);
+                if (user != null)
+                {
+                    var result = await UserManager.ConfirmEmailAsync(user.Id, confirmEmail.code);
+                }
+                return Ok(confirmEmail);
             }
             return Content(HttpStatusCode.ExpectationFailed, "Invalid data");
         }

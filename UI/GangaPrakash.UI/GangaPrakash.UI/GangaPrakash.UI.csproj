@@ -4727,6 +4727,7 @@
     <Content Include="Areas\System\Views\web.config" />
     <Content Include="Areas\Administration\Views\Account\ForgotPassword.cshtml" />
     <Content Include="Areas\Administration\Views\Account\ResetPassword.cshtml" />
+    <Content Include="Areas\Administration\Views\ApplicationUser\Edit.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\Inspinia\script.js" />
     <Content Include="Scripts\Inspinia\site.js" />

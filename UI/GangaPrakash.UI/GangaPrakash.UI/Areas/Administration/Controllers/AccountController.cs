@@ -93,6 +93,15 @@ namespace GangaPrakash.UI
             return View(resetPassword);
         }
 
+        [HttpGet]
+        public async Task<ActionResult> ConfirmEmail(ConfirmEmail confirmEmail)
+        {
+            confirmEmail = await WebAPIClient.PostAsync<ConfirmEmail>(ConfigurationManager.AppSettings["APIAdministration"], "api/ApplicationUser/ConfirmEmail", confirmEmail);
+            TempData["Message"] = "Email confirmed successfully!";
+            TempData["MessageClass"] = "alert alert-success alert-dismissable";
+            return RedirectToAction("Login", "Account", new { Area = "Administration" });
+        }
+
         public static void SendEmail(String Email, String Subject, String Body)
         {
             MailMessage mailMessage = new MailMessage(ConfigurationManager.AppSettings["FromEmailAddress"].ToString(), Email);
@@ -107,7 +116,8 @@ namespace GangaPrakash.UI
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
             Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
             Response.Cache.SetNoStore();
-            Session.Remove("AccessToken");
+            Session["AccessToken"] = null;
+            Session["ApplicationUserId"] = null;
             return RedirectToAction("Login", "Account", new { Area = "Administration" });
         }
     }

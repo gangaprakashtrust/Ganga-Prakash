@@ -17,5 +17,7 @@ namespace GangaPrakashAPI.Model
 
         public HttpPostedFileBase Image { get; set; }
 
+        public String ConfirmEmailToken { get; set; }
+
     }
 }

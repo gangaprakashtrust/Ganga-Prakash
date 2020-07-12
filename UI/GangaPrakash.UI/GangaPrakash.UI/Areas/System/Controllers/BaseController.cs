@@ -17,20 +17,24 @@ namespace GangaPrakash.UI
             {
                 filterContext.Result = new RedirectResult("/Administration/Account/login");
             }
-            string IsAjaxRequest =  HttpContext.Request.Headers["X-Requested-With"];
-
-            if (IsAjaxRequest != "XMLHttpRequest")
+            else
             {
-                String Area = filterContext.RouteData.DataTokens["area"].ToString();
-                string Controller = filterContext.RouteData.Values["controller"].ToString();
-                string Action = filterContext.RouteData.Values["action"].ToString();
-                Guid ApplicationUserId = Guid.Parse(Session["ApplicationUserId"].ToString());
-                List<Menu> MenuList = Task.Run(async () => await WebAPIClient.GetAsync<List<Menu>>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/GetUserMenuBasedOnPrivilege?Controller=" + Controller + "&Action=" + Action + "&Area=" + Area + "&ApplicationUserId=" + ApplicationUserId, Session["AccessToken"].ToString())).Result;
-                if (MenuList.Count <= 0)
+                string IsAjaxRequest = HttpContext.Request.Headers["X-Requested-With"];
+
+                if (IsAjaxRequest != "XMLHttpRequest")
                 {
-                    filterContext.Result = new RedirectResult("/System/Error/Unauthorized");
+                    String Area = filterContext.RouteData.DataTokens["area"].ToString();
+                    string Controller = filterContext.RouteData.Values["controller"].ToString();
+                    string Action = filterContext.RouteData.Values["action"].ToString();
+                    Guid ApplicationUserId = Guid.Parse(Session["ApplicationUserId"].ToString());
+                    List<Menu> MenuList = Task.Run(async () => await WebAPIClient.GetAsync<List<Menu>>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/GetUserMenuBasedOnPrivilege?Controller=" + Controller + "&Action=" + Action + "&Area=" + Area + "&ApplicationUserId=" + ApplicationUserId, Session["AccessToken"].ToString())).Result;
+                    if (MenuList.Count <= 0)
+                    {
+                        filterContext.Result = new RedirectResult("/System/Error/Unauthorized");
+                    }
                 }
             }
+            
             base.OnActionExecuting(filterContext);
         }
     }

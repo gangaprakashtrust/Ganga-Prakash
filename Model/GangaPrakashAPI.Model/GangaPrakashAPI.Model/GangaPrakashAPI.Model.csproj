@@ -64,6 +64,7 @@
     <Compile Include="System\Business\Basic\AddExternalLoginBindingModel.cs" />
     <Compile Include="System\Business\Basic\BaseModel.cs" />
     <Compile Include="System\Business\Basic\ChangePasswordBindingModel.cs" />
+    <Compile Include="System\Business\Basic\ConfirmEmail.cs" />
     <Compile Include="System\Business\Basic\ForgetPassword.cs" />
     <Compile Include="System\Business\Basic\LoginModel.cs" />
     <Compile Include="System\Business\Basic\RegisterBindingModel.cs" />

@@ -121,7 +121,7 @@ namespace GangaPrakashAPI.Administration.Dal
                 con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
                 con.Open();
             }
-            SqlCommand cmd = new SqlCommand(" Update ApplicationUser set UserId=@userid,UserName=@username,FirstName=@firstname,LastName=@lastname,Email=@email,ShortName=@shortname,MobileNo=@mobileno,ImagePath=@imagepath,CountryCode=@countrycode,IsDoctor=@isdoctor,IsActive=@isactive Where Id=@id ", con);
+            SqlCommand cmd = new SqlCommand(" Update ApplicationUser set UserId=@userid,UserName=@username,FirstName=@firstname,LastName=@lastname,Email=@email,ShortName=@shortname,MobileNo=@mobileno,ImagePath=@imagepath,IsDoctor=@isdoctor,IsActive=@isactive Where Id=@id ", con);
             if (transcon != null)
             {
                 cmd.Transaction = trans;

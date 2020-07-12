@@ -28,6 +28,9 @@ namespace GangaPrakashAPI.Administration.Persister
                 applicationUserTrans.applicationUser = applicationUserPersister.Insert(applicationUserTrans.applicationUser, con, trans);
                 if (applicationUserTrans.applicationUser.IsError)
                 {
+                    applicationUserTrans.IsError = true;
+                    applicationUserTrans.ErrorMessage = applicationUserTrans.applicationUser.ErrorMessage;
+                    applicationUserTrans.ErrorMessageFor = applicationUserTrans.applicationUser.ErrorMessageFor;
                     trans.Rollback();
                     con.Close();
                     return applicationUserTrans;
@@ -40,6 +43,15 @@ namespace GangaPrakashAPI.Administration.Persister
                     userRole.ApplicationUserId = applicationUserTrans.applicationUser.Id;
                     userRole.RoleId = item.Id;
                     userRolePersister.Insert(userRole, con, trans);
+                    if (userRole.IsError)
+                    {
+                        applicationUserTrans.IsError = true;
+                        applicationUserTrans.ErrorMessage = userRole.ErrorMessage;
+                        applicationUserTrans.ErrorMessageFor = userRole.ErrorMessageFor;
+                        trans.Rollback();
+                        con.Close();
+                        return applicationUserTrans;
+                    }
                 }
                 trans.Commit();
                 con.Close();
@@ -69,6 +81,9 @@ namespace GangaPrakashAPI.Administration.Persister
                 applicationUserTrans.applicationUser = applicationUserPersister.Update(applicationUserTrans.applicationUser, con, trans);
                 if (applicationUserTrans.applicationUser.IsError)
                 {
+                    applicationUserTrans.IsError = true;
+                    applicationUserTrans.ErrorMessage = applicationUserTrans.applicationUser.ErrorMessage;
+                    applicationUserTrans.ErrorMessageFor = applicationUserTrans.applicationUser.ErrorMessageFor;
                     trans.Rollback();
                     con.Close();
                     return applicationUserTrans;
@@ -92,6 +107,15 @@ namespace GangaPrakashAPI.Administration.Persister
                     userRole.ApplicationUserId = applicationUserTrans.applicationUser.Id;
                     userRole.RoleId = item;
                     userRolePersister.Insert(userRole, con, trans);
+                    if (userRole.IsError)
+                    {
+                        applicationUserTrans.IsError = true;
+                        applicationUserTrans.ErrorMessage = userRole.ErrorMessage;
+                        applicationUserTrans.ErrorMessageFor = userRole.ErrorMessageFor;
+                        trans.Rollback();
+                        con.Close();
+                        return applicationUserTrans;
+                    }
                 }
 
                 //Deleting deleted records
@@ -100,7 +124,17 @@ namespace GangaPrakashAPI.Administration.Persister
                     if (userRoleList.Where(a => a.RoleId == item.Id).ToList().Count > 0)
                     {
                         UserRolePersister userRolePersister = UserRolePersister.GetPersister();
-                        userRolePersister.Delete(userRoleList.Where(a => a.RoleId.Equals(item.Id)).FirstOrDefault(), con, trans);
+                        UserRole userRole = userRoleList.Where(a => a.RoleId.Equals(item.Id)).FirstOrDefault();
+                        userRolePersister.Delete(userRole, con, trans);
+                        if (userRole.IsError)
+                        {
+                            applicationUserTrans.IsError = true;
+                            applicationUserTrans.ErrorMessage = userRole.ErrorMessage;
+                            applicationUserTrans.ErrorMessageFor = userRole.ErrorMessageFor;
+                            trans.Rollback();
+                            con.Close();
+                            return applicationUserTrans;
+                        }
                     }
                 }
                 trans.Commit();
