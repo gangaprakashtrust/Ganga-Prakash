@@ -34,9 +34,9 @@ namespace GangaPrakash.UI
                 if (ModelState.IsValid)
                 {
                     menuTrans = await WebAPIClient.PostAsync<MenuTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/Create", menuTrans, Session["AccessToken"].ToString());
-                    if (menuTrans.menu.IsError)
+                    if (menuTrans.IsError)
                     {
-                        ModelState.AddModelError(menuTrans.menu.ErrorMessageFor, menuTrans.menu.ErrorMessage);
+                        ModelState.AddModelError(menuTrans.ErrorMessageFor, menuTrans.ErrorMessage);
                         await AssignList(menuTrans);
                         return View(menuTrans);
                     }
@@ -73,9 +73,9 @@ namespace GangaPrakash.UI
                 if (ModelState.IsValid)
                 {
                     menuTrans = await WebAPIClient.PutAsync<MenuTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/Edit", menuTrans, Session["AccessToken"].ToString());
-                    if (menuTrans.menu.IsError)
+                    if (menuTrans.IsError)
                     {
-                        ModelState.AddModelError(menuTrans.menu.ErrorMessageFor, menuTrans.menu.ErrorMessage);
+                        ModelState.AddModelError(menuTrans.ErrorMessageFor, menuTrans.ErrorMessage);
                         await AssignList(menuTrans);
                         return View(menuTrans);
                     }
@@ -99,9 +99,9 @@ namespace GangaPrakash.UI
         {
             MenuTrans menuTrans = await WebAPIClient.GetAsync<MenuTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/Get?Id=" + Id, Session["AccessToken"].ToString());
             menuTrans = await WebAPIClient.PutAsync<MenuTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/Menu/Delete", menuTrans, Session["AccessToken"].ToString());
-            if (menuTrans.menu.IsError)
+            if (menuTrans.IsError)
             {
-                TempData["Message"] = menuTrans.menu.ErrorMessage;
+                TempData["Message"] = menuTrans.ErrorMessage;
                 TempData["MessageClass"] = "alert alert-danger alert-dismissable";
                 return RedirectToAction("Index");
             }

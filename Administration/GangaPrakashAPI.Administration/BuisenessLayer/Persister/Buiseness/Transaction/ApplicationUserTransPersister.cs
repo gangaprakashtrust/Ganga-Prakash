@@ -120,7 +120,7 @@ namespace GangaPrakashAPI.Administration.Persister
         public ApplicationUserTrans Delete(ApplicationUserTrans applicationUserTrans)
         {
             //Sql Connection Object And Transaction Object
-            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
             con.Open();
             SqlTransaction trans = con.BeginTransaction();
             try

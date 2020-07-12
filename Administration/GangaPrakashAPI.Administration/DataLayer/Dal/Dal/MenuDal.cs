@@ -48,6 +48,22 @@ namespace GangaPrakashAPI.Administration.Dal
             return result;
         }
 
+        public Boolean IsMenuReferencePresent(Guid MenuId)
+        {
+            Boolean IsMenuReferencePresent = false;
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
+            SqlCommand cmd = new SqlCommand(" Select RM.Id from RoleMenu RM Where RM.MenuId=@menuid and RM.IsActive=1", con);
+            cmd.Parameters.AddWithValue("@menuid", MenuId);
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            if (dr.HasRows)
+            {
+                IsMenuReferencePresent = true;
+            }
+            con.Close();
+            return IsMenuReferencePresent;
+        }
+
         public List<MenuDto> FetchParentListByRoleId(Guid RoleId)
         {
             List<MenuDto> result = new List<MenuDto>();

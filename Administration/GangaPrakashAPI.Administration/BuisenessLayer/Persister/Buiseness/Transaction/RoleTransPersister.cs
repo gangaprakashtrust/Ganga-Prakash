@@ -28,6 +28,9 @@ namespace GangaPrakashAPI.Administration.Persister
                 roleTrans.role = rolePersister.Insert(roleTrans.role, con, trans);
                 if (roleTrans.role.IsError)
                 {
+                    roleTrans.IsError = true;
+                    roleTrans.ErrorMessage = roleTrans.role.ErrorMessage;
+                    roleTrans.ErrorMessageFor = roleTrans.role.ErrorMessageFor;
                     trans.Rollback();
                     con.Close();
                     return roleTrans;
@@ -40,6 +43,15 @@ namespace GangaPrakashAPI.Administration.Persister
                     roleMenu.RoleId = roleTrans.role.Id;
                     roleMenu.MenuId = item.Id;
                     roleMenuPersister.Insert(roleMenu, con, trans);
+                    if (roleMenu.IsError)
+                    {
+                        roleTrans.IsError = true;
+                        roleTrans.ErrorMessage = roleMenu.ErrorMessage;
+                        roleTrans.ErrorMessageFor = roleMenu.ErrorMessageFor;
+                        trans.Rollback();
+                        con.Close();
+                        return roleTrans;
+                    }
                 }
                 trans.Commit();
                 con.Close();
@@ -71,6 +83,9 @@ namespace GangaPrakashAPI.Administration.Persister
                 roleTrans.role = rolePersister.Update(roleTrans.role, con, trans);
                 if (roleTrans.role.IsError)
                 {
+                    roleTrans.IsError = true;
+                    roleTrans.ErrorMessage = roleTrans.role.ErrorMessage;
+                    roleTrans.ErrorMessageFor = roleTrans.role.ErrorMessageFor;
                     trans.Rollback();
                     con.Close();
                     return roleTrans;
@@ -94,15 +109,46 @@ namespace GangaPrakashAPI.Administration.Persister
                     roleMenu.RoleId = roleTrans.role.Id;
                     roleMenu.MenuId = item;
                     roleMenuPersister.Insert(roleMenu, con, trans);
+                    if (roleMenu.IsError)
+                    {
+                        roleTrans.IsError = true;
+                        roleTrans.ErrorMessage = roleMenu.ErrorMessage;
+                        roleTrans.ErrorMessageFor = roleMenu.ErrorMessageFor;
+                        trans.Rollback();
+                        con.Close();
+                        return roleTrans;
+                    }
                 }
 
                 //Deleting deleted records
-                foreach (var item in roleTrans.menuList.Where(a => a.IsChecked==false))
+                foreach (var item in roleTrans.menuList.Where(a => a.IsChecked == false))
                 {
-                    if (roleMenuList.Where(a => a.MenuId==item.Id).ToList().Count > 0)
+                    if (roleMenuList.Where(a => a.MenuId == item.Id).ToList().Count > 0)
                     {
+                        RoleMenuPrivilegePersister roleMenuPrivilegePersister = RoleMenuPrivilegePersister.GetPersister();
+                        RoleMenu roleMenu = roleMenuList.Where(a => a.MenuId.Equals(item.Id)).FirstOrDefault();
+                        roleMenuPrivilegePersister.Delete(roleMenu, con, trans);
+                        if (roleMenu.IsError)
+                        {
+                            roleTrans.IsError = true;
+                            roleTrans.ErrorMessage = roleMenu.ErrorMessage;
+                            roleTrans.ErrorMessageFor = roleMenu.ErrorMessageFor;
+                            trans.Rollback();
+                            con.Close();
+                            return roleTrans;
+                        }
+
                         RoleMenuPersister roleMenuPersister = RoleMenuPersister.GetPersister();
-                        roleMenuPersister.Delete(roleMenuList.Where(a => a.MenuId.Equals(item.Id)).FirstOrDefault(), con, trans);
+                        roleMenuPersister.Delete(roleMenu, con, trans);
+                        if (roleMenu.IsError)
+                        {
+                            roleTrans.IsError = true;
+                            roleTrans.ErrorMessage = roleMenu.ErrorMessage;
+                            roleTrans.ErrorMessageFor = roleMenu.ErrorMessageFor;
+                            trans.Rollback();
+                            con.Close();
+                            return roleTrans;
+                        }
                     }
                 }
                 trans.Commit();
@@ -122,7 +168,7 @@ namespace GangaPrakashAPI.Administration.Persister
         public RoleTrans Delete(RoleTrans roleTrans)
         {
             //Sql Connection Object And Transaction Object
-            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
             con.Open();
             SqlTransaction trans = con.BeginTransaction();
             try
@@ -130,22 +176,42 @@ namespace GangaPrakashAPI.Administration.Persister
                 //Declaring Required Persister Objects.
                 RolePersister rolePersister = RolePersister.GetPersister();
                 RoleMenuPersister roleMenuPersister = RoleMenuPersister.GetPersister();
+                RoleMenuPrivilegePersister roleMenuPrivilegePersister = RoleMenuPrivilegePersister.GetPersister();
+
+                roleMenuPrivilegePersister.Delete(roleTrans.role, con, trans);
+                if (roleTrans.role.IsError)
+                {
+                    roleTrans.IsError = true;
+                    roleTrans.ErrorMessage = roleTrans.role.ErrorMessage;
+                    roleTrans.ErrorMessageFor = roleTrans.role.ErrorMessageFor;
+                    trans.Rollback();
+                    con.Close();
+                    return roleTrans;
+                }
+
+                roleMenuPersister.Delete(roleTrans.role, con, trans);
+                if (roleTrans.role.IsError)
+                {
+                    roleTrans.IsError = true;
+                    roleTrans.ErrorMessage = roleTrans.role.ErrorMessage;
+                    roleTrans.ErrorMessageFor = roleTrans.role.ErrorMessageFor;
+                    trans.Rollback();
+                    con.Close();
+                    return roleTrans;
+                }
 
                 //Now Saving Objects One By One
                 rolePersister.Delete(roleTrans.role, con, trans);
                 if (roleTrans.role.IsError)
                 {
+                    roleTrans.IsError = true;
+                    roleTrans.ErrorMessage = roleTrans.role.ErrorMessage;
+                    roleTrans.ErrorMessageFor = roleTrans.role.ErrorMessageFor;
                     trans.Rollback();
                     con.Close();
                     return roleTrans;
                 }
-                roleMenuPersister.Delete(roleTrans.role, con, trans);
-                if (roleTrans.role.IsError)
-                {
-                    trans.Rollback();
-                    con.Close();
-                    return roleTrans;
-                }
+
                 trans.Commit();
                 con.Close();
                 return roleTrans;

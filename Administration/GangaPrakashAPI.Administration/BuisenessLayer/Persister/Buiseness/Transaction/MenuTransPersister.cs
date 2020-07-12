@@ -28,6 +28,9 @@ namespace GangaPrakashAPI.Administration.Persister
                 menuTrans.menu = menuPersister.Insert(menuTrans.menu, con, trans);
                 if (menuTrans.menu.IsError)
                 {
+                    menuTrans.IsError = true;
+                    menuTrans.ErrorMessage = menuTrans.menu.ErrorMessage;
+                    menuTrans.ErrorMessageFor = menuTrans.menu.ErrorMessageFor;
                     trans.Rollback();
                     con.Close();
                     return menuTrans;
@@ -40,6 +43,15 @@ namespace GangaPrakashAPI.Administration.Persister
                     menuPrivilege.MenuId = menuTrans.menu.Id;
                     menuPrivilege.PrivilegeId = item.Id;
                     menuPrivilegePersister.Insert(menuPrivilege, con, trans);
+                    if (menuPrivilege.IsError)
+                    {
+                        menuTrans.IsError = true;
+                        menuTrans.ErrorMessage = menuPrivilege.ErrorMessage;
+                        menuTrans.ErrorMessageFor = menuPrivilege.ErrorMessageFor;
+                        trans.Rollback();
+                        con.Close();
+                        return menuTrans;
+                    }
                 }
                 trans.Commit();
                 con.Close();
@@ -71,6 +83,9 @@ namespace GangaPrakashAPI.Administration.Persister
                 menuTrans.menu = menuPersister.Update(menuTrans.menu, con, trans);
                 if (menuTrans.menu.IsError)
                 {
+                    menuTrans.IsError = true;
+                    menuTrans.ErrorMessage = menuTrans.menu.ErrorMessage;
+                    menuTrans.ErrorMessageFor = menuTrans.menu.ErrorMessageFor;
                     trans.Rollback();
                     con.Close();
                     return menuTrans;
@@ -94,6 +109,15 @@ namespace GangaPrakashAPI.Administration.Persister
                     menuPrivilege.MenuId = menuTrans.menu.Id;
                     menuPrivilege.PrivilegeId = item;
                     menuPrivilegePersister.Insert(menuPrivilege, con, trans);
+                    if (menuPrivilege.IsError)
+                    {
+                        menuTrans.IsError = true;
+                        menuTrans.ErrorMessage = menuPrivilege.ErrorMessage;
+                        menuTrans.ErrorMessageFor = menuPrivilege.ErrorMessageFor;
+                        trans.Rollback();
+                        con.Close();
+                        return menuTrans;
+                    }
                 }
 
                 //Deleting deleted records
@@ -102,7 +126,29 @@ namespace GangaPrakashAPI.Administration.Persister
                     if (menuPrivilegeList.Where(a => a.PrivilegeId==item.Id).ToList().Count > 0)
                     {
                         MenuPrivilegePersister menuPrivilegePersister = MenuPrivilegePersister.GetPersister();
-                        menuPrivilegePersister.Delete(menuPrivilegeList.Where(a => a.PrivilegeId.Equals(item.Id)).FirstOrDefault(), con, trans);
+                        MenuPrivilege menuPrivilege = menuPrivilegeList.Where(a => a.PrivilegeId.Equals(item.Id)).FirstOrDefault();
+                        menuPrivilegePersister.Delete(menuPrivilege, con, trans);
+                        if (menuPrivilege.IsError)
+                        {
+                            menuTrans.IsError = true;
+                            menuTrans.ErrorMessage = menuPrivilege.ErrorMessage;
+                            menuTrans.ErrorMessageFor = menuPrivilege.ErrorMessageFor;
+                            trans.Rollback();
+                            con.Close();
+                            return menuTrans;
+                        }
+
+                        RoleMenuPrivilegePersister roleMenuPrivilegePersister = RoleMenuPrivilegePersister.GetPersister();
+                        roleMenuPrivilegePersister.Delete(menuPrivilege, con, trans);
+                        if (menuPrivilege.IsError)
+                        {
+                            menuTrans.IsError = true;
+                            menuTrans.ErrorMessage = menuPrivilege.ErrorMessage;
+                            menuTrans.ErrorMessageFor = menuPrivilege.ErrorMessageFor;
+                            trans.Rollback();
+                            con.Close();
+                            return menuTrans;
+                        }
                     }
                 }
                 trans.Commit();
@@ -122,7 +168,7 @@ namespace GangaPrakashAPI.Administration.Persister
         public MenuTrans Delete(MenuTrans menuTrans)
         {
             //Sql Connection Object And Transaction Object
-            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
             con.Open();
             SqlTransaction trans = con.BeginTransaction();
             try
@@ -135,6 +181,9 @@ namespace GangaPrakashAPI.Administration.Persister
                 menuPersister.Delete(menuTrans.menu, con, trans);
                 if (menuTrans.menu.IsError)
                 {
+                    menuTrans.IsError = true;
+                    menuTrans.ErrorMessage = menuTrans.menu.ErrorMessage;
+                    menuTrans.ErrorMessageFor = menuTrans.menu.ErrorMessageFor;
                     trans.Rollback();
                     con.Close();
                     return menuTrans;
@@ -142,6 +191,9 @@ namespace GangaPrakashAPI.Administration.Persister
                 menuPrivilegePersister.Delete(menuTrans.menu, con, trans);
                 if (menuTrans.menu.IsError)
                 {
+                    menuTrans.IsError = true;
+                    menuTrans.ErrorMessage = menuTrans.menu.ErrorMessage;
+                    menuTrans.ErrorMessageFor = menuTrans.menu.ErrorMessageFor;
                     trans.Rollback();
                     con.Close();
                     return menuTrans;

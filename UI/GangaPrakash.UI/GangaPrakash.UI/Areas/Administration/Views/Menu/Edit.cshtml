@@ -138,7 +138,7 @@
                 function (isConfirm) {
                     if (isConfirm) {
                         var Id = '@Model.Id';
-                        var DeleteUrl = '@Url.Action("Delete","Menu",new { Area="Administration",Id=Model.Id})';
+                        var DeleteUrl = '@Url.Action("Delete","Menu",new { Area="Administration",Id=Model.menu.Id})';
                         window.location.href = DeleteUrl;
                     } else {
                         swal("Cancelled", "Cancelled :)", "error");

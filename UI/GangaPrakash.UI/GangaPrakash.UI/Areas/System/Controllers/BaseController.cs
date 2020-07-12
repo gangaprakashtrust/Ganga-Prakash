@@ -31,7 +31,7 @@ namespace GangaPrakash.UI
                     filterContext.Result = new RedirectResult("/System/Error/Unauthorized");
                 }
             }
-             base.OnActionExecuting(filterContext);
+            base.OnActionExecuting(filterContext);
         }
     }
 }

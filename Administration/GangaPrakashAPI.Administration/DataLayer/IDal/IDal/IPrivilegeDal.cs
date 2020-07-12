@@ -15,6 +15,8 @@ namespace GangaPrakashAPI.Administration.IDal
 
         PrivilegeDto IsSequenceNoAlreadyPresent(PrivilegeDto privilegeDto);
 
+        Boolean IsPrivilegeReferencePresent(Guid PrivilegeId);
+
         PrivilegeDto FetchById(Guid Id);
 
         PrivilegeDto IsPrivilegeAlreadyPresent(PrivilegeDto roleDto);

@@ -33,9 +33,9 @@ namespace GangaPrakash.UI
                 if (ModelState.IsValid)
                 {
                     roleTrans = await WebAPIClient.PostAsync<RoleTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Create", roleTrans, Session["AccessToken"].ToString());
-                    if (roleTrans.role.IsError)
+                    if (roleTrans.IsError)
                     {
-                        ModelState.AddModelError(roleTrans.role.ErrorMessageFor, roleTrans.role.ErrorMessage);
+                        ModelState.AddModelError(roleTrans.ErrorMessageFor, roleTrans.ErrorMessage);
                         return View(roleTrans);
                     }
                     TempData["Message"] = "Role Saved Successfully";
@@ -97,7 +97,7 @@ namespace GangaPrakash.UI
             roleTrans = await WebAPIClient.PutAsync<RoleTrans>(ConfigurationManager.AppSettings["APIAdministration"], "api/Role/Delete", roleTrans, Session["AccessToken"].ToString());
             if (roleTrans.IsError)
             {
-                TempData["Message"] = roleTrans.role.ErrorMessage;
+                TempData["Message"] = roleTrans.ErrorMessage;
                 TempData["MessageClass"] = "alert alert-danger alert-dismissable";
                 return RedirectToAction("Index");
             }

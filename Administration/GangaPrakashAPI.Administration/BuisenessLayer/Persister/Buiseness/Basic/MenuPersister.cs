@@ -39,7 +39,7 @@ namespace GangaPrakashAPI.Administration.Persister
                 {
                     menu.IsError = true;
                     menu.ErrorMessage = menuDto.ErrorMessage;
-                    menu.ErrorMessageFor = "manu.SequenceNo";
+                    menu.ErrorMessageFor = "menu.SequenceNo";
 
                 }
             }
@@ -47,7 +47,7 @@ namespace GangaPrakashAPI.Administration.Persister
             {
                 menu.IsError = true;
                 menu.ErrorMessage = menuDto.ErrorMessage;
-                menu.ErrorMessageFor = "manu.Name";
+                menu.ErrorMessageFor = "menu.Name";
 
             }
             return menu;
@@ -110,8 +110,18 @@ namespace GangaPrakashAPI.Administration.Persister
                 SequenceNo = menu.SequenceNo,
                 IsActive = false
             };
-            ImenuDal.Delete(menuDto, con, trans);
-            menu.Id = menuDto.Id;
+            Boolean IsMenuReferencePresent = ImenuDal.IsMenuReferencePresent(menuDto.Id);
+            if (!IsMenuReferencePresent)
+            {
+                ImenuDal.Delete(menuDto, con, trans);
+                menu.Id = menuDto.Id;
+            }
+            else
+            {
+                menu.IsError = true;
+                menu.ErrorMessage = "Please first deallocate menu under Roles";
+                menu.ErrorMessageFor = "Name";
+            }
             return menu;
         }
 
