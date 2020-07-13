@@ -48,6 +48,22 @@ namespace GangaPrakashAPI.Administration.Dal
             return result;
         }
 
+        public Boolean IsMenuReferencePresent(Guid MenuId)
+        {
+            Boolean IsMenuReferencePresent = false;
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
+            SqlCommand cmd = new SqlCommand(" Select RM.Id from RoleMenu RM Where RM.MenuId=@menuid and RM.IsActive=1", con);
+            cmd.Parameters.AddWithValue("@menuid", MenuId);
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            if (dr.HasRows)
+            {
+                IsMenuReferencePresent = true;
+            }
+            con.Close();
+            return IsMenuReferencePresent;
+        }
+
         public List<MenuDto> FetchParentListByRoleId(Guid RoleId)
         {
             List<MenuDto> result = new List<MenuDto>();
@@ -64,6 +80,50 @@ namespace GangaPrakashAPI.Administration.Dal
             while (dr.Read())
             {
                 result.Add(GetParentMenuDto(dr));
+            }
+            con.Close();
+            return result;
+        }
+
+        public List<MenuDto> FetchUserMenuBasedOnPrivilege(String Controller, String Action, String Area, Guid ApplicationUserId)
+        {
+            List<MenuDto> result = new List<MenuDto>();
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
+            SqlCommand cmd = new SqlCommand(@"  Select Distinct M.Id,M.Name,M.Controller,M.Action,M.Area,M.SequenceNo,M.ParentId,M.ModuleId from Menu M
+                                                Inner Join RoleMenu RM on RM.MenuId=M.Id ANd RM.IsActive=1 And M.IsActive=1 And M.Controller=@controller And M.Area=@area
+                                                Inner Join UserRole UR On UR.RoleId=RM.RoleId And UR.ApplicationUserId=@applicationuserid And UR.IsActive=1 And RM.IsActive=1
+                                                Inner Join RoleMenuPrivilege RMP On RMP.RoleMenuId=RM.Id And RM.IsActive=1 And RMP.IsACtive=1
+                                                Inner Join Privilege P On RMP.PrivilegeId=P.Id ANd RMP.IsActive=1 And P.IsActive=1 And P.Name=@action", con);
+            cmd.Parameters.AddWithValue("@controller", Controller);
+            cmd.Parameters.AddWithValue("@area", Area);
+            cmd.Parameters.AddWithValue("@applicationuserid", ApplicationUserId);
+            cmd.Parameters.AddWithValue("@action", Action);
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                result.Add(GetDto(dr));
+            }
+            con.Close();
+            return result;
+        }
+
+        public List<UserAccessMenuDto> FetchByApplicationUserId(Guid ApplicationUserId)
+        {
+            List<UserAccessMenuDto> result = new List<UserAccessMenuDto>();
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
+            SqlCommand cmd = new SqlCommand(@"  Select M.Id,M.Action,M.Controller,M.Area,M.Name,MO.Name as Module,M.ModuleId,M.SequenceNo,Case When M.ParentId='00000000-0000-0000-0000-000000000000' then M.Id else M.ParentId end as ParentId,Case When M.ParentId='00000000-0000-0000-0000-000000000000' then 1 else 0 end as IsParent from Menu M
+                                                Inner Join RoleMenu RM on RM.MenuId=M.Id And RM.IsACtive=1
+                                                Inner Join UserRole UR On UR.RoleId=RM.RoleId And UR.ApplicationUserId=@applicationuserid And UR.IsACtive=1
+                                                Inner Join Module MO On MO.Id=M.ModuleId ANd MO.IsACtive=1 And M.IsACtive=1
+                                                Group By ModuleId,M.Name,M.SequenceNo,ParentId,M.Id,MO.Name,M.Action,M.Controller,M.Area
+                                                Order By ModuleId,ParentId,IsParent Desc,M.SequenceNo", con);
+            cmd.Parameters.AddWithValue("@applicationuserid", ApplicationUserId);
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                result.Add(GetUserAccessMenuDto(dr));
             }
             con.Close();
             return result;
@@ -289,6 +349,23 @@ namespace GangaPrakashAPI.Administration.Dal
             {
                 Id = sdr.GetGuid(sdr.GetOrdinal("Id")),
                 Name = sdr.GetString(sdr.GetOrdinal("Name"))
+            };
+        }
+
+        public UserAccessMenuDto GetUserAccessMenuDto(SqlDataReader sdr)
+        {
+            return new UserAccessMenuDto
+            {
+                Id = sdr.GetGuid(sdr.GetOrdinal("Id")),
+                Action = sdr.GetString(sdr.GetOrdinal("Action")),
+                Controller = sdr.GetString(sdr.GetOrdinal("Controller")),
+                Area = sdr.GetString(sdr.GetOrdinal("Area")),
+                Name = sdr.GetString(sdr.GetOrdinal("Name")),
+                Module = sdr.GetString(sdr.GetOrdinal("Module")),
+                ModuleId = sdr.GetGuid(sdr.GetOrdinal("ModuleId")),
+                SequenceNo = sdr.GetInt32(sdr.GetOrdinal("SequenceNo")),
+                ParentId = sdr.GetGuid(sdr.GetOrdinal("ParentId")),
+                IsParent = ((sdr.GetInt32(sdr.GetOrdinal("IsParent"))) == 1) ? true : false,
             };
         }
     }

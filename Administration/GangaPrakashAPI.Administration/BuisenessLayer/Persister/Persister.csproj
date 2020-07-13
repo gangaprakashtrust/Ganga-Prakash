@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buiseness\Basic\ApplicationUserPersister.cs" />
     <Compile Include="Buiseness\Basic\MenuPersister.cs" />
     <Compile Include="Buiseness\Basic\MenuPrivilegePersister.cs" />
     <Compile Include="Buiseness\Basic\ModulePersister.cs" />
@@ -52,9 +53,12 @@
     <Compile Include="Buiseness\Basic\RoleMenuPersister.cs" />
     <Compile Include="Buiseness\Basic\RoleMenuPrivilegePersister.cs" />
     <Compile Include="Buiseness\Basic\RolePersister.cs" />
+    <Compile Include="Buiseness\Basic\UserRolePersister.cs" />
+    <Compile Include="Buiseness\Transaction\ApplicationUserTransPersister.cs" />
     <Compile Include="Buiseness\Transaction\MenuTransPersister.cs" />
     <Compile Include="Buiseness\Transaction\RoleMenuPrivilegeTransPersister.cs" />
     <Compile Include="Buiseness\Transaction\RoleTransPersister.cs" />
+    <Compile Include="List\ApplicationUserList.cs" />
     <Compile Include="List\MenuList.cs" />
     <Compile Include="List\MenuPrivilegeList.cs" />
     <Compile Include="List\ModuleList.cs" />
@@ -63,6 +67,7 @@
     <Compile Include="List\RoleMenuList.cs" />
     <Compile Include="List\RoleMenuPrivilegeHelperList.cs" />
     <Compile Include="List\RoleMenuPrivilegeList.cs" />
+    <Compile Include="List\UserRoleList.cs" />
     <Compile Include="NVList\MenuNVList.cs" />
     <Compile Include="NVList\ModuleNVList.cs" />
     <Compile Include="NVList\RoleNVList.cs" />

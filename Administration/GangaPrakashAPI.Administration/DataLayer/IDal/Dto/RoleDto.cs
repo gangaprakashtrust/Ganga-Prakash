@@ -18,5 +18,7 @@ namespace GangaPrakashAPI.Administration.IDal
 
         public String ErrorMessage { get; set; }
 
+        public Boolean IsChecked { get; set; }
+
     }
 }

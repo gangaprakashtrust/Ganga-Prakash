@@ -15,6 +15,10 @@ namespace GangaPrakashAPI.Administration.IDal
 
         List<MenuDto> FetchParentListByRoleId(Guid RoleId);
 
+        List<MenuDto> FetchUserMenuBasedOnPrivilege(String Controller, String Action, String Area, Guid ApplicationUserId);
+
+        List<UserAccessMenuDto> FetchByApplicationUserId(Guid ApplicationUserId);
+
         List<MenuDto> GetParentListByModuleId(Guid ModuleId);
 
         MenuDto FetchById(Guid Id);
@@ -22,6 +26,8 @@ namespace GangaPrakashAPI.Administration.IDal
         MenuDto IsMenuAlreadyPresent(MenuDto moduleDto);
 
         MenuDto IsSequenceNoAlreadyPresent(MenuDto moduleDto);
+
+        Boolean IsMenuReferencePresent(Guid MenuId);
 
         MenuDto Insert(MenuDto moduleDto, SqlConnection transcon = null, SqlTransaction trans = null);
 

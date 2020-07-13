@@ -43,6 +43,15 @@ namespace GangaPrakashAPI.Administration.Persister
                     roleMenuPrivilege.RoleMenuId = item.RoleMenuId;
                     roleMenuPrivilege.PrivilegeId = item.PrivilegeId;
                     roleMenuPrivilegePersister.Insert(roleMenuPrivilege, con, trans);
+                    if (roleMenuPrivilege.IsError)
+                    {
+                        roleMenuPrivilegeTrans.IsError = true;
+                        roleMenuPrivilegeTrans.ErrorMessage = roleMenuPrivilege.ErrorMessage;
+                        roleMenuPrivilegeTrans.ErrorMessageFor = roleMenuPrivilege.ErrorMessageFor;
+                        trans.Rollback();
+                        con.Close();
+                        return roleMenuPrivilegeTrans;
+                    }
                 }
 
                 //Deleting deleted records
@@ -51,7 +60,17 @@ namespace GangaPrakashAPI.Administration.Persister
                     if (roleMenuPrivilegeList.Where(a => a.RoleMenuId == item.RoleMenuId && a.PrivilegeId==item.PrivilegeId).ToList().Count > 0)
                     {
                         RoleMenuPrivilegePersister roleMenuPrivilegePersister = RoleMenuPrivilegePersister.GetPersister();
-                        roleMenuPrivilegePersister.Delete(roleMenuPrivilegeList.Where(a => a.RoleMenuId == item.RoleMenuId && a.PrivilegeId == item.PrivilegeId).FirstOrDefault(), con, trans);
+                        RoleMenuPrivilege roleMenuPrivilege = roleMenuPrivilegeList.Where(a => a.RoleMenuId == item.RoleMenuId && a.PrivilegeId == item.PrivilegeId).FirstOrDefault();
+                        roleMenuPrivilegePersister.Delete(roleMenuPrivilege, con, trans);
+                        if (roleMenuPrivilege.IsError)
+                        {
+                            roleMenuPrivilegeTrans.IsError = true;
+                            roleMenuPrivilegeTrans.ErrorMessage = roleMenuPrivilege.ErrorMessage;
+                            roleMenuPrivilegeTrans.ErrorMessageFor = roleMenuPrivilege.ErrorMessageFor;
+                            trans.Rollback();
+                            con.Close();
+                            return roleMenuPrivilegeTrans;
+                        }
                     }
                 }
                 trans.Commit();

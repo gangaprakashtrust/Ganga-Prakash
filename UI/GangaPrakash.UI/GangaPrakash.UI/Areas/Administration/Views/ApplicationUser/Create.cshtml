@@ -1,0 +1,123 @@
+﻿@using GangaPrakashAPI.Model
+@model ApplicationUserTrans
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>User</h5>
+                </div>
+                <div class="ibox-content">
+                    <form role="form" method="post">
+                        @Html.HiddenFor(model => model.applicationUser.Id)
+                        @Html.HiddenFor(model => model.applicationUser.UserId)
+                        @Html.AntiForgeryToken()
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Username</label>
+                            <div class="col-sm-4"><input type="text" id="UserName" name="applicationUser.UserName" placeholder="UserName" class="form-control" value="@Model.applicationUser.UserName" required=""></div>
+                            <label class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-4"><input type="text" id="Email" name="applicationUser.Email" placeholder="Email" class="form-control" value="@Model.applicationUser.Email" required=""></div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-4">
+                                @Html.ValidationMessageFor(model => model.applicationUser.UserName, "", new { @class = "text-danger" })
+                            </div>
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-4">
+                                @Html.ValidationMessageFor(model => model.applicationUser.UserName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">First Name</label>
+                            <div class="col-sm-4"><input type="text" id="FirstName" name="applicationUser.FirstName" placeholder="FirstName" class="form-control" value="@Model.applicationUser.FirstName" required=""></div>
+                            <label class="col-sm-2 col-form-label">Last Name</label>
+                            <div class="col-sm-4"><input type="text" id="LastName" name="applicationUser.LastName" placeholder="LastName" class="form-control" value="@Model.applicationUser.LastName" required=""></div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-4">
+                                @Html.ValidationMessageFor(model => model.applicationUser.FirstName, "", new { @class = "text-danger" })
+                            </div>
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-4">
+                                @Html.ValidationMessageFor(model => model.applicationUser.LastName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Short Name</label>
+                            <div class="col-sm-4"><input type="text" id="ShortName" name="applicationUser.ShortName" placeholder="ShortName" class="form-control" value="@Model.applicationUser.ShortName" required=""></div>
+                            <label class="col-sm-2 col-form-label">Mobile No</label>
+                            <div class="col-sm-4"><input type="text" id="MobileNo" name="applicationUser.MobileNo" placeholder="MobileNo" class="form-control" value="@Model.applicationUser.MobileNo" required=""></div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-4">
+                                @Html.ValidationMessageFor(model => model.applicationUser.ShortName, "", new { @class = "text-danger" })
+                            </div>
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-4">
+                                @Html.ValidationMessageFor(model => model.applicationUser.MobileNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-4">
+                                <div class="i-checks">
+
+                                    <label class="i-checks">
+                                        @Html.CheckBoxFor(model => Model.applicationUser.IsDoctor)<i></i> Is Doctor
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Roles</label>
+
+                            <div class="col-sm-10">
+                                @for (int i = 0; i < Model.roleList.Count; i++)
+                                {
+                                    <input type="hidden" value="@Model.roleList[i].Id" name="roleList[@i].Id" id="roleList[i].Id" />
+                                    <input type="hidden" value="@Model.roleList[i].Name" name="roleList[@i].Name" id="roleList[i].Name" /> <input type="hidden" value="@Model.roleList[i].Name" name="roleList[@i].Name" id="roleList[i].Name" />
+
+                                    <div class="i-checks">
+
+                                        <label class="i-checks">
+                                            @Html.CheckBoxFor(model => Model.roleList[i].IsChecked)<i></i> @Model.roleList[i].Name
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 col-sm-offset-2"></div>
+                            <div class="col-sm-4 col-sm-offset-2"></div>
+
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button class="btn btn-primary btn-sm" type="submit">Save</button>
+                                <button class="btn btn-white btn-sm" type="button" onclick="location.href='@Url.Action("Index","ApplicationUser",new { Area="Administration"})'">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <!-- iCheck -->
+    <script src="~/lib/iCheck/icheck.min.js"></script>
+    <script src="~/Scripts/Ajax.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+    </script>
+}

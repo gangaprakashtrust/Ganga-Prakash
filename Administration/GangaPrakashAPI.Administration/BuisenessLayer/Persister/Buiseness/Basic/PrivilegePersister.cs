@@ -96,8 +96,18 @@ namespace GangaPrakashAPI.Administration.Persister
                 SequenceNo = privilege.SequenceNo,
                 IsActive = false
             };
-            IprivilegeDal.Delete(privilegeDto, con, trans);
-            privilege.Id = privilegeDto.Id;
+            Boolean IsPrivilegeReferencePresent = IprivilegeDal.IsPrivilegeReferencePresent(privilegeDto.Id);
+            if (!IsPrivilegeReferencePresent)
+            {
+                IprivilegeDal.Delete(privilegeDto, con, trans);
+                privilege.Id = privilegeDto.Id;
+            }
+            else
+            {
+                privilege.IsError = true;
+                privilege.ErrorMessage = "Please first deallocate privilege under Menu ";
+                privilege.ErrorMessageFor = "Name";
+            }
             return privilege;
         }
 

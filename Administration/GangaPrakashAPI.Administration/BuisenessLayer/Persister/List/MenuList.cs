@@ -94,5 +94,64 @@ namespace GangaPrakashAPI.Administration.Persister
             }
             return menuList;
         }
+
+        public static List<UserAccessMenu> GetListByApplicationUserId(Guid ApplicationUserId)
+        {
+            return FetchByApplicationUserId(ApplicationUserId);
+        }
+
+        private static List<UserAccessMenu> FetchByApplicationUserId(Guid ApplicationUserId)
+        {
+            IMenuDal ImenuDal = new MenuDal();
+            List<UserAccessMenu> menuList = new List<UserAccessMenu>();
+            foreach (var item in ImenuDal.FetchByApplicationUserId(ApplicationUserId))
+            {
+                UserAccessMenu menu = new UserAccessMenu
+                {
+                    Id = item.Id,
+                    Action = item.Action,
+                    Controller = item.Controller,
+                    Area = item.Area,
+                    Name = item.Name,
+                    Module = item.Module,
+                    ModuleId = item.ModuleId,
+                    SequenceNo = item.SequenceNo,
+                    ParentId = item.ParentId,
+                    IsParent = item.IsParent,
+                };
+                menuList.Add(menu);
+            }
+            return menuList;
+        }
+
+        public static List<Menu> GetUserMenuBasedOnPrivilege(String Controller,String Action, String Area,Guid ApplicationUserId)
+        {
+            return FetchUserMenuBasedOnPrivilege(Controller, Action, Area, ApplicationUserId);
+        }
+
+        private static List<Menu> FetchUserMenuBasedOnPrivilege(String Controller, String Action, String Area, Guid ApplicationUserId)
+        {
+            IMenuDal ImenuDal = new MenuDal();
+            List<Menu> menuList = new List<Menu>();
+            foreach (var item in ImenuDal.FetchUserMenuBasedOnPrivilege(Controller, Action, Area, ApplicationUserId))
+            {
+                Menu menu = new Menu
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Controller = item.Controller,
+                    Action = item.Action,
+                    Area = item.Area,
+                    ParentId = item.ParentId,
+                    ModuleId = item.ModuleId,
+                    SequenceNo = item.SequenceNo,
+                    Module = item.Module,
+                    ParentMenu = item.ParentMenu
+
+                };
+                menuList.Add(menu);
+            }
+            return menuList;
+        }
     }
 }

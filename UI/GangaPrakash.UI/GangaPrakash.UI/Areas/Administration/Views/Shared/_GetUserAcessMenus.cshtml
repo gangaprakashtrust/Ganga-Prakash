@@ -1,0 +1,49 @@
+﻿@using GangaPrakashAPI.Model
+@model IEnumerable<UserAccessMenu>
+<li class="nav-header">
+    <div class="dropdown profile-element">
+        <img alt="image" class="rounded-circle" src="~/images/profile_small.jpg" />
+        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+            <span class="block m-t-xs font-bold">Super Admin</span>
+            <span class="text-muted text-xs block">Ganga Prakash Trust<b class="caret"></b></span>
+        </a>
+        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+            <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+            <li><a class="dropdown-item" href="contacts.html">Contacts</a></li>
+            <li><a class="dropdown-item" href="mailbox.html">Mailbox</a></li>
+            <li class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="@Url.Action("Logout","Account",new { Area="Administration"})">Logout</a></li>
+        </ul>
+    </div>
+    <div class="logo-element">
+        IN+
+    </div>
+</li>
+@foreach (var Module in Model.GroupBy(a => a.ModuleId))
+{
+    <li>
+        <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">@Module.FirstOrDefault().Module </span><span class="fa arrow"></span></a>
+        @foreach (var ParentMenu in Module.GroupBy(a => a.ParentId))
+        {
+            foreach (var menu in ParentMenu.Where(a => a.IsParent))
+            {
+                <ul class="nav nav-second-level collapse">
+                    <li>
+                        <a href="#">@menu.Name <span class="fa arrow"></span></a>
+                        <ul class="nav nav-third-level">
+                            @foreach (var child in Model.Where(a => a.ParentId == menu.ParentId && a.IsParent == false).OrderBy(a => a.SequenceNo))
+                            {
+                                <li class="active"><a href="@Url.Action(child.Action,child.Controller,new { Area=child.Area})">@child.Name</a></li>
+
+                            }
+                        </ul>
+                    </li>
+
+                </ul>
+            }
+
+        }
+
+    </li>
+}
+

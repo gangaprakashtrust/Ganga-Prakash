@@ -27,6 +27,26 @@ namespace GangaPrakashAPI.Administration.Dal
             return result;
         }
 
+        public List<RoleDto> FetchByApplicationUserId(Guid ApplicationUserId)
+        {
+            List<RoleDto> result = new List<RoleDto>();
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
+            SqlCommand cmd = new SqlCommand(@" Select R.Id,R.Name,case When(UR.Id is null) then 0 else 1 End as IsChecked 
+                                               from Role R
+                                               Left Outer join UserRole UR On UR.RoleId=R.Id 
+                                               And UR.ApplicationUserId=@applicationuserid And R.IsActive=1 And UR.IsActive=1
+                                               Group By R.Id,R.Name,UR.Id", con);
+            cmd.Parameters.AddWithValue("@applicationuserid", ApplicationUserId);
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                result.Add(GetUserRoleDto(dr));
+            }
+            con.Close();
+            return result;
+        }
+
         public RoleDto IsRoleAlreadyPresent(RoleDto roleDto)
         {
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
@@ -151,6 +171,16 @@ namespace GangaPrakashAPI.Administration.Dal
             {
                 Id = sdr.GetGuid(sdr.GetOrdinal("Id")),
                 Name = sdr.GetString(sdr.GetOrdinal("Name")),
+            };
+        }
+
+        public RoleDto GetUserRoleDto(SqlDataReader sdr)
+        {
+            return new RoleDto
+            {
+                Id = sdr.GetGuid(sdr.GetOrdinal("Id")),
+                Name = sdr.GetString(sdr.GetOrdinal("Name")),
+                IsChecked = ((sdr.GetInt32(sdr.GetOrdinal("IsChecked"))) == 1) ? true : false
             };
         }
     }

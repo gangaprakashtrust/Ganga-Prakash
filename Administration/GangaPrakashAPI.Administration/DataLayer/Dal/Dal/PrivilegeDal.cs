@@ -27,6 +27,22 @@ namespace GangaPrakashAPI.Administration.Dal
             return result;
         }
 
+        public Boolean IsPrivilegeReferencePresent(Guid PrivilegeId)
+        {
+            Boolean IsPrivilegeReferencePresent = false;
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
+            SqlCommand cmd = new SqlCommand(" Select MP.Id from MenuPrivilege MP Where MP.PrivilegeId=@privilegeid and MP.IsActive=1", con);
+            cmd.Parameters.AddWithValue("@privilegeid", PrivilegeId);
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            if (dr.HasRows)
+            {
+                IsPrivilegeReferencePresent = true;
+            }
+            con.Close();
+            return IsPrivilegeReferencePresent;
+        }
+
         public List<PrivilegeDto> FetchByMenuId(Guid MenuId)
         {
             List<PrivilegeDto> result = new List<PrivilegeDto>();

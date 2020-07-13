@@ -12,5 +12,6 @@ namespace GangaPrakashAPI.Model
         public String token_type { get; set; }
         public long expires_in { get; set; }
         public String userName { get; set; }
+        public String ApplicationUserId { get; set; }
     }
 }

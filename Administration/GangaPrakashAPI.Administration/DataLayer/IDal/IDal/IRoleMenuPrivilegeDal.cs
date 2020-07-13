@@ -17,5 +17,11 @@ namespace GangaPrakashAPI.Administration.IDal
 
         RoleMenuPrivilegeDto Delete(RoleMenuPrivilegeDto roleMenuPrivilegeDto, SqlConnection transcon = null, SqlTransaction trans = null);
 
+        Boolean Delete(Guid MenuId,Guid PrivilegeId, SqlConnection transcon = null, SqlTransaction trans = null);
+
+        Boolean Delete(Guid RoleId, Guid MenuId,Guid RoleMenuId, SqlConnection transcon = null, SqlTransaction trans = null);
+
+        Boolean Delete(Guid RoleId, SqlConnection transcon = null, SqlTransaction trans = null);
+
     }
 }

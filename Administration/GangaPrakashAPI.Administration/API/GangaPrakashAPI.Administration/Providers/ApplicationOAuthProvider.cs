@@ -10,6 +10,7 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using GangaPrakashAPI.Administration.Models;
+using GangaPrakashAPI.Administration.Persister;
 
 namespace GangaPrakashAPI.Administration.Providers
 {
@@ -33,7 +34,7 @@ namespace GangaPrakashAPI.Administration.Providers
 
             ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
 
-            if (user == null)
+            if (user == null || user.EmailConfirmed==false)
             {
                 context.SetError("invalid_grant", "The user name or password is incorrect.");
                 return;
@@ -56,7 +57,7 @@ namespace GangaPrakashAPI.Administration.Providers
             {
                 context.AdditionalResponseParameters.Add(property.Key, property.Value);
             }
-
+            context.AdditionalResponseParameters.Add("ApplicationUserId", ApplicationUserPersister.GetApplicationUserIdBySystemUserId(Guid.Parse(context.Identity.GetUserId())));
             return Task.FromResult<object>(null);
         }
 

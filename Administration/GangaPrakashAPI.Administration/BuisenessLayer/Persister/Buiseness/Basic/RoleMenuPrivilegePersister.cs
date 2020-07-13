@@ -54,6 +54,45 @@ namespace GangaPrakashAPI.Administration.Persister
             return roleMenuPrivilege;
         }
 
+        public MenuPrivilege Delete(MenuPrivilege menuPrivilege, SqlConnection con = null, SqlTransaction trans = null)
+        {
+            IRoleMenuPrivilegeDal IroleMenuPrivilegeDal = new RoleMenuPrivilegeDal();
+            Boolean IsDeleted=IroleMenuPrivilegeDal.Delete(menuPrivilege.MenuId,menuPrivilege.PrivilegeId, con, trans);
+            if(!IsDeleted)
+            {
+                menuPrivilege.IsError = true;
+                menuPrivilege.ErrorMessage = "Please try again!";
+                menuPrivilege.ErrorMessageFor = "menu.Name";
+            }
+            return menuPrivilege;
+        }
+
+        public Role Delete(Role role, SqlConnection con = null, SqlTransaction trans = null)
+        {
+            IRoleMenuPrivilegeDal IroleMenuPrivilegeDal = new RoleMenuPrivilegeDal();
+            Boolean IsDeleted = IroleMenuPrivilegeDal.Delete(role.Id, con, trans);
+            if (!IsDeleted)
+            {
+                role.IsError = true;
+                role.ErrorMessage = "Please try again!";
+                role.ErrorMessageFor = "role.Name";
+            }
+            return role;
+        }
+
+        public RoleMenu Delete(RoleMenu roleMenu, SqlConnection con = null, SqlTransaction trans = null)
+        {
+            IRoleMenuPrivilegeDal IroleMenuPrivilegeDal = new RoleMenuPrivilegeDal();
+            Boolean IsDeleted = IroleMenuPrivilegeDal.Delete(roleMenu.RoleId, roleMenu.MenuId, roleMenu.Id, con, trans);
+            if (!IsDeleted)
+            {
+                roleMenu.IsError = true;
+                roleMenu.ErrorMessage = "Please try again!";
+                roleMenu.ErrorMessageFor = "role.Name";
+            }
+            return roleMenu;
+        }
+
         public static RoleMenuPrivilege Get()
         {
             RoleMenuPrivilege roleMenuPrivilege = new RoleMenuPrivilege();

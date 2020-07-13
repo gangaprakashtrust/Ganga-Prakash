@@ -11,6 +11,8 @@ namespace GangaPrakashAPI.Administration.IDal
     {
         List<RoleDto> Fetch();
 
+        List<RoleDto> FetchByApplicationUserId(Guid ApplicationUserId);
+
         RoleDto FetchById(Guid Id);
 
         RoleDto IsRoleAlreadyPresent(RoleDto roleDto);

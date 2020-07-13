@@ -116,6 +116,97 @@ namespace GangaPrakashAPI.Administration.Dal
             return roleMenuPrivilegeDto;
         }
 
+        public Boolean Delete(Guid MenuId, Guid PrivilegeId, SqlConnection transcon = null, SqlTransaction trans = null)
+        {
+            SqlConnection con;
+            if (transcon != null)
+            {
+                con = transcon;
+            }
+            else
+            {
+                con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
+                con.Open();
+            }
+            SqlCommand cmd = new SqlCommand(@" Update RoleMenuPrivilege Set IsActive=@isactive Where Id In (Select RMP.Id from RoleMenuPrivilege RMP
+                                               Inner Join RoleMenu RM On RMP.RoleMenuId=RM.Id And RM.MenuId=@menuid 
+                                               And RM.IsActive=1 And RMP.PrivilegeId=@privilegeid 
+                                               And RMP.IsActive=1) ", con);
+            if (transcon != null)
+            {
+                cmd.Transaction = trans;
+            }
+            cmd.Parameters.AddWithValue("@menuid", MenuId);
+            cmd.Parameters.AddWithValue("@privilegeid", PrivilegeId);
+            cmd.Parameters.AddWithValue("@isactive", false);
+            Int32 IsDataAffected = Convert.ToInt32(cmd.ExecuteNonQuery());
+            if (transcon == null)
+            {
+                con.Close();
+            }
+            return (IsDataAffected>0)?true:false;
+        }
+
+        public Boolean Delete(Guid RoleId, SqlConnection transcon = null, SqlTransaction trans = null)
+        {
+            SqlConnection con;
+            if (transcon != null)
+            {
+                con = transcon;
+            }
+            else
+            {
+                con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
+                con.Open();
+            }
+            SqlCommand cmd = new SqlCommand(@" Update RoleMenuPrivilege Set IsActive=@isactive Where Id In (Select RMP.Id from RoleMenuPrivilege RMP
+                                               Inner Join RoleMenu RM On RMP.RoleMenuId=RM.Id And RM.RoleId=@roleid 
+                                               And RM.IsActive=1
+                                               And RMP.IsActive=1) ", con);
+            if (transcon != null)
+            {
+                cmd.Transaction = trans;
+            }
+            cmd.Parameters.AddWithValue("@roleid", RoleId);
+            cmd.Parameters.AddWithValue("@isactive", false);
+            Int32 IsDataAffected = Convert.ToInt32(cmd.ExecuteNonQuery());
+            if (transcon == null)
+            {
+                con.Close();
+            }
+            return (IsDataAffected > 0) ? true : false;
+        }
+
+        public Boolean Delete(Guid RoleId, Guid MenuId, Guid RoleMenuId, SqlConnection transcon = null, SqlTransaction trans = null)
+        {
+            SqlConnection con;
+            if (transcon != null)
+            {
+                con = transcon;
+            }
+            else
+            {
+                con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
+                con.Open();
+            }
+            SqlCommand cmd = new SqlCommand(@" Update RoleMenuPrivilege Set IsActive=@isactive Where Id In (Select RMP.Id from RoleMenuPrivilege RMP
+                                               Inner Join RoleMenu RM On RMP.RoleMenuId=RM.Id And RM.Id=@rolemenuid 
+                                               And RM.IsActive=1
+                                               And RMP.IsActive=1) ", con);
+            if (transcon != null)
+            {
+                cmd.Transaction = trans;
+            }
+            cmd.Parameters.AddWithValue("@rolemenuid", RoleMenuId);
+            cmd.Parameters.AddWithValue("@isactive", false);
+            Int32 IsDataAffected = Convert.ToInt32(cmd.ExecuteNonQuery());
+            if (transcon == null)
+            {
+                con.Close();
+            }
+            return (IsDataAffected > 0) ? true : false;
+        }
+
         public RoleMenuPrivilegeDto GetDto(SqlDataReader sdr)
         {
             return new RoleMenuPrivilegeDto

@@ -28,6 +28,22 @@ namespace GangaPrakashAPI.Administration.Controllers
             return Ok(parentMenuList);
         }
 
+        [Route("api/Menu/GetUserMenuBasedOnPrivilege")]
+        [HttpGet]
+        public IHttpActionResult GetUserMenuBasedOnPrivilege(String Controller, String Action, String Area, Guid ApplicationUserId)
+        {
+            List<Menu> menuList = MenuList.GetUserMenuBasedOnPrivilege(Controller, Action, Area, ApplicationUserId);
+            return Ok(menuList);
+        }
+
+        [Route("api/Menu/GetListByApplicationUserId")]
+        [HttpGet]
+        public IHttpActionResult GetListByApplicationUserId(Guid ApplicationUserId)
+        {
+            List<UserAccessMenu> menuList = MenuList.GetListByApplicationUserId(ApplicationUserId);
+            return Ok(menuList);
+        }
+
         [Route("api/Menu/Get")]
         [HttpGet]
         public IHttpActionResult Get()
