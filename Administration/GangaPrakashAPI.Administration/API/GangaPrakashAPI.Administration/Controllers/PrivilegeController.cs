@@ -18,6 +18,8 @@ namespace GangaPrakashAPI.Administration.Controllers
         {
             List<Privilege> roleList = PrivilegeList.GetList();
             return Ok(roleList);
+
+
         }
 
         [Route("api/Privilege/Get")]
