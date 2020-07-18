@@ -1,0 +1,80 @@
+﻿@using GangaPrakashAPI.Model
+@model IEnumerable<InternalChat>
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="InternalChatBox">
+                            <div class="heading">
+                                <small class="chat-date float-right">
+                                    @DateTime.Now.Date.ToShortDateString()
+                                </small>
+                                Ganga Prakash Internal Chat
+                            </div>
+                            <div class="slimScrollDiv" style="position: relative;overflow: hidden;width: auto;min-height: 400px;">
+                                <div class="content" style="overflow: hidden; width: auto; min-height: 400px;max-height: 400px;overflow:scroll;"  id="ChatDiv">
+                                    @foreach (var item in Model)
+                                    {
+                                        if (!item.IsReceiver)
+                                        {
+                                            <div class="left">
+                                                <div class="author-name">
+                                                    @item.Username <small class="chat-date">
+                                                        @item.DateTime
+                                                    </small>
+                                                </div>
+                                                <div class="chat-message active">
+                                                    @item.Text
+                                                </div>
+
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="right">
+                                                <div class="author-name">
+                                                    @item.Username
+                                                    <small class="chat-date">
+                                                        @item.DateTime
+                                                    </small>
+                                                </div>
+                                                <div class="chat-message">
+                                                    @item.Text
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+
+
+
+                                </div>
+                                <div class="form-chat">
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control" id="Text">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary" type="button" id="ChatSubmit">
+                                                Send
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/Ajax.js"></script>
+    <script>
+    const ApplicationUserId = '@Guid.Parse(Session["ApplicationUserId"].ToString())';
+    const Username = '@Session["ApplicationUsername"].ToString()';
+    </script>
+    }

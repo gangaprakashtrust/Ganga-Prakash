@@ -154,7 +154,7 @@
         var ModuleId = $('#menu_ModuleId').val();
         var ParentId = '@Model.menu.ParentId';
         AjaxFillDropdown('/Menu/GetParentMenuByModuleId', ModuleId, 'menu_ParentId');
-        debugger;
+        
         if (ParentId != null && ParentId != "" && ParentId!='@Guid.Empty') {
             $("#menu_ParentId").val(ParentId);
 
