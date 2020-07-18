@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dto\ApplicationUserDto.cs" />
+    <Compile Include="Dto\InternalChatDto.cs" />
     <Compile Include="Dto\MenuDto.cs" />
     <Compile Include="Dto\MenuPrivilegeDto.cs" />
     <Compile Include="Dto\ModuleDto.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="Dto\UserAccessMenuDto.cs" />
     <Compile Include="Dto\UserRoleDto.cs" />
     <Compile Include="IDal\IApplicationUserDal.cs" />
+    <Compile Include="IDal\IInternalChatDal.cs" />
     <Compile Include="IDal\IMenuDal.cs" />
     <Compile Include="IDal\IMenuPrivilegeDal.cs" />
     <Compile Include="IDal\IModuleDal.cs" />

@@ -47,14 +47,14 @@
                             IN+
                         </div>
                     </li>
-                    @{ 
-                        List<UserAccessMenu> menuList= Session["AccessMenus"] as List<UserAccessMenu>;
+                    @{
+                        List<UserAccessMenu> menuList = Session["AccessMenus"] as List<UserAccessMenu>;
                     }
                     @foreach (var Module in menuList.GroupBy(a => a.ModuleId))
                     {
                         <li>
                             <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">@Module.FirstOrDefault().Module </span><span class="fa arrow"></span></a>
-                            @foreach (var ParentMenu in Module.OrderBy(a=>a.Name).GroupBy(a => a.ParentId))
+                            @foreach (var ParentMenu in Module.OrderBy(a => a.Name).GroupBy(a => a.ParentId))
                             {
                                 foreach (var menu in ParentMenu.Where(a => a.IsParent))
                                 {
@@ -122,6 +122,9 @@
     <script src="~/lib/dataTables/datatables.min.js"></script>
     <script src="~/lib/dataTables/dataTables.bootstrap4.min.js"></script>
     <script src="~/lib/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.1.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="~/Scripts/Inspinia/ChatRequestHandler.js"></script>
 
 
     <!-- Custom and plugin javascript -->

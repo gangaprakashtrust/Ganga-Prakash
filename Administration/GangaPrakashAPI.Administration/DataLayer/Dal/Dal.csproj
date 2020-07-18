@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dal\ApplicationUserDal.cs" />
+    <Compile Include="Dal\IntrnalChatDal.cs" />
     <Compile Include="Dal\UserRoleDal.cs" />
     <Compile Include="Dal\MenuDal.cs" />
     <Compile Include="Dal\MenuPrivilegeDal.cs" />

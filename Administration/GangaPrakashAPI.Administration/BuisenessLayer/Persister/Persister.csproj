@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buiseness\Basic\ApplicationUserPersister.cs" />
+    <Compile Include="Buiseness\Basic\InternalChatPersister.cs" />
     <Compile Include="Buiseness\Basic\MenuPersister.cs" />
     <Compile Include="Buiseness\Basic\MenuPrivilegePersister.cs" />
     <Compile Include="Buiseness\Basic\ModulePersister.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Buiseness\Transaction\RoleMenuPrivilegeTransPersister.cs" />
     <Compile Include="Buiseness\Transaction\RoleTransPersister.cs" />
     <Compile Include="List\ApplicationUserList.cs" />
+    <Compile Include="List\InternalChatList.cs" />
     <Compile Include="List\MenuList.cs" />
     <Compile Include="List\MenuPrivilegeList.cs" />
     <Compile Include="List\ModuleList.cs" />
