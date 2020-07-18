@@ -10,6 +10,7 @@ const Text = $("#Text").val();
 const ChatDiv = document.getElementById('ChatDiv');
 
 
+
 $(function () {
     var chat = $.connection.chatHub;
 
