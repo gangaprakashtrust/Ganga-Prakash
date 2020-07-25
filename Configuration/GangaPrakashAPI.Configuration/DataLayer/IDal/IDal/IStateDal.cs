@@ -11,6 +11,8 @@ namespace GangaPrakashAPI.Configuration.IDal
     {
         List<StateDto> Fetch();
 
+        List<StateDto> FetchByCountryId(Guid CountryId);
+
         StateDto FetchById(Guid Id);
 
         StateDto IsStateAlreadyPresent(StateDto stateDto);

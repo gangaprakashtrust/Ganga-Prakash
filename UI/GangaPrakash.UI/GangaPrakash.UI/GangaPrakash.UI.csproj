@@ -191,6 +191,7 @@
     <Compile Include="Areas\Administration\Controllers\PrivilegeController.cs" />
     <Compile Include="Areas\Administration\Controllers\RoleMenuPrivilegeController.cs" />
     <Compile Include="Areas\Configuration\ConfigurationAreaRegistration.cs" />
+    <Compile Include="Areas\Configuration\Controllers\CityController.cs" />
     <Compile Include="Areas\Configuration\Controllers\CountryController.cs" />
     <Compile Include="Areas\Configuration\Controllers\StateController.cs" />
     <Compile Include="Areas\System\SystemAreaRegistration.cs" />
@@ -4762,6 +4763,9 @@
     <Content Include="Areas\Configuration\Views\State\Index.cshtml" />
     <Content Include="Areas\Configuration\Views\State\Create.cshtml" />
     <Content Include="Areas\Configuration\Views\State\Edit.cshtml" />
+    <Content Include="Areas\Configuration\Views\City\Index.cshtml" />
+    <Content Include="Areas\Configuration\Views\City\Create.cshtml" />
+    <Content Include="Areas\Configuration\Views\City\Edit.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\Inspinia\ChatRequestHandler.js" />
     <Content Include="Scripts\Inspinia\script.js" />

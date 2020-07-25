@@ -20,6 +20,22 @@ namespace GangaPrakashAPI.Configuration.Controllers
             return Ok(stateList);
         }
 
+        [Route("api/State/GetNVList")]
+        [HttpGet]
+        public IHttpActionResult GetNVList()
+        {
+            List<KeyValuePair<Guid, String>> stateNVList = StateNVList.GetList();
+            return Ok(stateNVList);
+        }
+
+        [Route("api/State/GetNVListByCountryId")]
+        [HttpGet]
+        public IHttpActionResult GetNVListByCountryId(Guid CountryId)
+        {
+            List<KeyValuePair<Guid, String>> stateNVList = StateNVList.GetListByCountryId(CountryId);
+            return Ok(stateNVList);
+        }
+
         [Route("api/State/Get")]
         [HttpGet]
         public IHttpActionResult Get()

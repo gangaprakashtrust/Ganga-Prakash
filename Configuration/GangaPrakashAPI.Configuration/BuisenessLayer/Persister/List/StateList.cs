@@ -26,6 +26,7 @@ namespace GangaPrakashAPI.Configuration.Persister
                 State state = new State
                 {
                     Id = item.Id,
+                    CountryId = item.CountryId,
                     Name = item.Name,
                     Country = item.Country
                 };

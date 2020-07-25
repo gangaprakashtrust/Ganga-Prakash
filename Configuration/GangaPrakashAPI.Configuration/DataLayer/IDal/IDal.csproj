@@ -41,8 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dto\CityDto.cs" />
     <Compile Include="Dto\CountryDto.cs" />
     <Compile Include="Dto\StateDto.cs" />
+    <Compile Include="IDal\ICityDal.cs" />
     <Compile Include="IDal\ICountryDal.cs" />
     <Compile Include="IDal\IStateDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

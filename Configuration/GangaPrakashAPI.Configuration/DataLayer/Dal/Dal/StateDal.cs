@@ -27,6 +27,22 @@ namespace GangaPrakashAPI.Configuration.Dal
             return result;
         }
 
+        public List<StateDto> FetchByCountryId(Guid CountryId)
+        {
+            List<StateDto> result = new List<StateDto>();
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
+            SqlCommand cmd = new SqlCommand(" Select S.Id,S.CountryId,S.Name,C.Name as Country from State S Inner Join Country C On C.Id=S.CountryId And C.Id=@countryid And S.IsActive=1 And C.IsActive=1 Order By S.Name ", con);
+            cmd.Parameters.AddWithValue("@countryid", CountryId);
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                result.Add(GetDto(dr));
+            }
+            con.Close();
+            return result;
+        }
+
         public StateDto IsStateAlreadyPresent(StateDto stateDto)
         {
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);

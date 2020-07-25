@@ -59,6 +59,7 @@
     <Compile Include="Administration\Transaction\Basic\MenuTrans.cs" />
     <Compile Include="Administration\Transaction\Basic\RoleMenuPrivilegeTrans.cs" />
     <Compile Include="Administration\Transaction\Basic\RoleTrans.cs" />
+    <Compile Include="Configuration\Business\Basic\City.cs" />
     <Compile Include="Configuration\Business\Basic\Country.cs" />
     <Compile Include="Configuration\Business\Basic\State.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

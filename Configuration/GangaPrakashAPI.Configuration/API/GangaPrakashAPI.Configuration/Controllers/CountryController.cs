@@ -24,8 +24,8 @@ namespace GangaPrakashAPI.Configuration.Controllers
         [HttpGet]
         public IHttpActionResult GetNVList()
         {
-            List<KeyValuePair<Guid, String>> cuntryNVList = CountryNVList.GetList();
-            return Ok(cuntryNVList);
+            List<KeyValuePair<Guid, String>> countryNVList = CountryNVList.GetList();
+            return Ok(countryNVList);
         }
 
         [Route("api/Country/Get")]

@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dal\CityDal.cs" />
     <Compile Include="Dal\CountryDal.cs" />
     <Compile Include="Dal\StateDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

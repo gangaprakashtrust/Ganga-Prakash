@@ -1,0 +1,121 @@
+﻿@using GangaPrakashAPI.Model
+@model City
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>City</h5>
+                </div>
+                <div class="ibox-content">
+                    <form role="form" method="post">
+                        @Html.HiddenFor(model => model.Id)
+                        @Html.AntiForgeryToken()
+                        <div class="form-group row">
+
+                            <label class="col-sm-2 col-form-label">Country</label>
+                            <div class="col-sm-4">
+                                @Html.DropDownListFor(model => model.CountryId, new SelectList(Model.CountryNVList, "Key", "Value", Model.CountryId), new { @class = "CountryDropdown form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-4">
+                                @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+
+                            <label class="col-sm-2 col-form-label">State</label>
+                            <div class="col-sm-4">
+                                @Html.DropDownListFor(model => model.StateId, new SelectList(new List<KeyValuePair<Guid, String>>(), "Key", "Value", Model.StateId), "--Select--", new { @class = "StateDropdown form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-4">
+                                @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Name</label>
+                            <div class="col-sm-4"><input type="text" id="Name" name="Name" placeholder="Name" class="form-control" value="@Model.Name" required=""></div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-4">
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 col-sm-offset-2"></div>
+                            <div class="col-sm-4 col-sm-offset-2"></div>
+
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button class="btn btn-primary btn-sm" type="submit">Save</button>
+                                <button class="btn btn-danger btn-sm DeleteCity" type="button">Delete</button>
+                                <button class="btn btn-white btn-sm" type="button" onclick="location.href='@Url.Action("Index","City",new { Area="Configuration"})'">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/Ajax.js"></script>
+    <script>
+        $(".CountryDropdown").select2({
+            theme: 'bootstrap4',
+        });
+          $(".StateDropdown").select2({
+            theme: 'bootstrap4',
+        });
+
+        var CountryId = $('#CountryId').val();
+        var StateId = '@Model.StateId';
+        AjaxFillDropdown('/State/GetStateListByCountryId', CountryId,'StateId');
+        if (StateId != null && StateId != "" && StateId!='@Guid.Empty') {
+            $("#StateId").val(StateId);
+
+    }
+    else {
+            $("#StateId").val('');
+
+    }
+        $('#CountryId').on("change", function () {
+
+            var CountryId = $('#CountryId').val();
+            AjaxFillDropdown('/State/GetStateListByCountryId', CountryId, 'StateId');
+        });
+        $('.DeleteCity').click(function () {
+            swal({
+                title: "Are you sure?",
+                text: "",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Delete",
+                cancelButtonText: "Cancel",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        var Id = '@Model.Id';
+                        var DeleteUrl = '@Url.Action("Delete","City",new { Area="Configuration",Id=Model.Id})';
+                        window.location.href = DeleteUrl;
+                    } else {
+                        swal("Cancelled", "Cancelled :)", "error");
+                    }
+                });
+        });
+    </script>
+}

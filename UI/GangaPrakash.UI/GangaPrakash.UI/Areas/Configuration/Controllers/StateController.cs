@@ -110,6 +110,13 @@ namespace GangaPrakash.UI
             return RedirectToAction("Index");
         }
 
+        public async Task<JsonResult> GetStateListByCountryId(Guid Id)
+        {
+            List<KeyValuePair<Guid, string>> StateList = await WebAPIClient.GetAsync<List<KeyValuePair<Guid, String>>>(ConfigurationManager.AppSettings["APIConfiguration"], "api/State/GetNVListByCountryId?CountryId=" + Id, Session["AccessToken"].ToString());
+            return Json(StateList, JsonRequestBehavior.AllowGet);
+        }
+
+
         public async Task AssignList(State state)
         {
             state.CountryNVList = new List<KeyValuePair<Guid, string>>();
