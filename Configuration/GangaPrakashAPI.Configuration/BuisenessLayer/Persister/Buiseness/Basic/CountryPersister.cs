@@ -70,8 +70,18 @@ namespace GangaPrakashAPI.Configuration.Persister
                 Id = country.Id,
                 IsActive = false
             };
-            IcountryDal.Delete(countryDto, con, trans);
-            country.Id = countryDto.Id;
+            Boolean IsStateReferencePresent = IcountryDal.IsStateReferencePresent(countryDto.Id);
+            if (!IsStateReferencePresent)
+            {
+                IcountryDal.Delete(countryDto, con, trans);
+                country.Id = countryDto.Id;
+            }
+            else
+            {
+                country.IsError = true;
+                country.ErrorMessage = "Please first delete states under country " + country.Name;
+                country.ErrorMessageFor = "Name";
+            }
             return country;
         }
 

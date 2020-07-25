@@ -72,8 +72,18 @@ namespace GangaPrakashAPI.Configuration.Persister
                 Id = state.Id,
                 IsActive = false
             };
-            IstateDal.Delete(stateDto, con, trans);
-            state.Id = stateDto.Id;
+            Boolean IsCityReferencePresent = IstateDal.IsCityReferencePresent(stateDto.Id);
+            if (!IsCityReferencePresent)
+            {
+                IstateDal.Delete(stateDto, con, trans);
+                state.Id = stateDto.Id;
+            }
+            else
+            {
+                state.IsError = true;
+                state.ErrorMessage = "Please first delete cities under state " + state.Name;
+                state.ErrorMessageFor = "Name";
+            }
             return state;
         }
 

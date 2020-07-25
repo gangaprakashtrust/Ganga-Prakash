@@ -17,6 +17,8 @@ namespace GangaPrakashAPI.Configuration.IDal
 
         StateDto IsStateAlreadyPresent(StateDto stateDto);
 
+        Boolean IsCityReferencePresent(Guid StateId);
+
         StateDto Insert(StateDto stateDto, SqlConnection transcon = null, SqlTransaction trans = null);
 
         StateDto Update(StateDto stateDto, SqlConnection transcon = null, SqlTransaction trans = null);

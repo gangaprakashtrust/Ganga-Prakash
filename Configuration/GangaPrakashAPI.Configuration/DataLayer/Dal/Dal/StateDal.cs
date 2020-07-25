@@ -27,6 +27,22 @@ namespace GangaPrakashAPI.Configuration.Dal
             return result;
         }
 
+        public Boolean IsCityReferencePresent(Guid StateId)
+        {
+            Boolean IsCityReferencePresent = false;
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
+            SqlCommand cmd = new SqlCommand(" Select C.Id from City C Where C.StateId=@stateid and C.IsActive=1", con);
+            cmd.Parameters.AddWithValue("@stateid", StateId);
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            if (dr.HasRows)
+            {
+                IsCityReferencePresent = true;
+            }
+            con.Close();
+            return IsCityReferencePresent;
+        }
+
         public List<StateDto> FetchByCountryId(Guid CountryId)
         {
             List<StateDto> result = new List<StateDto>();

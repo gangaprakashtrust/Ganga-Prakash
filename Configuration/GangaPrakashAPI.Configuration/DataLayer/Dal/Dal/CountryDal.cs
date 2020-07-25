@@ -27,6 +27,22 @@ namespace GangaPrakashAPI.Configuration.Dal
             return result;
         }
 
+        public Boolean IsStateReferencePresent(Guid CountryId)
+        {
+            Boolean IsStateReferencePresent = false;
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
+            SqlCommand cmd = new SqlCommand(" Select S.Id from State S Where S.CountryId=@countryid and S.IsActive=1", con);
+            cmd.Parameters.AddWithValue("@countryid", CountryId);
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            if (dr.HasRows)
+            {
+                IsStateReferencePresent = true;
+            }
+            con.Close();
+            return IsStateReferencePresent;
+        }
+
         public CountryDto IsCountryAlreadyPresent(CountryDto countryDto)
         {
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);

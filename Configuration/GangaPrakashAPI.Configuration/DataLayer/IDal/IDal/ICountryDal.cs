@@ -15,6 +15,8 @@ namespace GangaPrakashAPI.Configuration.IDal
 
         CountryDto IsCountryAlreadyPresent(CountryDto countryDto);
 
+        Boolean IsStateReferencePresent(Guid CountryId);
+
         CountryDto Insert(CountryDto countryDto, SqlConnection transcon = null, SqlTransaction trans = null);
 
         CountryDto Update(CountryDto countryDto, SqlConnection transcon = null, SqlTransaction trans = null);
