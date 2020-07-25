@@ -20,6 +20,14 @@ namespace GangaPrakashAPI.Configuration.Controllers
             return Ok(countryList);
         }
 
+        [Route("api/Country/GetNVList")]
+        [HttpGet]
+        public IHttpActionResult GetNVList()
+        {
+            List<KeyValuePair<Guid, String>> cuntryNVList = CountryNVList.GetList();
+            return Ok(cuntryNVList);
+        }
+
         [Route("api/Country/Get")]
         [HttpGet]
         public IHttpActionResult Get()

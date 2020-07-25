@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace GangaPrakashAPI.Configuration.Dal
 {
-    public class CountryDal : ICountryDal
+    public class StateDal : IStateDal
     {
 
-        public List<CountryDto> Fetch()
+        public List<StateDto> Fetch()
         {
-            List<CountryDto> result = new List<CountryDto>();
+            List<StateDto> result = new List<StateDto>();
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
-            SqlCommand cmd = new SqlCommand(" Select C.Id,C.Name from Country C Where C.IsActive=1 Order By C.Name ", con);
+            SqlCommand cmd = new SqlCommand(" Select S.Id,S.CountryId,S.Name,C.Name as Country from State S Inner Join Country C On C.Id=S.CountryId And S.IsActive=1 And C.IsActive=1 Order By S.Name ", con);
             con.Open();
             SqlDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
@@ -27,28 +27,29 @@ namespace GangaPrakashAPI.Configuration.Dal
             return result;
         }
 
-        public CountryDto IsCountryAlreadyPresent(CountryDto countryDto)
+        public StateDto IsStateAlreadyPresent(StateDto stateDto)
         {
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
-            SqlCommand cmd = new SqlCommand(" Select C.Id,C.Name from Country C Where Upper(Trim(C.Name))=@name and C.Id<>@id And C.IsActive=1", con);
-            cmd.Parameters.AddWithValue("@id", countryDto.Id);
-            cmd.Parameters.AddWithValue("@name", countryDto.Name.Trim().ToUpper());
+            SqlCommand cmd = new SqlCommand(" Select S.Id,S.Name from State S Where Upper(Trim(S.Name))=@name and S.CountryId=@countryid and S.Id<>@id And S.IsActive=1", con);
+            cmd.Parameters.AddWithValue("@id", stateDto.Id);
+            cmd.Parameters.AddWithValue("@countryid", stateDto.CountryId);
+            cmd.Parameters.AddWithValue("@name", stateDto.Name.Trim().ToUpper());
             con.Open();
             SqlDataReader dr = cmd.ExecuteReader();
             if (dr.HasRows)
             {
-                countryDto.ErrorCount = 1;
-                countryDto.ErrorMessage = "Country already present";
+                stateDto.ErrorCount = 1;
+                stateDto.ErrorMessage = "State already present";
             }
             con.Close();
-            return countryDto;
+            return stateDto;
         }
 
-        public CountryDto FetchById(Guid Id)
+        public StateDto FetchById(Guid Id)
         {
-            CountryDto result = new CountryDto();
+            StateDto result = new StateDto();
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
-            SqlCommand cmd = new SqlCommand(" Select C.Id,C.Name from Country C Where C.Id=@id and C.IsActive=1", con);
+            SqlCommand cmd = new SqlCommand(" Select S.Id,S.CountryId,S.Name,C.Name as Country from State S Inner Join Country C On C.Id=S.CountryId And S.IsActive=1 And C.IsActive=1 And S.Id=@id ", con);
             cmd.Parameters.AddWithValue("@id", Id);
             con.Open();
             SqlDataReader dr = cmd.ExecuteReader();
@@ -60,7 +61,7 @@ namespace GangaPrakashAPI.Configuration.Dal
             return result;
         }
 
-        public CountryDto Insert(CountryDto countryDto, SqlConnection transcon = null, SqlTransaction trans = null)
+        public StateDto Insert(StateDto stateDto, SqlConnection transcon = null, SqlTransaction trans = null)
         {
             SqlConnection con;
             if (transcon != null)
@@ -72,24 +73,25 @@ namespace GangaPrakashAPI.Configuration.Dal
                 con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
                 con.Open();
             }
-            SqlCommand cmd = new SqlCommand(" Insert Into Country(Name,IsActive) Output Inserted.Id Values(@name,@isactive) ", con);
+            SqlCommand cmd = new SqlCommand(" Insert Into State(CountryId,Name,IsActive) Output Inserted.Id Values(@countryid,@name,@isactive) ", con);
             if (transcon != null)
             {
                 cmd.Transaction = trans;
             }
-            cmd.Parameters.AddWithValue("@name", countryDto.Name);
-            cmd.Parameters.AddWithValue("@isactive", countryDto.IsActive);
+            cmd.Parameters.AddWithValue("@countryid", stateDto.CountryId);
+            cmd.Parameters.AddWithValue("@name", stateDto.Name);
+            cmd.Parameters.AddWithValue("@isactive", stateDto.IsActive);
 
             Guid InsertedId = Guid.Parse(cmd.ExecuteScalar().ToString());
-            countryDto.Id = InsertedId;
+            stateDto.Id = InsertedId;
             if (transcon == null)
             {
                 con.Close();
             }
-            return countryDto;
+            return stateDto;
         }
 
-        public CountryDto Update(CountryDto countryDto, SqlConnection transcon = null, SqlTransaction trans = null)
+        public StateDto Update(StateDto stateDto, SqlConnection transcon = null, SqlTransaction trans = null)
         {
             SqlConnection con;
             if (transcon != null)
@@ -101,23 +103,24 @@ namespace GangaPrakashAPI.Configuration.Dal
                 con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
                 con.Open();
             }
-            SqlCommand cmd = new SqlCommand(" Update Country set Name=@name,IsActive=@isactive Where Id=@id ", con);
+            SqlCommand cmd = new SqlCommand(" Update State set CountryId=@countryid,Name=@name,IsActive=@isactive Where Id=@id ", con);
             if (transcon != null)
             {
                 cmd.Transaction = trans;
             }
-            cmd.Parameters.AddWithValue("@id", countryDto.Id);
-            cmd.Parameters.AddWithValue("@name", countryDto.Name);
-            cmd.Parameters.AddWithValue("@isactive", countryDto.IsActive);
+            cmd.Parameters.AddWithValue("@id", stateDto.Id);
+            cmd.Parameters.AddWithValue("@countryid", stateDto.CountryId);
+            cmd.Parameters.AddWithValue("@name", stateDto.Name);
+            cmd.Parameters.AddWithValue("@isactive", stateDto.IsActive);
             Int32 IsDataAffected = Convert.ToInt32(cmd.ExecuteNonQuery());
             if (transcon == null)
             {
                 con.Close();
             }
-            return countryDto;
+            return stateDto;
         }
 
-        public CountryDto Delete(CountryDto countryDto, SqlConnection transcon = null, SqlTransaction trans = null)
+        public StateDto Delete(StateDto stateDto, SqlConnection transcon = null, SqlTransaction trans = null)
         {
             SqlConnection con;
             if (transcon != null)
@@ -129,27 +132,29 @@ namespace GangaPrakashAPI.Configuration.Dal
                 con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
                 con.Open();
             }
-            SqlCommand cmd = new SqlCommand(" Update Country set IsActive=@isactive Where Id=@id ", con);
+            SqlCommand cmd = new SqlCommand(" Update State set IsActive=@isactive Where Id=@id ", con);
             if (transcon != null)
             {
                 cmd.Transaction = trans;
             }
-            cmd.Parameters.AddWithValue("@id", countryDto.Id);
-            cmd.Parameters.AddWithValue("@isactive", countryDto.IsActive);
+            cmd.Parameters.AddWithValue("@id", stateDto.Id);
+            cmd.Parameters.AddWithValue("@isactive", stateDto.IsActive);
             Int32 IsDataAffected = Convert.ToInt32(cmd.ExecuteNonQuery());
             if (transcon == null)
             {
                 con.Close();
             }
-            return countryDto;
+            return stateDto;
         }
 
-        public CountryDto GetDto(SqlDataReader sdr)
+        public StateDto GetDto(SqlDataReader sdr)
         {
-            return new CountryDto
+            return new StateDto
             {
                 Id = sdr.GetGuid(sdr.GetOrdinal("Id")),
-                Name = sdr.GetString(sdr.GetOrdinal("Name"))
+                CountryId = sdr.GetGuid(sdr.GetOrdinal("CountryId")),
+                Name = sdr.GetString(sdr.GetOrdinal("Name")),
+                Country = sdr.GetString(sdr.GetOrdinal("Country"))
             };
         }
     }

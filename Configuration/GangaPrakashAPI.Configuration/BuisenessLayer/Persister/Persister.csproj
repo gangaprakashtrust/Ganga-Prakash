@@ -45,12 +45,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buiseness\Basic\CountryPersister.cs" />
+    <Compile Include="Buiseness\Basic\StatePersister.cs" />
     <Compile Include="List\CountryList.cs" />
+    <Compile Include="List\StateList.cs" />
+    <Compile Include="NVList\CountryNVList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Buiseness\Transaction\" />
-    <Folder Include="NVList\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DataLayer\Dal\Dal.csproj">
