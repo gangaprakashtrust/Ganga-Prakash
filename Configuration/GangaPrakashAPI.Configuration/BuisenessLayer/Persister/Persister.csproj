@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{80BD82CE-B29A-4622-B9F4-DB90D4FF6327}</ProjectGuid>
+    <ProjectGuid>{84AC3255-B65E-4C96-92A6-746A08F11E47}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Persister</RootNamespace>
     <AssemblyName>Persister</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GangaPrakashAPI.Model">
+      <HintPath>..\..\..\..\Common DLLs\GangaPrakashAPI.Model.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,13 +44,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buiseness\Basic\CountryPersister.cs" />
+    <Compile Include="List\CountryList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Buiseness\Basic\" />
     <Folder Include="Buiseness\Transaction\" />
-    <Folder Include="List\" />
     <Folder Include="NVList\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DataLayer\Dal\Dal.csproj">
+      <Project>{613b1729-2a5d-45d0-8a3f-e851c4f2f791}</Project>
+      <Name>Dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DataLayer\IDal\IDal.csproj">
+      <Project>{95336fc1-eaf0-418e-97ea-99fc909f84ef}</Project>
+      <Name>IDal</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
