@@ -15,8 +15,6 @@ namespace GangaPrakashAPI.Model
 
         public List<Role> roleList { get; set; }
 
-        public HttpPostedFileBase Image { get; set; }
-
         public String ConfirmEmailToken { get; set; }
 
     }

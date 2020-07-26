@@ -312,8 +312,10 @@
     <Content Include="images\a7.jpg" />
     <Content Include="images\a8.jpg" />
     <Content Include="images\angular_logo.png" />
+    <Content Include="images\Blank-User.jpg" />
     <Content Include="images\dashboard4_1.jpg" />
     <Content Include="images\dashboard4_2.jpg" />
+    <Content Include="images\doctor-thumb-02.jpg" />
     <Content Include="images\email_1.jpg" />
     <Content Include="images\email_2.jpg" />
     <Content Include="images\email_3.jpg" />

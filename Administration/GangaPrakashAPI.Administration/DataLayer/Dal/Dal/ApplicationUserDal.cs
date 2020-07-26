@@ -16,7 +16,7 @@ namespace GangaPrakashAPI.Administration.Dal
         {
             List<ApplicationUserDto> result = new List<ApplicationUserDto>();
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
-            SqlCommand cmd = new SqlCommand(@" Select AU.Id,AU.UserId,AU.UserName,AU.FirstName,AU.LastName,AU.Email,AU.ShortName,AU.MobileNo,AU.ImagePath,AU.IsDoctor from ApplicationUser AU Where AU.IsActive=1", con);
+            SqlCommand cmd = new SqlCommand(@" Select AU.Id,AU.UserId,AU.UserName,AU.FirstName,AU.LastName,AU.Email,AU.ShortName,AU.MobileNo,AU.UserImageBase64String,AU.IsDoctor from ApplicationUser AU Where AU.IsActive=1", con);
             con.Open();
             SqlDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
@@ -60,7 +60,7 @@ namespace GangaPrakashAPI.Administration.Dal
         {
             ApplicationUserDto result = new ApplicationUserDto();
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
-            SqlCommand cmd = new SqlCommand(" Select AU.Id,AU.UserId,AU.UserName,AU.FirstName,AU.LastName,AU.Email,AU.ShortName,AU.MobileNo,AU.ImagePath,AU.IsDoctor from ApplicationUser AU Where AU.Id=@id and AU.IsActive=1", con);
+            SqlCommand cmd = new SqlCommand(" Select AU.Id,AU.UserId,AU.UserName,AU.FirstName,AU.LastName,AU.Email,AU.ShortName,AU.MobileNo,AU.UserImageBase64String,AU.IsDoctor from ApplicationUser AU Where AU.Id=@id and AU.IsActive=1", con);
             cmd.Parameters.AddWithValue("@id", Id);
             con.Open();
             SqlDataReader dr = cmd.ExecuteReader();
@@ -84,7 +84,7 @@ namespace GangaPrakashAPI.Administration.Dal
                 con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
                 con.Open();
             }
-            SqlCommand cmd = new SqlCommand(" Insert Into ApplicationUser(UserId,UserName,FirstName,LastName,Email,ShortName,MobileNo,ImagePath,IsDoctor,IsActive) Output Inserted.Id Values(@userid,@username,@firstname,@lastname,@email,@shortname,@mobileno,@imagepath,@isdoctor,@isactive) ", con);
+            SqlCommand cmd = new SqlCommand(" Insert Into ApplicationUser(UserId,UserName,FirstName,LastName,Email,ShortName,MobileNo,UserImageBase64String,IsDoctor,IsActive) Output Inserted.Id Values(@userid,@username,@firstname,@lastname,@email,@shortname,@mobileno,@userimagebase64string,@isdoctor,@isactive) ", con);
             if (transcon != null)
             {
                 cmd.Transaction = trans;
@@ -96,7 +96,7 @@ namespace GangaPrakashAPI.Administration.Dal
             cmd.Parameters.AddWithValue("@email", applicationUserDto.Email);
             cmd.Parameters.AddWithValue("@shortname", applicationUserDto.ShortName);
             cmd.Parameters.AddWithValue("@mobileno", applicationUserDto.MobileNo);
-            cmd.Parameters.AddWithValue("@imagepath", applicationUserDto.ImagePath ?? String.Empty);
+            cmd.Parameters.AddWithValue("@userimagebase64string", applicationUserDto.UserImageBase64String ?? String.Empty);
             cmd.Parameters.AddWithValue("@isdoctor", applicationUserDto.IsDoctor);
             cmd.Parameters.AddWithValue("@isactive", applicationUserDto.IsActive);
 
@@ -121,7 +121,7 @@ namespace GangaPrakashAPI.Administration.Dal
                 con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
                 con.Open();
             }
-            SqlCommand cmd = new SqlCommand(" Update ApplicationUser set UserId=@userid,UserName=@username,FirstName=@firstname,LastName=@lastname,Email=@email,ShortName=@shortname,MobileNo=@mobileno,ImagePath=@imagepath,IsDoctor=@isdoctor,IsActive=@isactive Where Id=@id ", con);
+            SqlCommand cmd = new SqlCommand(" Update ApplicationUser set UserId=@userid,UserName=@username,FirstName=@firstname,LastName=@lastname,Email=@email,ShortName=@shortname,MobileNo=@mobileno,UserImageBase64String=@userimagebase64string,IsDoctor=@isdoctor,IsActive=@isactive Where Id=@id ", con);
             if (transcon != null)
             {
                 cmd.Transaction = trans;
@@ -134,7 +134,7 @@ namespace GangaPrakashAPI.Administration.Dal
             cmd.Parameters.AddWithValue("@email", applicationUserDto.Email);
             cmd.Parameters.AddWithValue("@shortname", applicationUserDto.ShortName);
             cmd.Parameters.AddWithValue("@mobileno", applicationUserDto.MobileNo);
-            cmd.Parameters.AddWithValue("@imagepath", applicationUserDto.ImagePath ?? String.Empty);
+            cmd.Parameters.AddWithValue("@userimagebase64string", applicationUserDto.UserImageBase64String ?? String.Empty);
             cmd.Parameters.AddWithValue("@isdoctor", applicationUserDto.IsDoctor);
             cmd.Parameters.AddWithValue("@isactive", applicationUserDto.IsActive);
             Int32 IsDataAffected = Convert.ToInt32(cmd.ExecuteNonQuery());
@@ -184,7 +184,7 @@ namespace GangaPrakashAPI.Administration.Dal
                 Email = sdr.GetString(sdr.GetOrdinal("Email")),
                 ShortName = sdr.GetString(sdr.GetOrdinal("ShortName")),
                 MobileNo = sdr.GetString(sdr.GetOrdinal("MobileNo")),
-                ImagePath = sdr.GetString(sdr.GetOrdinal("ImagePath")),
+                UserImageBase64String = sdr.GetString(sdr.GetOrdinal("UserImageBase64String")),
                 IsDoctor = sdr.GetBoolean(sdr.GetOrdinal("IsDoctor"))
             };
         }

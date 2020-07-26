@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Text;
 using System.Threading.Tasks;
 using GangaPrakashAPI.Administration.Dal;
@@ -24,10 +26,11 @@ namespace GangaPrakashAPI.Administration.Persister
                 Email = applicationUser.Email,
                 ShortName = applicationUser.ShortName,
                 MobileNo = applicationUser.MobileNo,
-                ImagePath = applicationUser.ImagePath,
+                UserImageBase64String = applicationUser.UserImageBase64String,
                 IsDoctor = applicationUser.IsDoctor,
                 IsActive = true
             };
+
             IapplicationUserDal.Insert(applicationUserDto, con, trans);
             applicationUser.Id = applicationUserDto.Id;
             return applicationUser;
@@ -46,7 +49,7 @@ namespace GangaPrakashAPI.Administration.Persister
                 Email = applicationUser.Email,
                 ShortName = applicationUser.ShortName,
                 MobileNo = applicationUser.MobileNo,
-                ImagePath = applicationUser.ImagePath,
+                UserImageBase64String = applicationUser.UserImageBase64String,
                 IsDoctor = applicationUser.IsDoctor,
                 IsActive = true
             };
@@ -67,7 +70,7 @@ namespace GangaPrakashAPI.Administration.Persister
                 Email = applicationUser.Email,
                 ShortName = applicationUser.ShortName,
                 MobileNo = applicationUser.MobileNo,
-                ImagePath = applicationUser.ImagePath,
+                UserImageBase64String = applicationUser.UserImageBase64String,
                 IsDoctor = applicationUser.IsDoctor,
                 IsActive = false
             };
@@ -90,7 +93,7 @@ namespace GangaPrakashAPI.Administration.Persister
                 Email = applicationUserDto.Email,
                 ShortName = applicationUserDto.ShortName,
                 MobileNo = applicationUserDto.MobileNo,
-                ImagePath = applicationUserDto.ImagePath,
+                UserImageBase64String = applicationUserDto.UserImageBase64String,
                 IsDoctor = applicationUserDto.IsDoctor,
             };
             return applicationUser;

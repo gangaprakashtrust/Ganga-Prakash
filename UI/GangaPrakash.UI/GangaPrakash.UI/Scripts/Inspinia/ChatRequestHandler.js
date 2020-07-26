@@ -52,7 +52,7 @@ $(function () {
             let currentDate = new Date();
             if (Text.trim() != "") {
                 var obj = { ApplicationUserId: ApplicationUserId, Username: Username, Text: Text };
-                AjaxCall('/Administration/InternalChat/Create', JSON.stringify(obj), 'POST').done(function (response) {
+                AjaxGetData('/Administration/InternalChat/Create', JSON.stringify(obj), 'POST').done(function (response) {
                     if (response == "Ok") {
                         chat.server.send(ApplicationUserId, Username, Text, currentDate);
                         $('#Text').val('').focus();

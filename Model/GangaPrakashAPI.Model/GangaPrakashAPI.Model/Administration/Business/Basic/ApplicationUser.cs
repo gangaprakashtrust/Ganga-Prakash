@@ -35,10 +35,10 @@ namespace GangaPrakashAPI.Model
 
         public Boolean IsDoctor { get; set; }
 
-        public String ImagePath { get; set; }
+        public String UserImageBase64String { get; set; }
 
         //Extra Fields
-     
+
         public string Password { get; set; }
 
         public string ConfirmPassword { get; set; }

@@ -5,13 +5,46 @@
         <div class="col-lg-12">
             <div class="ibox ">
                 <div class="ibox-title">
-                    <h5>User</h5>
+                    <h5>Application User</h5>
                 </div>
                 <div class="ibox-content">
                     <form role="form" method="post">
                         @Html.HiddenFor(model => model.applicationUser.Id)
                         @Html.HiddenFor(model => model.applicationUser.UserId)
                         @Html.AntiForgeryToken()
+                        <input type="hidden" value="@Model.applicationUser.UserImageBase64String" id="UserImageBase64String" name="applicationUser.UserImageBase64String" />
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                @if (Model.applicationUser.UserImageBase64String != null)
+                                {
+                                    <img id="UserImage" src="@Model.applicationUser.UserImageBase64String" alt="User Image" style="max-height:150px !important;max-width:150px !important;min-height:150px !important;min-width:150px !important" />
+
+                                }
+                                else
+                                {
+                                    <img id="UserImage" src="~/images/Blank-User.jpg" alt="User Image" style="max-height:150px !important;max-width:150px !important;min-height:150px !important;min-width:150px !important" />
+
+                                }
+                                <p></p>
+
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label title="Upload image file" for="inputImage" class="btn btn-primary">
+                                            <input type="file" accept="image/*" name="file" id="inputImage" style="display:none">
+                                            Upload
+                                        </label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label title="Remove image file" for="Remove" class="btn btn-danger">
+                                            <input type="button" name="Remove" id="Remove" style="display:none" onclick="RemoveImage()">
+                                            Remove
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Username</label>
                             <div class="col-sm-4"><input type="text" id="UserName" name="applicationUser.UserName" placeholder="UserName" class="form-control" value="@Model.applicationUser.UserName" required=""></div>
@@ -118,6 +151,40 @@
                 checkboxClass: 'icheckbox_square-green',
                 radioClass: 'iradio_square-green',
             });
+        });
+        function UploadImageLocally(input) {
+            if (input.files && input.files[0]) {
+                if (/^image\/\w+$/.test(input.files[0].type)) {
+                    debugger;
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        var Base64String = this.result;
+                        $('#applicationUser.UserImageBase64String').val(Base64String);
+                        $('#UserImage').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]); // convert to base64 string
+                } else {
+                    swal({
+                        title: "Please choose an image file!!",
+                        text: "",
+                        type: "warning",
+                        showCancelButton: false,
+                        confirmButtonText: "Ok",
+                        closeOnConfirm: true,
+                    });
+                }
+             
+            }
+        }
+
+        function RemoveImage() {
+            $('#UserImageBase64String').val("");
+            $("#UserImage").attr("src", "../../images/Blank-User.jpg");
+        }
+
+        $("#inputImage").change(function () {
+            UploadImageLocally(this);
         });
     </script>
 }

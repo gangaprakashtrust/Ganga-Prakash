@@ -33,8 +33,7 @@ namespace GangaPrakashAPI.Administration.Persister
                     Email = item.Email,
                     ShortName = item.ShortName,
                     MobileNo = item.MobileNo,
-                    ImagePath = item.ImagePath,
-                    IsDoctor = item.IsDoctor,
+                    IsDoctor = item.IsDoctor
                 };
                 applicationUserList.Add(applicationUser);
             }

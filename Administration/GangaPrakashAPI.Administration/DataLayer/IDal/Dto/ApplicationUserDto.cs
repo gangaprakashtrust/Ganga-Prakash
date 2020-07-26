@@ -26,7 +26,7 @@ namespace GangaPrakashAPI.Administration.IDal
 
         public Boolean IsDoctor { get; set; }
 
-        public String ImagePath { get; set; }
+        public String UserImageBase64String { get; set; }
 
         public Boolean IsActive { get; set; }
 

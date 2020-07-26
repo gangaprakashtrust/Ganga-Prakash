@@ -1,4 +1,4 @@
-﻿function AjaxCall(url, data, type) {
+﻿function AjaxGetData(url, data, type) {
     return $.ajax({
         url: url,
         async: false,
@@ -12,7 +12,7 @@
 function AjaxFillDropdown(URl,Id,AppendId) {
     if (Id != null && Id != "") {
         var obj = { Id: Id };
-        AjaxCall(URl, JSON.stringify(obj), 'POST').done(function (response) {
+        AjaxGetData(URl, JSON.stringify(obj), 'POST').done(function (response) {
             $('#' + AppendId).html('');
             var options = '';
             options += '<option value="">--Select--</option>';
