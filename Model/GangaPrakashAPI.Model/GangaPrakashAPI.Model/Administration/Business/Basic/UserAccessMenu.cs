@@ -27,5 +27,7 @@ namespace GangaPrakashAPI.Model
 
         public Boolean IsParent { get; set; }
 
+        public Int32 ModuleSequenceNo { get; set; }
+
     }
 }

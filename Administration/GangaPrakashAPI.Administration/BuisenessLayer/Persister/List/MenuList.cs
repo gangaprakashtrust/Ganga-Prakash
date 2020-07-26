@@ -118,6 +118,7 @@ namespace GangaPrakashAPI.Administration.Persister
                     SequenceNo = item.SequenceNo,
                     ParentId = item.ParentId,
                     IsParent = item.IsParent,
+                    ModuleSequenceNo=item.ModuleSequenceNo
                 };
                 menuList.Add(menu);
             }

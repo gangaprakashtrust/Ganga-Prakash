@@ -47,7 +47,7 @@
                                                     <tr>
                                                         <td>@item.FirstOrDefault().Module</td>
                                                         <td>
-                                                            @foreach (var item1 in item.OrderBy(a => a.SequenceNo))
+                                                            @foreach (var item1 in item)
                                                             {
                                                                 <input type="hidden" value="@item1.Id" name="menuList[@Count].Id" id="menuList[@Count].Id" />
                                                                 <input type="hidden" value="@item1.Name" name="menuList[@Count].Name" id="menuList[@Count].Name" />

@@ -16,7 +16,7 @@ namespace GangaPrakashAPI.Administration.Dal
         {
             List<RoleMenuPrivilegeHelperDto> result = new List<RoleMenuPrivilegeHelperDto>();
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
-            SqlCommand cmd = new SqlCommand(@" Select P.Id as PrivilegeId,case When(RMP.Id is null) then 0 else 1 End as IsChecked,M.Name as Menu,MO.Name as Module,P.Name,MO.Id as ModuleId,M.Id as MenuId,RM.Id as RoleMenuId,M.SequenceNo as MenuSequenceNo,P.SequenceNo as PrivilegeSequenceNo from Privilege P
+            SqlCommand cmd = new SqlCommand(@" Select MO.SequenceNo as ModuleSequenceNo,P.Id as PrivilegeId,case When(RMP.Id is null) then 0 else 1 End as IsChecked,M.Name as Menu,MO.Name as Module,P.Name,MO.Id as ModuleId,M.Id as MenuId,RM.Id as RoleMenuId,M.SequenceNo as MenuSequenceNo,P.SequenceNo as PrivilegeSequenceNo from Privilege P
                                                Inner Join MenuPrivilege MP On MP.PrivilegeId=P.Id And P.IsActive=1 And MP.IsActive=1
                                                Inner Join Menu M On MP.MenuId=M.Id And M.IsACtive=1 And M.ParentId <> '00000000-0000-0000-0000-000000000000' And M.IsACtive=1 And MP.IsActive=1
                                                Inner Join RoleMenu RM On RM.MenuId=M.Id And RM.IsActive=1 And M.IsActive=1 And RM.RoleId=@roleid
@@ -46,6 +46,7 @@ namespace GangaPrakashAPI.Administration.Dal
                 ModuleId = sdr.GetGuid(sdr.GetOrdinal("ModuleId")),
                 MenuId = sdr.GetGuid(sdr.GetOrdinal("MenuId")),
                 RoleMenuId = sdr.GetGuid(sdr.GetOrdinal("RoleMenuId")),
+                ModuleSequenceNo= sdr.GetInt32(sdr.GetOrdinal("ModuleSequenceNo")),
                 MenuSequenceNo = sdr.GetInt32(sdr.GetOrdinal("MenuSequenceNo")),
                 PrivilegeSequenceNo = sdr.GetInt32(sdr.GetOrdinal("PrivilegeSequenceNo")),
             };

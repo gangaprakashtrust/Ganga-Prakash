@@ -27,5 +27,7 @@ namespace GangaPrakashAPI.Administration.IDal
         public Guid ParentId { get; set; }
 
         public Boolean IsParent { get; set; }
+
+        public Int32 ModuleSequenceNo { get; set; }
     }
 }

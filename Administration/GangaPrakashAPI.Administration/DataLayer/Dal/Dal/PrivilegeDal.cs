@@ -16,7 +16,7 @@ namespace GangaPrakashAPI.Administration.Dal
         {
             List<PrivilegeDto> result = new List<PrivilegeDto>();
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
-            SqlCommand cmd = new SqlCommand(" Select P.Id,P.Name,P.SequenceNo from Privilege P Where P.IsActive=1 Order By P.Name  ASC", con);
+            SqlCommand cmd = new SqlCommand(" Select P.Id,P.Name,P.SequenceNo from Privilege P Where P.IsActive=1 Order By P.SequenceNo  ASC", con);
             con.Open();
             SqlDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
@@ -51,7 +51,7 @@ namespace GangaPrakashAPI.Administration.Dal
                                                from Privilege P
                                                Left Outer join MenuPrivilege MP On MP.PrivilegeId=P.Id 
                                                And MP.MenuId=@menuid And P.IsActive=1 And MP.IsActive=1
-                                               Group By P.Id,P.Name,MP.Id,P.SequenceNo", con);
+                                               Group By P.Id,P.Name,MP.Id,P.SequenceNo Order By P.SequenceNo ASC ", con);
             cmd.Parameters.AddWithValue("@menuid", MenuId);
             con.Open();
             SqlDataReader dr = cmd.ExecuteReader();

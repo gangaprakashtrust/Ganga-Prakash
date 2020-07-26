@@ -61,6 +61,7 @@
     <Compile Include="Administration\Transaction\Basic\RoleTrans.cs" />
     <Compile Include="Configuration\Business\Basic\City.cs" />
     <Compile Include="Configuration\Business\Basic\Country.cs" />
+    <Compile Include="Configuration\Business\Basic\Department.cs" />
     <Compile Include="Configuration\Business\Basic\State.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="System\Business\Basic\AccessToken.cs" />

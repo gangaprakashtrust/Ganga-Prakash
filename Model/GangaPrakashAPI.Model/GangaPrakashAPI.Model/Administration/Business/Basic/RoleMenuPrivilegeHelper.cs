@@ -23,6 +23,8 @@ namespace GangaPrakashAPI.Model
 
         public Guid RoleMenuId { get; set; }
 
+        public Int32 ModuleSequenceNo { get; set; }
+
         public Int32 MenuSequenceNo { get; set; }
 
         public Int32 PrivilegeSequenceNo { get; set; }

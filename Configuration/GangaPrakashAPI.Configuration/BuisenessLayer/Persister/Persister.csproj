@@ -46,9 +46,11 @@
   <ItemGroup>
     <Compile Include="Buiseness\Basic\CityPersister.cs" />
     <Compile Include="Buiseness\Basic\CountryPersister.cs" />
+    <Compile Include="Buiseness\Basic\DepartmentPersister.cs" />
     <Compile Include="Buiseness\Basic\StatePersister.cs" />
     <Compile Include="List\CityList.cs" />
     <Compile Include="List\CountryList.cs" />
+    <Compile Include="List\DepartmentList.cs" />
     <Compile Include="List\StateList.cs" />
     <Compile Include="NVList\CountryNVList.cs" />
     <Compile Include="NVList\StateNVList.cs" />

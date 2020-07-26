@@ -33,6 +33,7 @@ namespace GangaPrakashAPI.Administration.Persister
                     ModuleId = item.ModuleId,
                     MenuId = item.MenuId,
                     RoleMenuId = item.RoleMenuId,
+                    ModuleSequenceNo = item.ModuleSequenceNo,
                     MenuSequenceNo = item.MenuSequenceNo,
                     PrivilegeSequenceNo = item.PrivilegeSequenceNo,
                 };

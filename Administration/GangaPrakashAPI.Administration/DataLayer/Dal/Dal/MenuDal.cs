@@ -35,9 +35,12 @@ namespace GangaPrakashAPI.Administration.Dal
         {
             List<MenuDto> result = new List<MenuDto>();
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
-            SqlCommand cmd = new SqlCommand(@" Select Id,Name,Case when ParentId='00000000-0000-0000-0000-000000000000' then Id else ParentId end as ParentId,ModuleId,Module,IsParent,0 as IsChecked,SequenceNo from
-                                               (Select M.Id,M.Name,M.ParentId,MO.Id as ModuleId,MO.Name as Module,Case When M.ParentId='00000000-0000-0000-0000-000000000000'then 1 else 0 end as IsParent,M.SequenceNo from Menu M
-                                                Inner Join Module MO on MO.IsACtive=1 And M.IsActive=1 And MO.Id=M.ModuleId) PM order by ParentId ASC,IsParent DESC", con);
+            SqlCommand cmd = new SqlCommand(@" Select PM.ParentSequenceNo,Id,Name,Case when ParentId='00000000-0000-0000-0000-000000000000' then Id else ParentId end as ParentId,ModuleId,Module,IsParent,0 as IsChecked,SequenceNo from
+                                               (Select MO.SequenceNo as ModuleSequenceNo,M.Id,M.Name,M.ParentId,MO.Id as ModuleId,MO.Name as Module,Case When M.ParentId='00000000-0000-0000-0000-000000000000'then 1 else 0 end as IsParent,Case When M.ParentId='00000000-0000-0000-0000-000000000000'then M.SequenceNo else (Select SequenceNo from Menu Where Id=M.ParentId) end as ParentSequenceNo,M.SequenceNo from Menu M
+                                               Inner Join Module MO on MO.IsACtive=1 And M.IsActive=1 And MO.Id=M.ModuleId) PM order by PM.ModuleSequenceNo,PM.ParentSequenceNo ASC,ParentId ASC,IsParent DESC,PM.SequenceNo ASC
+
+
+", con);
             con.Open();
             SqlDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
@@ -68,12 +71,12 @@ namespace GangaPrakashAPI.Administration.Dal
         {
             List<MenuDto> result = new List<MenuDto>();
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
-            SqlCommand cmd = new SqlCommand(@" Select PM.Id,PM.Name,Case when PM.ParentId='00000000-0000-0000-0000-000000000000' then PM.Id else PM.ParentId end as ParentId,PM.ModuleId,PM.Module,PM.IsParent,PM.IsActive,case When(RM.Id is null) then 0 else 1 End as IsChecked,PM.SequenceNo from
-                                               (Select M.Id,M.Name,M.ParentId,MO.Id as ModuleId,MO.Name as Module,Case When M.ParentId='00000000-0000-0000-0000-000000000000'then 1 else 0 end as IsParent,M.SequenceNo,M.IsActive from Menu M
+            SqlCommand cmd = new SqlCommand(@" Select PM.ParentSequenceNo,PM.Id,PM.Name,Case when PM.ParentId='00000000-0000-0000-0000-000000000000' then PM.Id else PM.ParentId end as ParentId,PM.ModuleId,PM.Module,PM.IsParent,PM.IsActive,case When(RM.Id is null) then 0 else 1 End as IsChecked,PM.SequenceNo,PM.ModuleSequenceNo from
+                                               (Select MO.SequenceNo as ModuleSequenceNo,M.Id,M.Name,M.ParentId,MO.Id as ModuleId,MO.Name as Module,Case When M.ParentId='00000000-0000-0000-0000-000000000000'then 1 else 0 end as IsParent,M.SequenceNo,M.IsActive,Case When M.ParentId='00000000-0000-0000-0000-000000000000'then M.SequenceNo else (Select SequenceNo from Menu Where Id=M.ParentId) end as ParentSequenceNo from Menu M
                                                Inner Join Module MO on MO.IsACtive=1 And M.IsActive=1 And MO.Id=M.ModuleId) PM 
                                                Left Outer join RoleMenu RM On RM.MenuId=PM.Id 
                                                And RM.RoleId=@roleid And PM.IsActive=1 And RM.IsActive=1
-                                               order by ParentId ASC,IsParent DESC", con);
+                                               order by PM.ModuleSequenceNo ASC,ParentSequenceNo Asc,ParentId ASC,IsParent DESC,PM.SequenceNo ASC ", con);
             cmd.Parameters.AddWithValue("@roleid", RoleId);
             con.Open();
             SqlDataReader dr = cmd.ExecuteReader();
@@ -112,12 +115,12 @@ namespace GangaPrakashAPI.Administration.Dal
         {
             List<UserAccessMenuDto> result = new List<UserAccessMenuDto>();
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["GangaPrakashConnection"].ConnectionString);
-            SqlCommand cmd = new SqlCommand(@"  Select M.Id,M.Action,M.Controller,M.Area,M.Name,MO.Name as Module,M.ModuleId,M.SequenceNo,Case When M.ParentId='00000000-0000-0000-0000-000000000000' then M.Id else M.ParentId end as ParentId,Case When M.ParentId='00000000-0000-0000-0000-000000000000' then 1 else 0 end as IsParent from Menu M
+            SqlCommand cmd = new SqlCommand(@"  Select Mo.SequenceNo as ModuleSequenceNo,M.Id,M.Action,M.Controller,M.Area,M.Name,MO.Name as Module,M.ModuleId,M.SequenceNo,Case When M.ParentId='00000000-0000-0000-0000-000000000000' then M.Id else M.ParentId end as ParentId,Case When M.ParentId='00000000-0000-0000-0000-000000000000' then 1 else 0 end as IsParent from Menu M
                                                 Inner Join RoleMenu RM on RM.MenuId=M.Id And RM.IsACtive=1
                                                 Inner Join UserRole UR On UR.RoleId=RM.RoleId And UR.ApplicationUserId=@applicationuserid And UR.IsACtive=1
                                                 Inner Join Module MO On MO.Id=M.ModuleId ANd MO.IsACtive=1 And M.IsACtive=1
-                                                Group By ModuleId,M.Name,M.SequenceNo,ParentId,M.Id,MO.Name,M.Action,M.Controller,M.Area
-                                                Order By ModuleId,ParentId,IsParent Desc,M.SequenceNo", con);
+                                                Group By Mo.SequenceNo,ModuleId,M.Name,M.SequenceNo,ParentId,M.Id,MO.Name,M.Action,M.Controller,M.Area
+                                                Order By Mo.SequenceNo,ModuleId,ParentId,IsParent Desc,M.SequenceNo", con);
             cmd.Parameters.AddWithValue("@applicationuserid", ApplicationUserId);
             con.Open();
             SqlDataReader dr = cmd.ExecuteReader();
