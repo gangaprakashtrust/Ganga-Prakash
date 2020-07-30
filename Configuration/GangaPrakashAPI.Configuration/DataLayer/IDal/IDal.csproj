@@ -41,13 +41,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dto\AddressDto.cs" />
     <Compile Include="Dto\CityDto.cs" />
     <Compile Include="Dto\CountryDto.cs" />
     <Compile Include="Dto\DepartmentDto.cs" />
+    <Compile Include="Dto\DoctorDepartmentDto.cs" />
+    <Compile Include="Dto\GenderDto.cs" />
+    <Compile Include="Dto\IdentityTypeDto.cs" />
     <Compile Include="Dto\StateDto.cs" />
+    <Compile Include="IDal\IAddressDal.cs" />
     <Compile Include="IDal\ICityDal.cs" />
     <Compile Include="IDal\ICountryDal.cs" />
     <Compile Include="IDal\IDepartmentDal.cs" />
+    <Compile Include="IDal\IDoctorDepartmentDal.cs" />
+    <Compile Include="IDal\IGenderDal.cs" />
+    <Compile Include="IDal\IIdentityTypeDal.cs" />
     <Compile Include="IDal\IStateDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

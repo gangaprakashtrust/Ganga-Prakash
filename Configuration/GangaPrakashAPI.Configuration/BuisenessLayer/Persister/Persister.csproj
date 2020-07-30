@@ -44,9 +44,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buiseness\Basic\AddressPersister.cs" />
     <Compile Include="Buiseness\Basic\CityPersister.cs" />
     <Compile Include="Buiseness\Basic\CountryPersister.cs" />
     <Compile Include="Buiseness\Basic\DepartmentPersister.cs" />
+    <Compile Include="Buiseness\Basic\DoctorDepartmentPersister.cs" />
+    <Compile Include="Buiseness\Basic\GenderPersister.cs" />
+    <Compile Include="Buiseness\Basic\IdentityTypePersister.cs" />
     <Compile Include="Buiseness\Basic\StatePersister.cs" />
     <Compile Include="List\CityList.cs" />
     <Compile Include="List\CountryList.cs" />

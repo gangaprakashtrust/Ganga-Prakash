@@ -42,9 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dal\AddressDal.cs" />
     <Compile Include="Dal\CityDal.cs" />
     <Compile Include="Dal\CountryDal.cs" />
     <Compile Include="Dal\DepartmentDal.cs" />
+    <Compile Include="Dal\DoctorDepartmentDal.cs" />
+    <Compile Include="Dal\GenderDal.cs" />
+    <Compile Include="Dal\IdentityTypeDal.cs" />
     <Compile Include="Dal\StateDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
